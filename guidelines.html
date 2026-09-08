@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta charset="utf-8">
+<title>Ready Up: Community Guidelines</title>
+<link rel="stylesheet" href="_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/styles.css">
+<script src="_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/_ds_bundle.js"></script>
+<style>
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(1000px 600px at 90% -180px,color-mix(in srgb,var(--color-accent-900) 62%,transparent),transparent 60%),radial-gradient(1000px 760px at -10% 100%,color-mix(in srgb,black 26%,transparent),transparent 55%),var(--color-bg);text-wrap:pretty}
+a{color:var(--color-accent)}
+a:hover{color:var(--color-accent-300)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+<style>
+:root{
+  --color-bg:#0e1220; --color-surface:#181d2c; --color-text:#eaeef6;
+  --color-accent:#3b74f0;
+  --color-accent-100:#eff4ff; --color-accent-200:#d3e0ff; --color-accent-300:#a8c4ff;
+  --color-accent-400:#7aa2fb; --color-accent-500:#3b74f0; --color-accent-600:#2a58c4;
+  --color-accent-700:#1f4193; --color-accent-800:#172d63; --color-accent-900:#0f1c3c;
+  --color-accent-2-100:#fff8ea; --color-accent-2-200:#fdecc9; --color-accent-2-300:#f8dba0;
+  --color-accent-2-400:#f0c46b; --color-accent-2-500:#e0a83f; --color-accent-2-600:#b8862c;
+  --color-accent-2-800:#63481a;
+  --color-section:#17264d; --color-section-glow:#223766;
+  --color-mark:#e6bc6a;
+}
+body{background:#080b12}
+</style>
+<script src="image-slot.js"></script>
+</helmet>
+
+<div aria-hidden="true" style="position:fixed;inset:0;z-index:0">
+  <div style="width:100%;height:100%;background:#05060c url('uploads/pasted-1788859460260-0.jpg') center / cover no-repeat"></div>
+</div>
+<div style="position:relative;z-index:1;margin:clamp(28px,6vw,120px);border-radius:22px;overflow:hidden;background:radial-gradient(1100px 660px at 86% -180px,color-mix(in srgb,var(--color-accent-900) 62%,transparent),transparent 60%),radial-gradient(1000px 760px at -10% 100%,color-mix(in srgb,black 30%,transparent),transparent 55%),var(--color-bg)">
+
+<nav style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;max-width:1160px;margin:0 auto;padding:24px clamp(20px,5vw,72px) 0">
+  <a href="index.html" style="display:flex;align-items:center;gap:11px;margin-right:auto;text-decoration:none;color:var(--color-text);font-family:var(--font-heading);font-weight:500;font-size:18px;letter-spacing:-0.01em">
+    <span aria-hidden="true" style="position:relative;display:block;width:23px;height:15px;flex:none">
+      <span style="position:absolute;left:0;top:0;width:15px;height:15px;border:1.5px solid var(--color-accent);border-radius:3px"></span>
+      <span style="position:absolute;left:8px;top:0;width:15px;height:15px;border:1.5px solid var(--color-accent-2-600);border-radius:3px"></span>
+    </span>Ready&nbsp;Up
+  </a>
+  <a href="faq.html" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">FAQ</a>
+  <a href="index.html" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">Back to home</a>
+  <sc-if value="{{ signedOut }}" hint-placeholder-val="{{ true }}">
+    <a class="btn btn-primary" href="join.html" style="font-size:14px;padding:9px 16px">Sign In</a>
+  </sc-if>
+  <sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
+    <a class="btn btn-primary" href="edit.html" style="font-size:14px;padding:9px 16px">My profile</a>
+  </sc-if>
+</nav>
+
+<main style="max-width:1160px;margin:0 auto;padding:0 clamp(20px,5vw,72px)">
+  <header style="padding:clamp(40px,6vw,88px) 0 clamp(28px,4vw,48px);max-width:62ch">
+    <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 20px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Be decent · be legal · share what's yours</span>
+    <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(34px,5.4vw,68px);line-height:1.03;letter-spacing:-0.026em;margin:0 0 0 -0.05em">Community Guidelines</h1>
+    <p style="font-size:17px;line-height:28px;color:var(--color-text);margin:26px 0 0">Ready Up works because people trust it. The rules come down to three things: <strong style="font-weight:600">be decent, be legal, and only share what's yours.</strong></p>
+    <p style="font-size:16px;line-height:28px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:16px 0 0">One distinction up front: the <strong style="color:var(--color-text);font-weight:600">work you build</strong> can explore violence, dark themes, and mature subject matter. That's creative work, not a rule break. These guidelines are about how you treat real people, and content that's genuinely harmful, illegal, or not yours. Mature art is welcome; being a jerk to real humans isn't.</p>
+  </header>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0 clamp(24px,5vw,72px)">
+    <nav aria-label="Contents" style="grid-column:span 1;align-self:start;position:sticky;top:24px;padding:0 0 32px;max-width:260px">
+      <p style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:0 0 14px">Contents</p>
+      <a href="#treat" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">Treat people right</a>
+      <a href="#protect" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">Protect people</a>
+      <a href="#own" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">Respect ownership</a>
+      <a href="#safe" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">Keep the place safe and real</a>
+      <a href="#spam" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">No spam or shady commerce</a>
+      <a href="#work" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">The work you make</a>
+      <a href="#breaks" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">If someone breaks the rules</a>
+      <a href="#report" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">Reporting something</a>
+      <a href="#grow" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">These guidelines will grow</a>
+    </nav>
+
+    <div style="grid-column:span 2;min-width:0;max-width:70ch">
+      <section id="treat" style="padding:0 0 clamp(28px,4vw,44px);background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;padding-top:clamp(28px,4vw,44px);scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">Treat people right</h2>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px">
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">No hate speech or discrimination</strong>: nothing that promotes hatred, violence, or discrimination against people based on ethnicity, nationality, religion, gender, gender identity, sexual orientation, disability, age, or any protected trait.</span></li>
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">No harassment or abuse</strong>: no bullying, threats, intimidation, trolling, baiting, stalking, or coordinated pile-ons, and no abusive language aimed at real people.</span></li>
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">No impersonation</strong>: don't pose as another person, studio, or as Ready Up itself, or set up a false identity to mislead people.</span></li>
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">No defamation</strong>: don't post libelous or knowingly false statements that damage someone's reputation.</span></li>
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">Respect privacy</strong>: no doxxing or sharing anyone's private information without their consent.</span></li>
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">Keep it about the work</strong>: Ready Up is a place to create, not to debate politics or religion. Please keep those out of the community's shared spaces.</span></li>
+        </ul>
+      </section>
+
+      <section id="protect" style="padding:clamp(28px,4vw,44px) 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">Protect people</h2>
+        <div class="elev-sm" style="display:flex;gap:14px;background:var(--color-surface);border-radius:var(--radius-md);padding:16px 18px;margin:0 0 20px">
+          <span aria-hidden="true" style="flex:none;width:2px;border-radius:2px;background:var(--color-accent)"></span>
+          <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 84%,transparent);margin:0"><strong style="color:var(--color-text);font-weight:600">Child safety — zero tolerance.</strong> Absolutely nothing that sexualizes, exploits, or endangers a minor, in any form. This is an instant, permanent ban and will be reported to the relevant authorities. No exceptions.</p>
+        </div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px">
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">Nothing illegal</strong>: no content or activity that breaks the law where it's available, and nothing that helps others do so.</span></li>
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">No real-world harm</strong>: no incitement or glorification of real-world violence, terrorism, or extremism.</span></li>
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">No promotion of self-harm</strong>: nothing that encourages or glorifies suicide, self-harm, or eating disorders.</span></li>
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">No shock content</strong>: no real or gratuitously disturbing depictions of violence or gore, and nothing posted purely to shock or disgust.</span></li>
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">No sexual content involving real people</strong>: no nude or sexually explicit images of real people, and no non-consensual intimate imagery.</span></li>
+        </ul>
+      </section>
+
+      <section id="own" style="padding:clamp(28px,4vw,44px) 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">Respect ownership</h2>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px">
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">Only share what's yours</strong>: only upload work you own or have the rights to use.</span></li>
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">No IP infringement</strong>: don't use someone else's copyright, trademark, patent, trade secret, or other proprietary work without permission.</span></li>
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">No NDA or confidential material</strong>: don't bring in assets, code, or information you're bound to keep private from a current or past employer.</span></li>
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">No plagiarism</strong>: don't pass off someone else's work as your own.</span></li>
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">Disclose AI-generated content</strong>: if any part of your contribution is AI-generated, you must disclose it, as applicable regulations require, and the team you've joined has to approve its use before it goes in. If a team doesn't want AI in their work, that's their call to respect.</span></li>
+        </ul>
+      </section>
+
+      <section id="safe" style="padding:clamp(28px,4vw,44px) 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">Keep the place safe and real</h2>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px">
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">No malware</strong>: never upload or link to viruses, trojans, exploits, or anything built to harm people's devices or data.</span></li>
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">No phishing or credential theft</strong>: no attempts to fraudulently gather people's logins, financial details, or other sensitive data.</span></li>
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">No attacks</strong>: don't attack, disrupt, or try to break Ready Up's systems or another member's devices or accounts.</span></li>
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">No account abuse</strong>: one real identity per person. No mass or automated account creation, and no accessing anyone else's account.</span></li>
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">No gaming the system</strong>: don't fake endorsements, credits, reputation, or verification, or otherwise manipulate the community's trust features.</span></li>
+        </ul>
+      </section>
+
+      <section id="spam" style="padding:clamp(28px,4vw,44px) 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">No spam or shady commerce</h2>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px">
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">No spam</strong>: no junk messages, chain letters, MLM or pyramid schemes, or unsolicited mass advertising.</span></li>
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">No harvesting</strong>: don't scrape or collect other members' data, emails, or contact info.</span></li>
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">No gambling, trading, or soliciting</strong>: no gambling operations, buying or selling accounts, or begging for money.</span></li>
+          <li style="font-size:15px;line-height:26px;color:color-mix(in srgb,var(--color-text) 55%,transparent);font-style:italic">Genuine recruiting, hiring conversations, and collaboration offers are welcome. That's the whole point of Ready Up. This is about spam and exploitation, not honest opportunities.</li>
+        </ul>
+      </section>
+
+      <section id="work" style="padding:clamp(28px,4vw,44px) 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">The work you make</h2>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 16px">Any kind of project is welcome: games, animations, software, tools, a wild experiment. If it's an idea worth building and you can gather the right people for it, it belongs here. Two things don't belong: <strong style="color:var(--color-text);font-weight:600">crypto, NFT, or blockchain projects</strong>, and <strong style="color:var(--color-text);font-weight:600">sexually explicit or NSFW content</strong> (off the table for now, in the work and anywhere else on Ready Up).</p>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 16px">Mature and difficult themes are fine. Violence, horror, dark subject matter and hard stories are real creative work, and they're welcome. Two things keep that working for everyone:</p>
+        <ul style="list-style:none;padding:0;margin:0 0 16px;display:flex;flex-direction:column;gap:14px">
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">Label it</strong>: flag mature or sensitive work clearly.</span></li>
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">Keep it in the right place</strong>: mature content stays out of general, public-facing, and first-impression spaces.</span></li>
+        </ul>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0">The line is always the same: it's about <strong style="color:var(--color-text);font-weight:600">conduct toward real people and genuinely harmful or illegal content</strong>, not censoring mature creative work.</p>
+      </section>
+
+      <section id="breaks" style="padding:clamp(28px,4vw,44px) 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">If someone breaks the rules</h2>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 14px">We aim to be fair and to weigh context, but we'll act to protect the community. Depending on what happened, that can mean a warning, removal of the content, a temporary suspension, or permanent removal from Ready Up.</p>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0">Some things skip straight to a permanent ban and, where the law requires, a report to the authorities: child endangerment, credible threats, malware, and other serious harm. Breaking a rule badly once can be enough.</p>
+      </section>
+
+      <section id="report" style="padding:clamp(28px,4vw,44px) 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">Reporting something</h2>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0">If you see something that breaks these guidelines, tell us at <strong style="color:var(--color-text);font-weight:600">[reporting contact / mod channel to add]</strong>. Reports are taken seriously and handled discreetly.</p>
+      </section>
+
+      <section id="grow" style="padding:clamp(28px,4vw,44px) 0 clamp(32px,5vw,56px);background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">These guidelines will grow</h2>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0">Ready Up is early and built in the open. As the community grows and new situations come up, these guidelines will change with it. We'll keep them clear, and we'll keep them fair.</p>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer style="max-width:1160px;margin:0 auto;padding:clamp(24px,4vw,40px) clamp(20px,5vw,72px) clamp(48px,6vw,72px);display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:space-between;align-items:center;font-size:13px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent);background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent) no-repeat top / 100% 1px">
+  <div>Ready&nbsp;Up · 2026</div>
+  <div style="display:flex;gap:18px;flex-wrap:wrap"><a href="index.html" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">Home</a><a href="faq.html" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">FAQ</a></div>
+  <div>Made by <a href="https://own.page/malonsor" style="color:var(--color-accent-300)">Miguel Alonso</a></div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { signedIn: false };
+  componentDidMount() {
+    let v = false;
+    try { v = localStorage.getItem("readyup.signedIn") === "1"; } catch (e) {}
+    if (v) this.setState({ signedIn: true });
+  }
+  renderVals() {
+    return { signedIn: this.state.signedIn, signedOut: !this.state.signedIn };
+  }
+}
+</script>
+</body>
+</html>

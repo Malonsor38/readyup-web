@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta charset="utf-8">
+<title>Ready Up: Edit your profile</title>
+<link rel="stylesheet" href="_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/styles.css">
+<script src="_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/_ds_bundle.js"></script>
+<style>
+:root{
+  --color-bg:#10141f; --color-surface:#1a2030; --color-text:#eaeef6;
+  --color-accent:#3b74f0;
+  --color-accent-100:#eff4ff; --color-accent-200:#d3e0ff; --color-accent-300:#a8c4ff;
+  --color-accent-400:#7aa2fb; --color-accent-500:#3b74f0; --color-accent-600:#2a58c4;
+  --color-accent-700:#1f4193; --color-accent-800:#172d63; --color-accent-900:#0f1c3c;
+  --color-accent-2-100:#fff8ea; --color-accent-2-200:#fdecc9; --color-accent-2-300:#f8dba0;
+  --color-accent-2-400:#f0c46b; --color-accent-2-500:#e0a83f; --color-accent-2-600:#b8862c;
+  --color-accent-2-800:#63481a;
+  --color-section:#17264d; --color-section-glow:#223766;
+  --color-mark:#e6bc6a;
+  --color-ok:#6fcf97; --color-danger:#ff8a7a;
+}
+body{background:#080b12}
+</style>
+<script src="image-slot.js"></script>
+</helmet>
+
+<div aria-hidden="true" style="position:fixed;inset:0;z-index:0">
+  <div style="width:100%;height:100%;background:#05060c url('uploads/pasted-1788859460260-0.jpg') center / cover no-repeat"></div>
+</div>
+<div style="position:relative;z-index:1;margin:clamp(28px,6vw,120px);border-radius:22px;overflow:hidden;background:radial-gradient(1200px 720px at 82% -160px,color-mix(in srgb,var(--color-accent-900) 62%,transparent),transparent 60%),radial-gradient(1100px 800px at -10% 100%,color-mix(in srgb,black 32%,transparent),transparent 55%),var(--color-bg)">
+
+<nav style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;max-width:1080px;margin:0 auto;padding:24px clamp(20px,5vw,56px) 0">
+  <a href="index.html" style="display:flex;align-items:center;gap:11px;margin-right:auto;text-decoration:none;color:var(--color-text);font-family:var(--font-heading);font-weight:500;font-size:18px;letter-spacing:-0.01em">
+    <span aria-hidden="true" style="position:relative;display:block;width:23px;height:15px;flex:none">
+      <span style="position:absolute;left:0;top:0;width:15px;height:15px;border:1.5px solid var(--color-accent);border-radius:3px"></span>
+      <span style="position:absolute;left:8px;top:0;width:15px;height:15px;border:1.5px solid var(--color-accent-2-600);border-radius:3px"></span>
+    </span>Ready&nbsp;Up
+  </a>
+  <a href="faq.html" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">FAQ</a>
+  <a href="index.html" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">Back to home</a>
+</nav>
+
+<main style="max-width:1080px;margin:0 auto;padding:clamp(28px,5vw,64px) clamp(20px,5vw,56px) clamp(48px,7vw,96px)">
+
+  <sc-if value="{{ isSignin }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;flex-wrap:wrap;gap:clamp(28px,5vw,72px);align-items:flex-start">
+      <div style="flex:1 1 340px;min-width:0;max-width:44ch">
+        <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 20px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Welcome back</span>
+        <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(32px,4.4vw,54px);line-height:1.04;letter-spacing:-0.024em;margin:0 0 0 -0.04em">Sign in</h1>
+        <p style="font-size:16px;line-height:28px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:22px 0 0">Pick up where you left off: your projects, your credits, your profile.</p>
+        <p style="font-size:14px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:16px 0 0">New here? <a href="{{ noop }}" onClick="{{ goSignup }}" style="color:var(--color-accent-300)">Create an account</a>. It takes a minute.</p>
+      </div>
+      <form onSubmit="{{ submitSignin }}" class="elev-sm" style="flex:1 1 380px;min-width:280px;background:var(--color-surface);border-radius:var(--radius-lg);padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:16px">
+        <div class="field">
+          <label for="si-email">Email</label>
+          <input class="input" id="si-email" type="email" autoComplete="email" placeholder="you@studio.com" value="{{ email }}" onChange="{{ setEmail }}">
+        </div>
+        <div class="field">
+          <label for="si-pass">Password</label>
+          <input class="input" id="si-pass" type="password" autoComplete="current-password" placeholder="••••••••" value="{{ password }}" onChange="{{ setPassword }}">
+        </div>
+        <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
+          <p role="alert" style="display:flex;gap:10px;font-size:14px;line-height:22px;color:var(--color-accent-200);background:color-mix(in srgb,var(--color-accent-900) 70%,transparent);border-radius:var(--radius-sm);padding:10px 12px;margin:0"><span aria-hidden="true">⚠</span>{{ error }}</p>
+        </sc-if>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
+          <button class="btn btn-primary" type="submit" style="font-size:15px;padding:12px 20px">Sign in</button>
+          <a href="{{ noop }}" onClick="{{ goForgot }}" style="font-size:13.5px;color:color-mix(in srgb,var(--color-text) 66%,transparent)" style-hover="color:var(--color-accent)">Forgot your password?</a>
+        </div>
+      </form>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isSignup }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-wrap:wrap;gap:clamp(28px,5vw,72px);align-items:flex-start">
+      <div style="flex:1 1 340px;min-width:0;max-width:44ch">
+        <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 20px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Step 1 of 3</span>
+        <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(32px,4.4vw,54px);line-height:1.04;letter-spacing:-0.024em;margin:0 0 0 -0.04em">Create your account</h1>
+        <p style="font-size:16px;line-height:28px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:22px 0 0">Email, password, done. We'll verify your address, then you'll set up a profile and get the Discord invite.</p>
+        <div style="display:flex;flex-direction:column;gap:12px;margin:26px 0 0">
+          <p style="display:flex;gap:12px;font-size:14.5px;line-height:24px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:0"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:12px"></span>Free, and always free for the people making things.</p>
+          <p style="display:flex;gap:12px;font-size:14.5px;line-height:24px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:0"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:12px"></span>Your profile is yours to keep, and you choose who sees it.</p>
+          <p style="display:flex;gap:12px;font-size:14.5px;line-height:24px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:0"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:12px"></span>Verification keeps the community real: one person, one account.</p>
+        </div>
+        <p style="font-size:14px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:22px 0 0">Already have an account? <a href="{{ noop }}" onClick="{{ goSignin }}" style="color:var(--color-accent-300)">Sign in</a>.</p>
+      </div>
+      <form onSubmit="{{ submitSignup }}" class="elev-sm" style="flex:1 1 380px;min-width:280px;background:var(--color-surface);border-radius:var(--radius-lg);padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:16px">
+        <div class="field">
+          <label for="su-email">Email</label>
+          <input class="input" id="su-email" type="email" autoComplete="email" placeholder="you@studio.com" value="{{ email }}" onChange="{{ setEmail }}">
+        </div>
+        <div class="field">
+          <label for="su-pass">Password</label>
+          <input class="input" id="su-pass" type="password" autoComplete="new-password" placeholder="{{ minPassLabel }}" value="{{ password }}" onChange="{{ setPassword }}">
+          <div style="display:flex;gap:5px;margin-top:8px">
+            <span aria-hidden="true" style="height:3px;flex:1;border-radius:2px;background:{{ meter1 }}"></span>
+            <span aria-hidden="true" style="height:3px;flex:1;border-radius:2px;background:{{ meter2 }}"></span>
+            <span aria-hidden="true" style="height:3px;flex:1;border-radius:2px;background:{{ meter3 }}"></span>
+          </div>
+          <p style="font-size:12.5px;line-height:20px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:8px 0 0">{{ strengthLabel }}</p>
+        </div>
+        <div class="field">
+          <label for="su-pass2">Confirm password</label>
+          <input class="input" id="su-pass2" type="password" autoComplete="new-password" placeholder="••••••••" value="{{ password2 }}" onChange="{{ setPassword2 }}">
+        </div>
+        <label for="su-agree" style="display:flex;gap:11px;align-items:flex-start;font-size:13.5px;line-height:22px;color:color-mix(in srgb,var(--color-text) 76%,transparent);cursor:pointer">
+          <input id="su-agree" type="checkbox" checked="{{ agreed }}" onChange="{{ setAgreed }}" style="flex:none;width:16px;height:16px;margin-top:3px;accent-color:var(--color-accent)">
+          <span>I'll follow the <a href="guidelines.html" style="color:var(--color-accent-300)">Community Guidelines</a>: be decent, be legal, only share work that's mine.</span>
+        </label>
+        <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
+          <p role="alert" style="display:flex;gap:10px;font-size:14px;line-height:22px;color:var(--color-accent-200);background:color-mix(in srgb,var(--color-accent-900) 70%,transparent);border-radius:var(--radius-sm);padding:10px 12px;margin:0"><span aria-hidden="true">⚠</span>{{ error }}</p>
+        </sc-if>
+        <button class="btn btn-primary" type="submit" style="font-size:15px;padding:12px 20px;align-self:flex-start">Create account</button>
+      </form>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isInbox }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:60ch">
+      <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 20px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Step 2 of 3</span>
+      <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(30px,4.2vw,50px);line-height:1.05;letter-spacing:-0.024em;margin:0 0 0 -0.04em">Check your inbox</h1>
+      <p style="font-size:17px;line-height:28px;color:var(--color-text);margin:24px 0 0">We sent a verification link to <strong style="font-weight:600;color:var(--color-accent-300)">{{ emailShown }}</strong>. Click it and you're in.</p>
+      <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:14px 0 0">It should land within a minute. If it doesn't, check your spam folder, and make sure the address above is right.</p>
+
+      <sc-if value="{{ showCodeEntry }}" hint-placeholder-val="{{ true }}">
+      <form onSubmit="{{ submitCode }}" class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-lg);padding:20px;margin:28px 0 0;max-width:46ch">
+        <label for="vc-code" style="display:block;font-size:15px;line-height:24px;color:var(--color-text);margin:0 0 6px">Or enter the six-digit code from the email</label>
+        <p style="font-size:13.5px;line-height:22px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:0 0 14px">Useful if you opened the email on your phone and you're signing up here.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start">
+          <input class="input" id="vc-code" type="text" inputMode="numeric" autoComplete="one-time-code" maxLength="7" placeholder="123456" value="{{ code }}" onChange="{{ setCode }}" style="flex:1 1 140px;min-width:0;font-family:var(--font-heading);font-size:19px;letter-spacing:0.22em">
+          <button class="btn btn-primary" type="submit" style="font-size:14.5px;padding:11px 18px;flex:none">Verify</button>
+        </div>
+        <sc-if value="{{ codeError }}" hint-placeholder-val="{{ false }}">
+          <p role="alert" style="display:flex;gap:10px;font-size:14px;line-height:22px;color:var(--color-accent-200);background:color-mix(in srgb,var(--color-accent-900) 70%,transparent);border-radius:var(--radius-sm);padding:10px 12px;margin:14px 0 0"><span aria-hidden="true">⚠</span>{{ codeErrorMsg }}</p>
+        </sc-if>
+        <p style="font-size:12.5px;line-height:20px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:14px 0 0">The code expires with the link, 24 hours after we send it.</p>
+      </form>
+      </sc-if>
+
+      <div style="display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;margin:26px 0 0">
+        <button class="btn btn-secondary" type="button" onClick="{{ resend }}" style="font-size:14.5px;padding:11px 18px">Resend the email</button>
+        <a href="{{ noop }}" onClick="{{ goSignup }}" style="font-size:13.5px;color:color-mix(in srgb,var(--color-text) 66%,transparent)" style-hover="color:var(--color-accent)">Use a different address</a>
+      </div>
+      <sc-if value="{{ resent }}" hint-placeholder-val="{{ false }}">
+        <p role="status" style="font-size:14px;line-height:22px;color:var(--color-accent-200);background:color-mix(in srgb,var(--color-accent-900) 70%,transparent);border-radius:var(--radius-sm);padding:10px 12px;margin:16px 0 0;max-width:46ch">Sent again, {{ resentLabel }}. If it still doesn't arrive, your provider may be blocking us; try another address.</p>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isAlready }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:58ch">
+      <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 20px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Nothing to do</span>
+      <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(28px,3.8vw,46px);line-height:1.06;letter-spacing:-0.022em;margin:0 0 0 -0.04em">This address is already verified</h1>
+      <p style="font-size:16.5px;line-height:28px;color:color-mix(in srgb,var(--color-text) 78%,transparent);margin:24px 0 0">Verification links only work once. <strong style="color:var(--color-text);font-weight:600">{{ emailShown }}</strong> is confirmed, so there's nothing left to click. Just sign in.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 0">
+        <button class="btn btn-primary" type="button" onClick="{{ goSignin }}" style="font-size:15px;padding:12px 20px">Sign in</button>
+        <button class="btn btn-secondary" type="button" onClick="{{ goForgot }}" style="font-size:15px;padding:12px 20px">I've forgotten my password</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isVerified }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:62ch">
+      <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 20px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Verified</span>
+      <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(32px,4.4vw,54px);line-height:1.04;letter-spacing:-0.024em;margin:0 0 0 -0.04em">You're in.</h1>
+      <p style="font-size:17px;line-height:28px;color:var(--color-text);margin:24px 0 0"><strong style="font-weight:600;color:var(--color-accent-300)">{{ emailShown }}</strong> is confirmed. One short step left: four quick fields to start your profile, and the Discord invite is yours.</p>
+      <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:16px 0 0">We ask for the profile first on purpose: Ready Up only works if the people in the Discord are people you can actually team up with.</p>
+      <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-lg);padding:20px;margin:28px 0 0;display:flex;flex-wrap:wrap;gap:16px;align-items:center">
+        <span aria-hidden="true" style="flex:none;width:2px;align-self:stretch;min-height:44px;border-radius:2px;background:var(--color-accent-700)"></span>
+        <span style="flex:1 1 240px;min-width:0;font-size:14.5px;line-height:24px;color:color-mix(in srgb,var(--color-text) 62%,transparent)">Discord invite, unlocks after your profile</span>
+        <span class="tag tag-outline">Locked</span>
+      </div>
+      <p style="margin:28px 0 0"><button class="btn btn-primary" type="button" onClick="{{ goProfile1 }}" style="font-size:15px;padding:12px 20px">Start my profile</button></p>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isForgot }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-wrap:wrap;gap:clamp(28px,5vw,72px);align-items:flex-start">
+      <div style="flex:1 1 320px;min-width:0;max-width:40ch">
+        <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 20px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Password help</span>
+        <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(30px,4vw,48px);line-height:1.05;letter-spacing:-0.022em;margin:0 0 0 -0.04em">Reset your password</h1>
+        <p style="font-size:16px;line-height:28px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:22px 0 0">Give us the address on your account and we'll send a reset link. It's good for one hour.</p>
+        <p style="font-size:14px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:16px 0 0">Remembered it? <a href="{{ noop }}" onClick="{{ goSignin }}" style="color:var(--color-accent-300)">Back to sign in</a>.</p>
+      </div>
+      <form onSubmit="{{ submitForgot }}" class="elev-sm" style="flex:1 1 360px;min-width:280px;background:var(--color-surface);border-radius:var(--radius-lg);padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:16px">
+        <div class="field">
+          <label for="fp-email">Email</label>
+          <input class="input" id="fp-email" type="email" autoComplete="email" placeholder="you@studio.com" value="{{ email }}" onChange="{{ setEmail }}">
+        </div>
+        <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
+          <p role="alert" style="display:flex;gap:10px;font-size:14px;line-height:22px;color:var(--color-accent-200);background:color-mix(in srgb,var(--color-accent-900) 70%,transparent);border-radius:var(--radius-sm);padding:10px 12px;margin:0"><span aria-hidden="true">⚠</span>{{ error }}</p>
+        </sc-if>
+        <button class="btn btn-primary" type="submit" style="font-size:15px;padding:12px 20px;align-self:flex-start">Send the link</button>
+        <p style="font-size:12.5px;line-height:20px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:0">For your safety we send the same confirmation whether or not the address has an account.</p>
+      </form>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isReset }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-wrap:wrap;gap:clamp(28px,5vw,72px);align-items:flex-start">
+      <div style="flex:1 1 320px;min-width:0;max-width:40ch">
+        <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 20px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Reset link opened</span>
+        <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(30px,4vw,48px);line-height:1.05;letter-spacing:-0.022em;margin:0 0 0 -0.04em">Choose a new password</h1>
+        <p style="font-size:16px;line-height:28px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:22px 0 0">Setting a new password signs you out everywhere else, so anyone holding the old one is locked out.</p>
+      </div>
+      <form onSubmit="{{ submitReset }}" class="elev-sm" style="flex:1 1 360px;min-width:280px;background:var(--color-surface);border-radius:var(--radius-lg);padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:16px">
+        <div class="field">
+          <label for="rp-pass">New password</label>
+          <input class="input" id="rp-pass" type="password" autoComplete="new-password" placeholder="{{ minPassLabel }}" value="{{ password }}" onChange="{{ setPassword }}">
+          <div style="display:flex;gap:5px;margin-top:8px">
+            <span aria-hidden="true" style="height:3px;flex:1;border-radius:2px;background:{{ meter1 }}"></span>
+            <span aria-hidden="true" style="height:3px;flex:1;border-radius:2px;background:{{ meter2 }}"></span>
+            <span aria-hidden="true" style="height:3px;flex:1;border-radius:2px;background:{{ meter3 }}"></span>
+          </div>
+          <p style="font-size:12.5px;line-height:20px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:8px 0 0">{{ strengthLabel }}</p>
+        </div>
+        <div class="field">
+          <label for="rp-pass2">Confirm new password</label>
+          <input class="input" id="rp-pass2" type="password" autoComplete="new-password" placeholder="••••••••" value="{{ password2 }}" onChange="{{ setPassword2 }}">
+        </div>
+        <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
+          <p role="alert" style="display:flex;gap:10px;font-size:14px;line-height:22px;color:var(--color-accent-200);background:color-mix(in srgb,var(--color-accent-900) 70%,transparent);border-radius:var(--radius-sm);padding:10px 12px;margin:0"><span aria-hidden="true">⚠</span>{{ error }}</p>
+        </sc-if>
+        <button class="btn btn-primary" type="submit" style="font-size:15px;padding:12px 20px;align-self:flex-start">Save and sign in</button>
+      </form>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isResetSent }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:58ch">
+      <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 20px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>On its way</span>
+      <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(28px,3.8vw,46px);line-height:1.06;letter-spacing:-0.022em;margin:0 0 0 -0.04em">Reset link sent</h1>
+      <p style="font-size:16.5px;line-height:28px;color:color-mix(in srgb,var(--color-text) 78%,transparent);margin:24px 0 0">If <strong style="color:var(--color-text);font-weight:600">{{ emailShown }}</strong> has an account, a reset link is in the inbox now. It expires in an hour.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 0">
+        <button class="btn btn-primary" type="button" onClick="{{ goSignin }}" style="font-size:15px;padding:12px 20px">Back to sign in</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isProfile1 }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-wrap:wrap;gap:clamp(28px,5vw,72px);align-items:flex-start">
+      <div style="flex:1 1 320px;min-width:0;max-width:42ch">
+        <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 20px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Step 3 of 3</span>
+        <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(30px,4.2vw,50px);line-height:1.05;letter-spacing:-0.024em;margin:0 0 0 -0.04em">Four fields to start</h1>
+        <p style="font-size:16px;line-height:28px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:22px 0 0">Just enough for someone to know who you are, what you'd bring to a team, and where to find you. Everything else, from CV and links to reel and bio, you can add whenever you like.</p>
+        <p style="font-size:14px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:16px 0 0">Nothing here is public until you say so. You'll set visibility on the next screen.</p>
+      </div>
+      <form onSubmit="{{ submitProfile1 }}" class="elev-sm" style="flex:1 1 400px;min-width:280px;background:var(--color-surface);border-radius:var(--radius-lg);padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:16px">
+        <div class="field">
+          <label for="p1-name">Display name</label>
+          <input class="input" id="p1-name" type="text" placeholder="How you want to be credited" value="{{ displayName }}" onChange="{{ setDisplayName }}">
+        </div>
+        <div class="field">
+          <label for="p1-handle">Profile address</label>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="flex:none;font-size:14.5px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">readyup.quest/</span>
+            <input class="input" id="p1-handle" type="text" autoCapitalize="none" spellCheck="false" placeholder="your-handle" value="{{ handleValue }}" onChange="{{ setHandle }}" style="flex:1;min-width:0">
+          </div>
+          <p style="font-size:12.5px;line-height:20px;color:{{ handleMsgColor }};margin:8px 0 0">{{ handleMsg }}</p>
+        </div>
+        <div class="field">
+          <label for="p1-disc">Main discipline</label>
+          <select class="input" id="p1-disc" value="{{ discipline }}" onChange="{{ setDiscipline }}" style="appearance:none;background-image:none">
+            <option value="">Pick the one you'd be hired for</option>
+            <option value="Programming">Programming</option>
+            <option value="Art &amp; animation">Art &amp; animation</option>
+            <option value="Game &amp; level design">Game &amp; level design</option>
+            <option value="Audio &amp; music">Audio &amp; music</option>
+            <option value="QA &amp; testing">QA &amp; testing</option>
+            <option value="Production">Production</option>
+            <option value="Narrative">Narrative</option>
+            <option value="Tools &amp; tech">Tools &amp; tech</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="p1-head">Headline</label>
+          <input class="input" id="p1-head" type="text" placeholder="e.g. Systems &amp; Narrative Designer" value="{{ headline }}" onChange="{{ setHeadline }}">
+          <p style="font-size:12.5px;line-height:20px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:8px 0 0">One line, the way you'd say it out loud.</p>
+        </div>
+        <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
+          <p role="alert" style="display:flex;gap:10px;font-size:14px;line-height:22px;color:var(--color-accent-200);background:color-mix(in srgb,var(--color-accent-900) 70%,transparent);border-radius:var(--radius-sm);padding:10px 12px;margin:0"><span aria-hidden="true">⚠</span>{{ error }}</p>
+        </sc-if>
+        <button class="btn btn-primary" type="submit" style="font-size:15px;padding:12px 20px;align-self:flex-start">Create my profile</button>
+      </form>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isProfile2 }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <sc-if value="{{ isNewMember }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,56px);align-items:flex-end;max-width:66ch">
+        <div style="flex:1 1 340px;min-width:0">
+          <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 20px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Profile created</span>
+          <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(30px,4.2vw,50px);line-height:1.05;letter-spacing:-0.024em;margin:0 0 0 -0.04em">Welcome, {{ firstNameShown }}.</h1>
+          <p style="font-size:17px;line-height:28px;color:var(--color-text);margin:24px 0 0">You're a member. Here's your Discord invite, and your profile, ready to fill in whenever you have ten minutes.</p>
+        </div>
+      </div>
+      </sc-if>
+      <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,56px);align-items:flex-end;max-width:70ch">
+        <div style="flex:1 1 340px;min-width:0">
+          <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 20px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Your profile</span>
+          <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(30px,4.2vw,50px);line-height:1.05;letter-spacing:-0.024em;margin:0 0 0 -0.04em">Welcome back, {{ firstNameShown }}. What's the plan today?</h1>
+          <p style="font-size:17px;line-height:28px;color:color-mix(in srgb,var(--color-text) 78%,transparent);margin:24px 0 0">Change anything below, then save. Nothing here is public unless your visibility says so.</p>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
+      <section class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-lg);padding:clamp(20px,3vw,24px);margin:32px 0 0;max-width:80ch">
+        <p style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:0 0 16px">Who you are</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+          <div class="field">
+            <label for="e-name">Display name</label>
+            <input class="input" id="e-name" type="text" placeholder="How you want to be credited" value="{{ displayName }}" onChange="{{ setDisplayName }}">
+          </div>
+          <div class="field">
+            <label for="e-handle">Profile address</label>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="flex:none;font-size:14.5px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">readyup.quest/</span>
+              <input class="input" id="e-handle" type="text" autoCapitalize="none" spellCheck="false" placeholder="your-handle" value="{{ handleValue }}" onChange="{{ setHandle }}" style="flex:1;min-width:0">
+            </div>
+            <p style="font-size:12.5px;line-height:20px;color:{{ handleMsgColor }};margin:8px 0 0">{{ handleMsg }}</p>
+          </div>
+          <div class="field">
+            <label for="e-disc">Main discipline</label>
+            <select class="input" id="e-disc" value="{{ discipline }}" onChange="{{ setDiscipline }}" style="appearance:none;background-image:none">
+              <option value="">Pick the one you'd be hired for</option>
+              <option value="Programming">Programming</option>
+              <option value="Art &amp; animation">Art &amp; animation</option>
+              <option value="Game &amp; level design">Game &amp; level design</option>
+              <option value="Audio &amp; music">Audio &amp; music</option>
+              <option value="QA &amp; testing">QA &amp; testing</option>
+              <option value="Production">Production</option>
+              <option value="Narrative">Narrative</option>
+              <option value="Tools &amp; tech">Tools &amp; tech</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="e-head">Headline</label>
+            <input class="input" id="e-head" type="text" placeholder="e.g. Systems &amp; Narrative Designer" value="{{ headline }}" onChange="{{ setHeadline }}">
+          </div>
+        </div>
+        <p style="font-size:12.5px;line-height:20px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:14px 0 0">Changing the address retires the old one straight away, so any link you've shared stops working.</p>
+      </section>
+      </sc-if>
+
+      <section class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-lg);padding:20px;margin:20px 0 0;max-width:80ch">
+        <p style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:0 0 12px">Your profile address</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+          <span style="font-family:var(--font-heading);font-weight:500;font-size:clamp(16px,1.8vw,19px);letter-spacing:-0.01em;color:var(--color-accent-300);word-break:break-all">readyup.quest/{{ handleDisplay }}</span>
+          <span class="tag {{ visTagClass }}">{{ visLabel }}</span>
+          <button class="btn btn-secondary" type="button" onClick="{{ copyLink }}" style="font-size:14px;padding:9px 15px;margin-left:auto;flex:none">{{ copyLabel }}</button>
+        </div><p style="font-size:13.5px;line-height:22px;color:color-mix(in srgb,var(--color-text) 66%,transparent);margin:14px 0 0;max-width:60ch">{{ visExplain }}</p>
+        
+      </section>
+
+      <sc-if value="{{ isNewMember }}" hint-placeholder-val="{{ true }}">
+      <section class="elev-md" style="background:var(--color-section);border-radius:var(--radius-lg);padding:clamp(20px,3vw,30px);margin:20px 0 0;display:flex;flex-wrap:wrap;gap:24px;align-items:center;max-width:80ch">
+        <div style="flex:1 1 300px;min-width:0">
+          <span class="tag tag-accent" style="margin-bottom:14px;display:inline-flex">Unlocked</span>
+          <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.6vw,30px);line-height:1.14;letter-spacing:-0.016em;margin:0">Come and meet everyone</h2>
+          <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 82%,transparent);margin:14px 0 0;max-width:46ch">This is where the projects get pitched and the teams come together. Say hello in <strong style="color:var(--color-text);font-weight:600">#introductions</strong>. Mention your discipline and someone will pull you onto something.</p>
+        </div>
+        <a class="btn" href="https://discord.gg/zZHKW8BMCS" style="font-size:15px;padding:12px 20px;color:var(--color-accent-200);border-color:var(--color-accent-300);flex:none">Open the Discord invite</a>
+      </section>
+      </sc-if>
+      <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
+      <section class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-lg);padding:18px 20px;margin:20px 0 0;display:flex;flex-wrap:wrap;gap:16px;align-items:center;max-width:80ch">
+        <span style="flex:1 1 260px;min-width:0;font-size:14.5px;line-height:24px;color:color-mix(in srgb,var(--color-text) 72%,transparent)">You have joined the Discord server!</span>
+        <a class="btn btn-secondary" href="https://discord.gg/zZHKW8BMCS" style="font-size:14px;padding:9px 15px;flex:none">Open Discord</a>
+      </section>
+      </sc-if>
+
+      <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;margin:44px 0 18px;max-width:80ch">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.6vw,30px);line-height:1.14;letter-spacing:-0.016em;margin:0">{{ hubHeading }}</h2>
+        <sc-if value="{{ isNewMember }}" hint-placeholder-val="{{ true }}">
+          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:0">{{ doneCount }} of 8 added. All optional, all editable later</p>
+        </sc-if>
+        <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
+          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:0">Everything here is optional. Save when you're done.</p>
+        </sc-if>
+      </div>
+      <sc-if value="{{ isNewMember }}" hint-placeholder-val="{{ true }}">
+      <div aria-hidden="true" style="max-width:80ch;height:3px;border-radius:2px;background:color-mix(in srgb,var(--color-text) 12%,transparent);overflow:hidden">
+        <div style="height:3px;border-radius:2px;background:var(--color-accent);width:{{ progressPct }}"></div>
+      </div>
+      </sc-if>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:22px 0 0;max-width:80ch">
+        <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
+          <div style="display:flex;gap:10px;align-items:baseline;justify-content:space-between">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">Avatar</h3>
+            <span class="tag tag-neutral">Optional</span>
+          </div>
+          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:10px 0 14px">A face makes people far likelier to reach out.</p>
+          <div style="display:flex;gap:12px;align-items:center">
+            <span aria-hidden="true" style="flex:none;display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:10px;font-family:var(--font-heading);font-weight:500;font-size:18px;letter-spacing:-0.01em;background:{{ avatarBg }};border:1px solid {{ avatarBorder }};color:{{ avatarFg }}">{{ avatarInitial }}</span>
+            <button class="btn btn-secondary" type="button" onClick="{{ toggleAvatar }}" style="font-size:14px;padding:9px 15px">{{ avatarLabel }}</button>
+          </div>
+        </div><div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
+          <div style="display:flex;gap:10px;align-items:baseline;justify-content:space-between">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">Who can see it</h3>
+            <span class="tag tag-accent">Set</span>
+          </div>
+          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:10px 0 14px">Job-hunting quietly? Keep it to members.</p>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="vis" checked="{{ visPublic }}" onChange="{{ pickVisPublic }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span>Public: anyone with the link</span></label>
+            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="vis" checked="{{ visMembers }}" onChange="{{ pickVisMembers }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span>Members only: people inside Ready Up</span></label>
+            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="vis" checked="{{ visHidden }}" onChange="{{ pickVisHidden }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span>Hidden: only teams I join</span></label>
+          </div>
+        </div>
+        <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
+          <div style="display:flex;gap:10px;align-items:baseline;justify-content:space-between">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">Where you are</h3>
+            <span class="tag tag-neutral">Optional</span>
+          </div>
+          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:10px 0 14px">Timezone matters more than city on a remote team.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <input class="input" type="text" placeholder="Lisbon" value="{{ location }}" onChange="{{ setLocation }}" style="flex:1 1 130px;min-width:0">
+            <input class="input" type="text" placeholder="GMT+0" value="{{ timezone }}" onChange="{{ setTimezone }}" style="flex:0 1 110px;min-width:0">
+          </div>
+        </div>
+        <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
+          <div style="display:flex;gap:10px;align-items:baseline;justify-content:space-between">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">Availability</h3>
+            <span class="tag tag-neutral">Optional</span>
+          </div>
+          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:10px 0 14px">Tells teams whether to ask you now or later.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:7px">
+            <button class="tag {{ availTag1 }}" type="button" onClick="{{ pickAvail1 }}" style="border:0;cursor:pointer;font-family:inherit">Between roles</button>
+            <button class="tag {{ availTag2 }}" type="button" onClick="{{ pickAvail2 }}" style="border:0;cursor:pointer;font-family:inherit">Working, building on the side</button>
+            <button class="tag {{ availTag3 }}" type="button" onClick="{{ pickAvail3 }}" style="border:0;cursor:pointer;font-family:inherit">Just browsing</button>
+          </div>
+        </div>
+        <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
+          <div style="display:flex;gap:10px;align-items:baseline;justify-content:space-between">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">About you</h3>
+            <span class="tag tag-neutral">Optional</span>
+          </div>
+          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:10px 0 14px">A short paragraph on what you like working on.</p>
+          <textarea class="input" rows="3" placeholder="I like turning messy mechanics into something that feels inevitable…" value="{{ bio }}" onChange="{{ setBio }}" style="resize:vertical;font-family:inherit"></textarea>
+        </div>
+        <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
+          <div style="display:flex;gap:10px;align-items:baseline;justify-content:space-between">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">Skills &amp; tools</h3>
+            <span class="tag tag-neutral">Optional</span>
+          </div>
+          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:10px 0 14px">Type one and press enter. These are how teams find you.</p>
+          <sc-if value="{{ hasSkills }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px">
+              <sc-for list="{{ skills }}" as="skill" hint-placeholder-count="2">
+                <button class="tag tag-accent" type="button" onClick="{{ skill.remove }}" style="border:0;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:9px">{{ skill.label }}<span aria-hidden="true" style="font-size:13px;line-height:1">×</span></button>
+              </sc-for>
+            </div>
+          </sc-if>
+          <input class="input" type="text" placeholder="Unity, Ink, economy design…" value="{{ skillDraft }}" onChange="{{ setSkillDraft }}" onKeyDown="{{ skillKey }}">
+        </div>
+        <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
+          <div style="display:flex;gap:10px;align-items:baseline;justify-content:space-between">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">Your CV</h3>
+            <span class="tag tag-neutral">Optional</span>
+          </div>
+          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:10px 0 14px">PDF, downloadable from your profile. Hidden unless you're visible.</p>
+          <sc-if value="{{ cvAttached }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+              <a class="btn btn-secondary" href="{{ cvHref }}" style="font-size:14px;padding:9px 15px;color:var(--color-ok);border-color:color-mix(in srgb,var(--color-ok) 55%,transparent)">✓ CV uploaded</a>
+              <button class="btn btn-secondary" type="button" onClick="{{ replaceCv }}" style="font-size:14px;padding:9px 15px">Replace</button>
+              <button class="btn btn-secondary" type="button" onClick="{{ deleteCv }}" style="font-size:14px;padding:9px 15px;color:var(--color-danger);border-color:color-mix(in srgb,var(--color-danger) 50%,transparent)">Delete</button>
+            </div>
+            <p style="font-size:12.5px;line-height:20px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:10px 0 0">{{ cvFileName }}</p>
+          </sc-if>
+          <sc-if value="{{ cvMissing }}" hint-placeholder-val="{{ false }}">
+            <button class="btn btn-secondary" type="button" onClick="{{ replaceCv }}" style="font-size:14px;padding:9px 15px">Attach a PDF</button>
+          </sc-if>
+        </div>
+        <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
+          <div style="display:flex;gap:10px;align-items:baseline;justify-content:space-between">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">Where your work lives</h3>
+            <span class="tag tag-neutral">Optional</span>
+          </div>
+          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:10px 0 14px">A portfolio, a web page, a channel. Wherever your work already lives.</p>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <input class="input" type="url" placeholder="own.page/you" value="{{ link1 }}" onChange="{{ setLink1 }}">
+            <input class="input" type="url" placeholder="mobygames.com/person/…" value="{{ link2 }}" onChange="{{ setLink2 }}">
+            <input class="input" type="url" placeholder="your web page" value="{{ link3 }}" onChange="{{ setLink3 }}">
+          </div>
+        </div>
+        
+      </div>
+
+      <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
+        <div style="max-width:80ch;margin:44px 0 0;padding:20px 0 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;display:flex;flex-wrap:wrap;gap:16px;align-items:center">
+          <div style="flex:1 1 320px;min-width:0">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">Delete account</h3>
+            <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 66%,transparent);margin:8px 0 0;max-width:56ch">Removes your profile, your CV and your links from the server. Credits on projects you worked on stay with the team.</p>
+          </div>
+          <button class="btn btn-secondary" type="button" onClick="{{ askDeleteAccount }}" style="font-size:14px;padding:10px 16px;flex:none;color:var(--color-danger);border-color:color-mix(in srgb,var(--color-danger) 50%,transparent)">Delete account</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ confirmingDelete }}" hint-placeholder-val="{{ false }}">
+        <div class="dialog-backdrop" style="position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:24px;background:color-mix(in srgb,#05070c 72%,transparent)">
+          <div class="dialog elev-lg" role="dialog" aria-modal="true" aria-labelledby="acc-del-title" style="background:var(--color-surface);border-radius:var(--radius-lg);padding:clamp(22px,3vw,28px);max-width:46ch;width:100%">
+            <sc-if value="{{ deleteStep1 }}" hint-placeholder-val="{{ true }}">
+              <h2 id="acc-del-title" style="font-family:var(--font-heading);font-weight:500;font-size:clamp(19px,2.2vw,23px);line-height:1.2;letter-spacing:-0.012em;margin:0">This will delete your account and remove your profile from the server. It cannot be undone. Are you sure?</h2>
+              <div style="display:flex;flex-wrap:wrap;gap:10px;margin:24px 0 0">
+                <button class="btn btn-secondary" type="button" onClick="{{ goDeleteStep2 }}" style="font-size:15px;padding:11px 20px;color:var(--color-danger);border-color:color-mix(in srgb,var(--color-danger) 55%,transparent)">Yes, delete my account</button>
+                <button class="btn btn-primary" type="button" onClick="{{ cancelDeleteAccount }}" style="font-size:15px;padding:11px 20px">No</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ deleteStep2 }}" hint-placeholder-val="{{ false }}">
+              <form onSubmit="{{ submitDeleteAccount }}">
+                <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(19px,2.2vw,23px);line-height:1.2;letter-spacing:-0.012em;margin:0">Type your password to delete</h2>
+                <p style="font-size:14.5px;line-height:24px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:12px 0 18px">Last step. Once this goes through, your profile and files are gone for good.</p>
+                <div class="field">
+                  <label for="del-pass">Password</label>
+                  <input class="input" id="del-pass" type="password" autoComplete="current-password" placeholder="••••••••" value="{{ deletePass }}" onChange="{{ setDeletePass }}">
+                </div>
+                <sc-if value="{{ deletePassError }}" hint-placeholder-val="{{ false }}">
+                  <p role="alert" style="display:flex;gap:10px;font-size:14px;line-height:22px;color:var(--color-accent-200);background:color-mix(in srgb,var(--color-accent-900) 70%,transparent);border-radius:var(--radius-sm);padding:10px 12px;margin:14px 0 0"><span aria-hidden="true">⚠</span>{{ deletePassErrorMsg }}</p>
+                </sc-if>
+                <div style="display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 0">
+                  <button class="btn btn-secondary" type="submit" style="font-size:15px;padding:11px 20px;color:var(--color-danger);border-color:color-mix(in srgb,var(--color-danger) 55%,transparent)">Delete my account</button>
+                  <button class="btn btn-primary" type="button" onClick="{{ cancelDeleteAccount }}" style="font-size:15px;padding:11px 20px">Cancel</button>
+                </div>
+              </form>
+            </sc-if>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ confirmingCv }}" hint-placeholder-val="{{ false }}">
+        <div class="dialog-backdrop" style="position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:24px;background:color-mix(in srgb,#05070c 72%,transparent)">
+          <div class="dialog elev-lg" role="dialog" aria-modal="true" aria-labelledby="cv-del-title" style="background:var(--color-surface);border-radius:var(--radius-lg);padding:clamp(22px,3vw,28px);max-width:44ch;width:100%">
+            <h2 id="cv-del-title" style="font-family:var(--font-heading);font-weight:500;font-size:clamp(19px,2.2vw,23px);line-height:1.2;letter-spacing:-0.012em;margin:0">This will remove your uploaded CV from the server. Are you sure?</h2>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;margin:24px 0 0">
+              <button class="btn btn-secondary" type="button" onClick="{{ confirmDeleteCv }}" style="font-size:15px;padding:11px 20px;color:var(--color-danger);border-color:color-mix(in srgb,var(--color-danger) 55%,transparent)">Yes</button>
+              <button class="btn btn-primary" type="button" onClick="{{ cancelDeleteCv }}" style="font-size:15px;padding:11px 20px">No</button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <div style="display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;margin:32px 0 0;max-width:80ch">
+        <a class="btn btn-primary" href="profile.html" style="font-size:15px;padding:12px 20px">View my profile</a>
+        <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
+          <button class="btn btn-secondary" type="button" onClick="{{ saveEdits }}" style="font-size:15px;padding:12px 20px">{{ saveLabel }}</button>
+        </sc-if>
+        <a href="index.html" style="font-size:13.5px;color:color-mix(in srgb,var(--color-text) 66%,transparent)" style-hover="color:var(--color-accent)">{{ hubExitLabel }}</a>
+      </div>
+    </div>
+  </sc-if>
+
+</main>
+
+<footer style="max-width:1080px;margin:0 auto;padding:clamp(24px,4vw,40px) clamp(20px,5vw,56px) clamp(40px,5vw,64px);display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:space-between;align-items:center;font-size:13px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">
+  <div>Ready&nbsp;Up · 2026</div>
+  <div style="display:flex;gap:18px;flex-wrap:wrap"><a href="faq.html" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">FAQ</a><a href="guidelines.html" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">Community Guidelines</a></div>
+  <div>Made by <a href="https://own.page/malonsor" style="color:var(--color-accent-300)">Miguel Alonso</a></div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1100,&quot;height&quot;:900},&quot;reservedHandles&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Accounts&quot;},&quot;minPasswordLength&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8,&quot;min&quot;:6,&quot;max&quot;:16,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Accounts&quot;},&quot;showCodeEntry&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Accounts&quot;}}">
+class Component extends DCLogic {
+  state = {
+    screen: "edit", email: "", password: "", password2: "", agreed: false,
+    error: "", resent: 0,
+    displayName: "", discipline: "", headline: "",
+    location: "", timezone: "", avail: "", bio: "",
+    skills: [], skillDraft: "", cv: false, avatar: false,
+    handle: "", handleEdited: false, copied: false,
+    code: "", codeError: "", codeTries: 0, saved: false, confirmCv: false, confirmDelete: false, deleteStep: 1, deletePass: "", deletePassError: "",
+    link1: "", link2: "", link3: "", vis: "members"
+  };
+
+  // the email's verify link and the reset link land here as ?screen=verified / ?screen=reset
+  componentDidMount() {
+    // this page is the member's own profile editor: load their record and stay here
+    this.setState({ screen: "edit", ...this.savedProfile() });
+  }
+
+  // stands in for the record we'd load for a signed-in member
+  markSignedIn() { try { localStorage.setItem("readyup.signedIn", "1"); } catch (e) {} }
+
+  savedProfile() {
+    return {
+      displayName: "Jae Rivera", handle: "jae-rivera", handleEdited: true,
+      discipline: "Game & level design", headline: "Systems & Narrative Designer",
+      location: "Lisbon", timezone: "GMT+0", avail: "between",
+      bio: "I like turning messy mechanics into something that feels inevitable, and I'm happiest on a small team with one sharp idea.",
+      skills: ["Systems design", "Narrative design", "Unity", "Ink"],
+      cv: true, avatar: true, link1: "own.page/jae", link2: "", link3: "", vis: "public"
+    };
+  }
+
+  go = (screen) => this.setState({ screen, error: "" });
+  val = (k) => (e) => this.setState({ [k]: e.target.value });
+
+  emailOk() { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(this.state.email.trim()); }
+
+  defaultReserved() {
+    return [
+      // brand and impersonation
+      "readyup", "ready-up", "readyupquest", "official", "staff", "team", "admin", "administrator",
+      "moderator", "mod", "mods", "support", "help", "helpdesk", "contact", "info", "hello",
+      "noreply", "no-reply", "postmaster", "webmaster", "abuse", "security", "legal", "billing",
+      // routes we may want later
+      "about", "api", "auth", "blog", "careers", "dashboard", "discord", "docs", "faq", "guidelines",
+      "home", "jobs", "login", "logout", "me", "new", "news", "password", "press", "privacy",
+      "profile", "profiles", "projects", "register", "reset", "search", "settings", "signin",
+      "signup", "terms", "u", "user", "users", "verify", "www",
+      // slurs and abuse handled by a real list at build time; these are the obvious placeholders
+      "null", "undefined", "anonymous", "deleted"
+    ].join(", ");
+  }
+
+  minPass() { return Math.max(6, Number(this.props.minPasswordLength) || 8); }
+
+  strength() {
+    const p = this.state.password;
+    let s = 0;
+    if (p.length >= this.minPass()) s++;
+    if (p.length >= this.minPass() + 4) s++;
+    if (/[^a-zA-Z0-9]/.test(p) || (/[a-z]/.test(p) && /[A-Z]/.test(p) && /\d/.test(p))) s++;
+    return Math.min(s, 3);
+  }
+
+  // typing-safe: keeps a hyphen the user just typed, only leading ones are dropped
+  slug(v) { return v.toLowerCase().replace(/[^a-z0-9-]+/g, "-").replace(/-{2,}/g, "-").replace(/^-+/, "").slice(0, 24); }
+
+  handleState() {
+    const s = this.state;
+    const taken = String(this.props.reservedHandles || this.defaultReserved())
+      .split(",").map((x) => x.trim().toLowerCase()).filter(Boolean);
+    const value = s.handleEdited ? this.slug(s.handle) : this.slug(s.displayName);
+    const settled = value.replace(/-+$/, "");
+    const shown = settled || "your-handle";
+    if (!settled) return { value, shown, ok: false, msg: "Three characters or more. Letters, numbers and hyphens.", tone: "muted" };
+    if (settled.length < 3) return { value, shown, ok: false, msg: "A little longer, please. Three characters minimum.", tone: "warn" };
+    if (taken.includes(settled)) return { value, shown, ok: false, msg: "readyup.quest/" + settled + " is taken. Try another.", tone: "warn" };
+    return { value, shown, ok: true, msg: this.state.screen === "edit" ? "\u2713 Address saved" : "\u2713 readyup.quest/" + settled + " is yours", tone: "ok" };
+  }
+
+  renderVals() {
+    const s = { ...this.state, screen: this.state.screen || "signin" };
+    const h = this.handleState();
+    const st = this.strength();
+    const bar = (n) => st >= n ? "var(--color-accent)" : "color-mix(in srgb,var(--color-text) 12%,transparent)";
+    const filled = [
+      s.avatar, s.location.trim() || s.timezone.trim(), s.avail, s.bio.trim(),
+      s.skills.length, s.cv, s.link1.trim() || s.link2.trim() || s.link3.trim(), true
+    ].filter(Boolean).length;
+
+    const setAvail = (v) => () => this.setState({ avail: v });
+    const availTag = (v) => s.avail === v ? "tag-accent" : "tag-neutral";
+
+    return {
+      noop: "#",
+      isSignin: s.screen === "signin",
+      isSignup: s.screen === "signup",
+      isInbox: s.screen === "inbox",
+      isVerified: s.screen === "verified",
+      isAlready: s.screen === "already",
+      isForgot: s.screen === "forgot",
+      isResetSent: s.screen === "resetsent",
+      isReset: s.screen === "reset",
+      isProfile1: s.screen === "profile1",
+      isProfile2: s.screen === "profile2" || s.screen === "edit",
+      isNewMember: s.screen === "profile2",
+      isEditing: s.screen === "edit",
+      hubHeading: s.screen === "edit" ? "Your profile" : "Finish your profile",
+      hubExitLabel: s.screen === "edit" ? "Done for now" : "I'll finish this later",
+      saveLabel: s.saved ? "Saved" : "Save changes",
+      saveEdits: () => {
+        this.setState({ saved: true });
+        setTimeout(() => this.setState({ saved: false }), 2000);
+      },
+
+      email: s.email, password: s.password, password2: s.password2, agreed: s.agreed,
+      emailShown: s.email.trim() || "you@studio.com",
+      firstNameShown: (s.displayName.trim().split(/\s+/)[0]) || "friend",
+      error: s.error, hasError: !!s.error,
+      resent: s.resent > 0,
+      resentLabel: s.resent === 1 ? "give it another minute" : "that's " + s.resent + " sends now",
+
+      meter1: bar(1), meter2: bar(2), meter3: bar(3),
+      minPassLabel: "At least " + this.minPass() + " characters",
+      strengthLabel: !s.password ? "At least " + this.minPass() + " characters." :
+        st <= 1 ? "Weak. Longer is stronger than clever." :
+        st === 2 ? "Decent. A little longer would help." : "Strong.",
+
+      setEmail: this.val("email"), setPassword: this.val("password"), setPassword2: this.val("password2"),
+      setAgreed: (e) => this.setState({ agreed: e.target.checked }),
+      setDisplayName: this.val("displayName"), setDiscipline: this.val("discipline"), setHeadline: this.val("headline"),
+      setLocation: this.val("location"), setTimezone: this.val("timezone"), setBio: this.val("bio"),
+      setLink1: this.val("link1"), setLink2: this.val("link2"), setLink3: this.val("link3"),
+      setSkillDraft: this.val("skillDraft"),
+      displayName: s.displayName, discipline: s.discipline, headline: s.headline,
+      location: s.location, timezone: s.timezone, bio: s.bio,
+      link1: s.link1, link2: s.link2, link3: s.link3, skillDraft: s.skillDraft,
+
+      showCodeEntry: this.props.showCodeEntry ?? true,
+      code: s.code,
+      setCode: (e) => this.setState({ code: e.target.value.replace(/[^0-9]/g, "").slice(0, 6), codeError: "" }),
+      codeError: !!s.codeError,
+      codeErrorMsg: s.codeError,
+      submitCode: (e) => {
+        e.preventDefault();
+        const v = this.state.code.trim();
+        if (v.length < 6) return this.setState({ codeError: "That code is six digits long." });
+        // demo rule: the code in the sample email is 402913
+        if (v !== "402913") {
+          const tries = this.state.codeTries + 1;
+          return this.setState({
+            codeTries: tries,
+            codeError: tries >= 3
+              ? "Still no match. Use the link in the email instead, or send yourself a fresh one."
+              : "That code doesn't match the one we sent. Check the email and try again."
+          });
+        }
+        this.setState({ screen: "verified", code: "", codeError: "", codeTries: 0 });
+      },
+      goSignin: () => this.go("signin"),
+      goSignup: () => this.go("signup"),
+      goInbox: () => this.go("inbox"),
+      goVerified: () => this.go("verified"),
+      goAlready: () => this.go("already"),
+      goForgot: () => this.go("forgot"),
+      goReset: () => this.go("reset"),
+      goProfile1: () => this.go("profile1"),
+      goProfile2: () => this.go("profile2"),
+
+      submitSignin: (e) => {
+        e.preventDefault();
+        if (!this.emailOk()) return this.setState({ error: "That email doesn't look right." });
+        if (s.password.length < this.minPass()) return this.setState({ error: "Password is at least " + this.minPass() + " characters." });
+        // a returning member lands on their own profile hub, not the create-time screen
+        this.markSignedIn();
+        this.setState({ screen: "edit", error: "", ...this.savedProfile() });
+      },
+      submitSignup: (e) => {
+        e.preventDefault();
+        if (!this.emailOk()) return this.setState({ error: "We need a valid email to verify your account." });
+        if (s.password.length < this.minPass()) return this.setState({ error: "Passwords are at least " + this.minPass() + " characters." });
+        if (s.password !== s.password2) return this.setState({ error: "Those two passwords don't match." });
+        if (!s.agreed) return this.setState({ error: "Please agree to the Community Guidelines to continue." });
+        this.setState({ screen: "inbox", error: "", resent: 0 });
+      },
+      submitForgot: (e) => {
+        e.preventDefault();
+        if (!this.emailOk()) return this.setState({ error: "That email doesn't look right." });
+        this.go("resetsent");
+      },
+      submitReset: (e) => {
+        e.preventDefault();
+        if (s.password.length < this.minPass()) return this.setState({ error: "Passwords are at least " + this.minPass() + " characters." });
+        if (s.password !== s.password2) return this.setState({ error: "Those two passwords don't match." });
+        this.go("signin");
+      },
+      submitProfile1: (e) => {
+        e.preventDefault();
+        if (!s.displayName.trim()) return this.setState({ error: "A display name is how you'll be credited." });
+        if (!h.ok) return this.setState({ error: "Choose a profile address that's free and at least three characters." });
+        if (!s.discipline) return this.setState({ error: "Pick your main discipline so teams can find you." });
+        this.markSignedIn();
+        this.setState({ screen: "profile2", error: "" });
+      },
+      resend: () => this.setState({ resent: this.state.resent + 1, code: "", codeError: "", codeTries: 0 }),
+
+      skillKey: (e) => {
+        if (e.key !== "Enter") return;
+        e.preventDefault();
+        const v = this.state.skillDraft.trim();
+        if (!v || this.state.skills.includes(v)) return this.setState({ skillDraft: "" });
+        this.setState({ skills: [...this.state.skills, v], skillDraft: "" });
+      },
+      hasSkills: s.skills.length > 0,
+      skills: s.skills.map((label) => ({
+        label,
+        remove: () => this.setState({ skills: this.state.skills.filter((x) => x !== label) })
+      })),
+
+      avatarInitial: (s.displayName.trim()[0] || "?").toUpperCase(),
+      avatarBg: s.avatar ? "var(--color-accent-800)" : "color-mix(in srgb,var(--color-text) 7%,transparent)",
+      avatarBorder: s.avatar ? "var(--color-accent-600)" : "color-mix(in srgb,var(--color-text) 14%,transparent)",
+      avatarFg: s.avatar ? "var(--color-accent-200)" : "color-mix(in srgb,var(--color-text) 45%,transparent)",
+      avatarLabel: s.avatar ? "Remove photo" : "Upload a photo",
+      toggleAvatar: () => this.setState({ avatar: !this.state.avatar }),
+      cvAttached: !!s.cv,
+      cvMissing: !s.cv,
+      cvHref: "#CV_FILE",
+      cvFileName: "jae-rivera-cv.pdf, added 12 Aug",
+      replaceCv: () => this.setState({ cv: true }),
+      deleteCv: () => this.setState({ confirmCv: true }),
+      cancelDeleteCv: () => this.setState({ confirmCv: false }),
+      confirmDeleteCv: () => this.setState({ cv: false, confirmCv: false }),
+      confirmingCv: !!s.confirmCv,
+      askDeleteAccount: () => this.setState({ confirmDelete: true, deleteStep: 1, deletePass: "", deletePassError: "" }),
+      cancelDeleteAccount: () => this.setState({ confirmDelete: false, deleteStep: 1, deletePass: "", deletePassError: "" }),
+      goDeleteStep2: () => this.setState({ deleteStep: 2 }),
+      deletePass: s.deletePass,
+      setDeletePass: (e) => this.setState({ deletePass: e.target.value, deletePassError: "" }),
+      deletePassError: !!s.deletePassError,
+      deletePassErrorMsg: s.deletePassError,
+      submitDeleteAccount: (e) => {
+        e.preventDefault();
+        const p = this.state.deletePass;
+        if (!p) return this.setState({ deletePassError: "Type your password to confirm." });
+        if (p.length < this.minPass()) return this.setState({ deletePassError: "That isn't your password." });
+        try { localStorage.removeItem("readyup.signedIn"); } catch (err) {}
+        window.location.href = "index.html";
+      },
+      confirmingDelete: !!s.confirmDelete,
+      deleteStep1: s.deleteStep === 1,
+      deleteStep2: s.deleteStep === 2,
+
+      availTag1: availTag("between"), availTag2: availTag("side"), availTag3: availTag("browsing"),
+      pickAvail1: setAvail("between"), pickAvail2: setAvail("side"), pickAvail3: setAvail("browsing"),
+
+      handleValue: h.value,
+      handleDisplay: h.shown,
+      handleMsg: h.msg,
+      handleMsgColor: h.tone === "ok" ? "var(--color-ok)"
+        : h.tone === "warn" ? "var(--color-accent-200)"
+        : "color-mix(in srgb,var(--color-text) 55%,transparent)",
+      setHandle: (e) => this.setState({ handle: e.target.value, handleEdited: true }),
+
+      copyLabel: s.copied ? "Link copied" : "Copy link",
+      copyLink: () => {
+        const url = "https://readyup.quest/" + h.shown;
+        if (navigator.clipboard) navigator.clipboard.writeText(url).catch(() => {});
+        this.setState({ copied: true });
+        setTimeout(() => this.setState({ copied: false }), 2000);
+      },
+      visLabel: s.vis === "public" ? "Public" : s.vis === "members" ? "Members only" : "Hidden",
+      visTagClass: s.vis === "public" ? "tag-accent" : "tag-outline",
+      visExplain: s.vis === "public"
+        ? "Anyone with this link can see your profile, no account needed."
+        : s.vis === "members"
+        ? "The link works for anyone, but people outside Ready Up see only your name and discipline until they sign in."
+        : "Only teams you join can open this. Anyone else with the link sees a page saying the profile is private.",
+
+      visPublic: s.vis === "public", visMembers: s.vis === "members", visHidden: s.vis === "hidden",
+      pickVisPublic: () => this.setState({ vis: "public" }),
+      pickVisMembers: () => this.setState({ vis: "members" }),
+      pickVisHidden: () => this.setState({ vis: "hidden" }),
+
+      doneCount: filled,
+      progressPct: Math.round((filled / 8) * 100) + "%"
+    };
+  }
+}
+</script>
+</body>
+</html>

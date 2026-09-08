@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta charset="utf-8">
+<title>Ready Up: keep building while you're between roles</title>
+<link rel="stylesheet" href="_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/styles.css">
+<script src="_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/_ds_bundle.js"></script>
+<style>
+@keyframes pu-rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+body{margin:0;background:radial-gradient(1200px 720px at 82% -160px,color-mix(in srgb,var(--color-accent-900) 75%,transparent),transparent 60%),radial-gradient(1100px 800px at -10% 100%,color-mix(in srgb,black 30%,transparent),transparent 55%),var(--color-bg);text-wrap:pretty}
+a{color:var(--color-accent)}
+a:hover{color:var(--color-accent-300)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+<style>
+:root{
+  --color-bg:#10141f; --color-surface:#1a2030; --color-text:#eaeef6;
+  --color-accent:#3b74f0;
+  --color-accent-100:#eff4ff; --color-accent-200:#d3e0ff; --color-accent-300:#a8c4ff;
+  --color-accent-400:#7aa2fb; --color-accent-500:#3b74f0; --color-accent-600:#2a58c4;
+  --color-accent-700:#1f4193; --color-accent-800:#172d63; --color-accent-900:#0f1c3c;
+  --color-accent-2-100:#fff8ea; --color-accent-2-200:#fdecc9; --color-accent-2-300:#f8dba0;
+  --color-accent-2-400:#f0c46b; --color-accent-2-500:#e0a83f; --color-accent-2-600:#b8862c;
+  --color-accent-2-800:#63481a;
+  --color-section:#17264d; --color-section-glow:#223766;
+  --color-mark:#e6bc6a;
+}
+body{background:#080b12}
+</style>
+<script src="image-slot.js"></script>
+</helmet>
+
+<div aria-hidden="true" style="position:fixed;inset:0;z-index:0">
+  <div style="width:100%;height:100%;background:#05060c url('uploads/pasted-1788859460260-0.jpg') center / cover no-repeat"></div>
+</div>
+<div style="position:relative;z-index:1;margin:clamp(28px,6vw,120px);border-radius:22px;overflow:hidden;background:radial-gradient(1200px 720px at 82% -160px,color-mix(in srgb,var(--color-accent-900) 62%,transparent),transparent 60%),radial-gradient(1100px 800px at -10% 100%,color-mix(in srgb,black 32%,transparent),transparent 55%),var(--color-bg)">
+
+<nav style="display:flex;align-items:center;gap:clamp(14px,2.6vw,30px);flex-wrap:wrap;max-width:1200px;margin:0 auto;padding:24px clamp(20px,5vw,72px) 0">
+  <a href="index.html" style="display:flex;align-items:center;gap:11px;margin-right:auto;text-decoration:none;color:var(--color-text);font-family:var(--font-heading);font-weight:500;font-size:18px;letter-spacing:-0.01em">
+    <span aria-hidden="true" style="position:relative;display:block;width:23px;height:15px;flex:none">
+      <span style="position:absolute;left:0;top:0;width:15px;height:15px;border:1.5px solid var(--color-accent);border-radius:3px"></span>
+      <span style="position:absolute;left:8px;top:0;width:15px;height:15px;border:1.5px solid var(--color-accent-2-600);border-radius:3px"></span>
+    </span>Ready&nbsp;Up
+  </a>
+  <sc-if value="{{ showNavLinks }}" hint-placeholder-val="{{ true }}">
+    <span style="display:flex;align-items:center;gap:clamp(14px,2.4vw,26px);flex-wrap:wrap">
+      <a href="#how" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">How it works</a>
+      <a href="faq.html" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">FAQ</a>
+      
+    </span>
+  </sc-if>
+  <sc-if value="{{ signedOut }}" hint-placeholder-val="{{ true }}">
+    <a class="btn btn-primary" href="join.html" style="font-size:14px;padding:9px 16px">Sign In</a>
+  </sc-if>
+  <sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
+    <a class="btn btn-primary" href="edit.html" style="font-size:14px;padding:9px 16px">My profile</a>
+  </sc-if>
+</nav>
+
+<main>
+  <section style="max-width:1200px;margin:0 auto;padding:clamp(44px,7vw,104px) clamp(20px,5vw,72px) clamp(40px,6vw,72px);display:flex;flex-wrap:wrap;gap:clamp(28px,5vw,72px);align-items:flex-end">
+    <div style="flex:1 1 520px;min-width:0">
+      <span style="color: var(--color-neutral-100); font-size: 33px; letter-spacing: normal">Games, animation, software, tools, whatever's worth building.</span><span style="display: block; font-size: 33px; width: 579px; height: 8px"><br></span><h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(46px,6.6vw,92px);line-height:1.06;letter-spacing:-0.022em;margin:0 0 0 -0.06em;animation:pu-rise .7s cubic-bezier(.2,.7,.2,1) both">Ready Up, team!</h1>
+      <p style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.7vw,33px);line-height:1.22;letter-spacing:-0.014em;color:var(--color-text);max-width:26ch;margin:26px 0 0;animation:pu-rise .7s cubic-bezier(.2,.7,.2,1) .08s both">
+        <span style="display:block">&nbsp;</span>
+        
+      </p>
+      <p style="font-size:17px;line-height:28px;color:color-mix(in srgb,var(--color-text) 78%,transparent);max-width:48ch;margin:22px 0 0;animation:pu-rise .7s cubic-bezier(.2,.7,.2,1) .16s both">For people between roles: join a project in progress or start something new, and come away with <strong style="color: var(--color-text); font-weight: 600;">real, credited work you can show</strong>. Bring what you're great at.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 0;animation:pu-rise .7s cubic-bezier(.2,.7,.2,1) .24s both">
+        <a class="btn btn-primary" href="join.html" style="font-size:15px;padding:12px 20px">Create Account</a>
+        <a class="btn btn-secondary" href="join.html" style="font-size:15px;padding:12px 20px">Sign In</a>
+      </div>
+      
+    </div>
+    <sc-if value="{{ showImagery }}" hint-placeholder-val="{{ true }}">
+      <figure class="lighten" style="flex:0 1 400px;min-width:260px;margin:0;animation:pu-rise .9s cubic-bezier(.2,.7,.2,1) .2s both">
+        <image-slot id="la-hero" shape="rounded" radius="10" placeholder="Team at work, or a still from something shipped here" style="width:100%;aspect-ratio:4/5"></image-slot>
+      </figure>
+    </sc-if>
+  </section>
+
+  <div style="max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,72px)">
+    <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
+
+    <section style="display:flex;flex-wrap:wrap;gap:clamp(24px,5vw,72px);padding:clamp(48px,7vw,88px) 0">
+      <div style="flex:1 1 320px;min-width:0">
+        <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 18px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>The idea</span>
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(30px,3.6vw,44px);line-height:1.1;letter-spacing:-0.018em;margin:0;max-width:16ch">Put your skills to use.</h2>
+      </div>
+      <div style="flex:1 1 480px;min-width:0;max-width:62ch">
+        <p style="font-size:16.5px;line-height:28px;color:color-mix(in srgb,var(--color-text) 78%,transparent);margin:0 0 16px">There are plenty of reasons you might be here. A layoff, a contract that ended, a break, the itch to build something of your own. They come down to one thing: you want to put your skills to use. Trouble is, so much of your best work stays invisible, locked under an NDA or lost when a project got cancelled.</p>
+        <p style="font-size:16.5px;line-height:28px;color:var(--color-text);margin:0 0 16px"><strong style="font-weight:600">So this is somewhere to use that talent, together, and walk away with something visible to point to.</strong> <span style="color:color-mix(in srgb,var(--color-text) 78%,transparent)">It fits around a job hunt or a day job. Dip in when you have the time.</span></p>
+        <p style="font-size:14px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:0">Curious how it fits around a job search, or who owns what you make? It's all in the <a href="faq.html" style="color:var(--color-accent-300)">FAQ</a>.</p>
+      </div>
+    </section>
+
+    <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
+
+    <section id="how" style="padding:clamp(48px,7vw,88px) 0 clamp(32px,5vw,56px)">
+      <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 22px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>How it works</span>
+      <div style="display:grid;grid-template-columns:max-content minmax(0,1fr);gap:4px clamp(20px,3vw,40px);align-items:baseline;padding:0 0 26px">
+        <p style="font-family:var(--font-heading);font-weight:500;font-size:15px;line-height:28px;color:var(--color-mark);font-feature-settings:'tnum' 1;margin:0">01</p>
+        <h3 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(21px,2.4vw,26px);line-height:28px;letter-spacing:-0.012em;margin:0">Pitch or join</h3>
+        <p style="grid-column:1/-1;font-size:15.5px;line-height:28px;color:color-mix(in srgb,var(--color-text) 78%,transparent);margin:8px 0 0;max-width:60ch">Bring an idea you want to make, or jump onto one that's already underway.</p>
+      </div>
+      <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-neutral-700) 48px calc(100% - 48px),transparent)"></div>
+      <div style="display:grid;grid-template-columns:max-content minmax(0,1fr);gap:4px clamp(20px,3vw,40px);align-items:baseline;padding:26px 0">
+        <p style="font-family:var(--font-heading);font-weight:500;font-size:15px;line-height:28px;color:var(--color-mark);font-feature-settings:'tnum' 1;margin:0">02</p>
+        <h3 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(21px,2.4vw,26px);line-height:28px;letter-spacing:-0.012em;margin:0">Team up</h3>
+        <p style="grid-column:1/-1;font-size:15.5px;line-height:28px;color:color-mix(in srgb,var(--color-text) 78%,transparent);margin:8px 0 0;max-width:60ch">Fill the roles you're missing. Sign up and join the Discord; build with the tools you already use and publish wherever you choose.</p>
+      </div>
+      <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-neutral-700) 48px calc(100% - 48px),transparent)"></div>
+      <div style="display:grid;grid-template-columns:max-content minmax(0,1fr);gap:4px clamp(20px,3vw,40px);align-items:baseline;padding:26px 0 0">
+        <p style="font-family:var(--font-heading);font-weight:500;font-size:15px;line-height:28px;color:var(--color-mark);font-feature-settings:'tnum' 1;margin:0">03</p>
+        <h3 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(21px,2.4vw,26px);line-height:28px;letter-spacing:-0.012em;margin:0">Ship the proof</h3>
+        <p style="grid-column:1/-1;font-size:15.5px;line-height:28px;color:color-mix(in srgb,var(--color-text) 78%,transparent);margin:8px 0 0;max-width:60ch">Finish it, credit everyone, put it somewhere public. That's proof no NDA can take away.</p>
+      </div>
+    </section>
+
+    <section style="display:flex;flex-wrap:wrap;gap:clamp(28px,5vw,72px);align-items:center;padding:clamp(40px,6vw,72px) 0">
+      <div style="flex:1 1 340px;min-width:0">
+        <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 18px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Your profile</span>
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(28px,3.4vw,40px);line-height:1.12;letter-spacing:-0.018em;margin:0;max-width:22ch">A profile that shows what you can actually do.</h2>
+        <p style="font-size:15.5px;line-height:28px;color:color-mix(in srgb,var(--color-text) 78%,transparent);margin:24px 0 0;max-width:46ch">Everything lands on a profile that's yours to keep: a downloadable CV, the places your work already lives, and the projects you ship here.</p>
+        <p style="font-size:15.5px;line-height:28px;color:var(--color-text);margin:16px 0 0;max-width:46ch"><strong style="font-weight:600">It's your CV, plus all the proof a CV can't hold.</strong> <span style="color:color-mix(in srgb,var(--color-text) 78%,transparent)">One page to point a recruiter straight at.</span></p>
+        <p style="font-size:14px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:18px 0 0">Curious what that looks like? <a href="profile.html" style="color:var(--color-accent-300)">See a full example profile</a>.</p>
+      </div>
+      <a href="profile.html" class="elev-sm" style="flex:1 1 440px;min-width:280px;display:block;text-decoration:none;color:var(--color-text);background:var(--color-surface);border-radius:var(--radius-lg);padding:20px" style-hover="box-shadow:var(--shadow-md)">
+        <div style="display:flex;align-items:center;gap:14px">
+          <sc-if value="{{ showImagery }}" hint-placeholder-val="{{ true }}">
+            <span style="display:block;flex:none;width:54px;height:54px">
+              <image-slot id="la-avatar" shape="rounded" radius="12" src="uploads/you.jpg" placeholder="" style="width:54px;height:54px"></image-slot>
+            </span>
+          </sc-if>
+          <span style="display:block;min-width:0">
+            <span style="display:block;font-family:var(--font-heading);font-weight:500;font-size:19px;letter-spacing:-0.01em">Jae Rivera</span>
+            <span style="display:flex;align-items:center;gap:7px;font-size:13px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin-top:2px"><span aria-hidden="true" style="width:7px;height:7px;border-radius:50%;background:var(--color-accent);flex:none"></span>Between roles · open to teams</span>
+          </span>
+          <span style="margin-left:auto;font-size:13px;color:var(--color-accent);white-space:nowrap">View →</span>
+        </div>
+        <sc-if value="{{ showImagery }}" hint-placeholder-val="{{ true }}">
+          <span class="lighten" style="display:block;margin-top:18px">
+            <image-slot id="la-reel" shape="rounded" radius="8" placeholder="Showreel frame" style="width:100%;aspect-ratio:16/9"></image-slot>
+          </span>
+        </sc-if>
+        <span style="display:flex;flex-wrap:wrap;gap:6px;margin-top:16px">
+          <span class="tag tag-accent">Systems design</span>
+          <span class="tag tag-accent-2">Narrative</span>
+          <span class="tag tag-neutral">Level design</span>
+        </span>
+        <span style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+          <span class="tag tag-outline">CV</span>
+          <span class="tag tag-neutral">Showreel</span>
+          <span class="tag tag-neutral">MobyGames</span>
+          <span class="tag tag-neutral">itch.io</span>
+        </span>
+        <span style="display:block;height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent);margin:18px 0 14px"></span>
+        <span style="display:flex;align-items:center;gap:10px;font-size:14.5px;line-height:24px">
+          <span aria-hidden="true" style="width:7px;height:7px;border-radius:50%;background:var(--color-accent-400);flex:none"></span>Neon Harbour<span style="margin-left:auto;font-size:12.5px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">Systems</span>
+        </span>
+        <span style="display:flex;align-items:center;gap:10px;font-size:14.5px;line-height:24px;margin-top:8px">
+          <span aria-hidden="true" style="width:7px;height:7px;border-radius:50%;background:var(--color-accent-2-400);flex:none"></span>Paper Kingdoms<span style="margin-left:auto;font-size:12.5px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">Design · Story</span>
+        </span>
+      </a>
+    </section>
+
+    <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
+
+    <section style="padding:clamp(48px,7vw,88px) 0 clamp(40px,6vw,64px)">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(28px,3.4vw,40px);line-height:1.12;letter-spacing:-0.018em;margin:0;max-width:20ch">Every discipline it takes<br>to make a game.</h2>
+        <p style="font-size:15.5px;line-height:28px;color:color-mix(in srgb,var(--color-text) 66%,transparent);margin:0;max-width:32ch">Especially the roles whose real work is the hardest to show.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0 clamp(24px,5vw,72px);margin-top:36px">
+        <div style="display:flex;align-items:center;gap:12px;font-size:16px;line-height:52px;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat bottom / 100% 1px"><span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:var(--color-accent-400);flex:none"></span>Programming</div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:16px;line-height:52px;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat bottom / 100% 1px"><span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:var(--color-accent-2-400);flex:none"></span>Art &amp; animation</div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:16px;line-height:52px;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat bottom / 100% 1px"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-accent-500); flex: 0 0 auto;"></span>Design</div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:16px;line-height:52px;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat bottom / 100% 1px"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-accent-2-500); flex: 0 0 auto;"></span>Audio&nbsp;</div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:16px;line-height:52px;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat bottom / 100% 1px"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-neutral-400); flex: 0 0 auto;"></span>QA&nbsp;</div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:16px;line-height:52px;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat bottom / 100% 1px"><span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:var(--color-accent-600);flex:none"></span>Production</div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:16px;line-height:52px;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat bottom / 100% 1px"><span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:var(--color-accent-300);flex:none"></span>Narrative</div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:16px;line-height:52px;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat bottom / 100% 1px"><span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:var(--color-neutral-500);flex:none"></span>Tools &amp; tech</div>
+      </div>
+    </section>
+  </div>
+
+  <section style="position:relative;overflow:hidden;padding:clamp(56px,8vw,104px) 0;margin-top:clamp(24px,4vw,48px)">
+    <sc-if value="{{ bandIndigo }}" hint-placeholder-val="{{ true }}">
+      <div aria-hidden="true" style="position:absolute;inset:0;background:radial-gradient(900px 420px at 85% -40%,color-mix(in srgb,var(--color-section-glow) 70%,transparent),transparent 64%),var(--color-section)"></div>
+    </sc-if>
+    <sc-if value="{{ bandQuiet }}" hint-placeholder-val="{{ false }}">
+      <div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(180deg,var(--color-surface),var(--color-bg))"></div>
+    </sc-if>
+    <div style="position:relative;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,72px);display:flex;flex-wrap:wrap;gap:clamp(28px,5vw,72px);align-items:flex-end">
+      <div style="flex:1 1 460px;min-width:0">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(30px,4vw,52px);line-height:1.08;letter-spacing:-0.02em;margin:0;max-width:18ch">The first teams are forming.</h2>
+        <p style="font-size:16.5px;line-height:28px;color:color-mix(in srgb,var(--color-text) 82%,transparent);margin:24px 0 0;max-width:54ch">The first small projects are still ahead, and there's room for you on them. All it takes to start is to sign up!</p>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;flex:0 1 auto">
+        <a class="btn" href="join.html" style="font-size:15px;padding:12px 20px;color:var(--color-accent-200);border-color:var(--color-accent-300)">Sign up</a>
+        <a class="btn" href="join.html" style="font-size:15px;padding:12px 20px;color:var(--color-text);border-color:color-mix(in srgb,var(--color-text) 40%,transparent)">Sign in</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer style="max-width:1200px;margin:0 auto;padding:clamp(32px,5vw,56px) clamp(20px,5vw,72px) clamp(48px,6vw,72px);display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:space-between;align-items:center;font-size:13px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">
+  <div>Ready&nbsp;Up · 2026</div>
+  <div style="display:flex;gap:18px;flex-wrap:wrap"><a href="faq.html" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">FAQ</a><a href="guidelines.html" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">Community Guidelines</a></div>
+  <div>Made by <a href="https://own.page/malonsor" style="color:var(--color-accent-300)">Miguel Alonso</a></div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showImagery&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;closingBand&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Indigo section ground&quot;,&quot;Quiet surface&quot;],&quot;default&quot;:&quot;Indigo section ground&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;showNavLinks&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Layout&quot;}}">
+class Component extends DCLogic {
+  state = { signedIn: false };
+  componentDidMount() {
+    let v = false;
+    try { v = localStorage.getItem("readyup.signedIn") === "1"; } catch (e) {}
+    if (v) this.setState({ signedIn: true });
+  }
+  renderVals() {
+    const p = this.props;
+    const band = p.closingBand ?? "Indigo section ground";
+    const imagery = p.showImagery ?? true;
+    return {
+      signedIn: this.state.signedIn,
+      signedOut: !this.state.signedIn,
+      showImagery: imagery,
+      showNavLinks: p.showNavLinks ?? true,
+      bandIndigo: band === "Indigo section ground",
+      bandQuiet: band !== "Indigo section ground"
+    };
+  }
+}
+</script>
+</body>
+</html>

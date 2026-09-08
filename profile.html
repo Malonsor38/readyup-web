@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta charset="utf-8">
+<title>Ready Up: Jae Rivera (example profile)</title>
+<link rel="stylesheet" href="_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/styles.css">
+<script src="_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/_ds_bundle.js"></script>
+<style>
+body{margin:0;background:radial-gradient(1100px 640px at 88% -180px,color-mix(in srgb,var(--color-accent-900) 70%,transparent),transparent 60%),radial-gradient(1000px 760px at -10% 100%,color-mix(in srgb,black 28%,transparent),transparent 55%),var(--color-bg);text-wrap:pretty}
+a{color:var(--color-accent)}
+a:hover{color:var(--color-accent-300)}
+</style>
+<style>
+:root{
+  --color-bg:#10141f; --color-surface:#1a2030; --color-text:#eaeef6;
+  --color-accent:#3b74f0;
+  --color-accent-100:#eff4ff; --color-accent-200:#d3e0ff; --color-accent-300:#a8c4ff;
+  --color-accent-400:#7aa2fb; --color-accent-500:#3b74f0; --color-accent-600:#2a58c4;
+  --color-accent-700:#1f4193; --color-accent-800:#172d63; --color-accent-900:#0f1c3c;
+  --color-accent-2-100:#fff8ea; --color-accent-2-200:#fdecc9; --color-accent-2-300:#f8dba0;
+  --color-accent-2-400:#f0c46b; --color-accent-2-500:#e0a83f; --color-accent-2-600:#b8862c;
+  --color-accent-2-800:#63481a;
+  --color-section:#17264d; --color-section-glow:#223766;
+  --color-mark:#e6bc6a;
+}
+body{background:#080b12}
+</style>
+<script src="image-slot.js"></script>
+</helmet>
+
+<div aria-hidden="true" style="position:fixed;inset:0;z-index:0">
+  <div style="width:100%;height:100%;background:#05060c url('uploads/pasted-1788859460260-0.jpg') center / cover no-repeat"></div>
+</div>
+<div style="position:relative;z-index:1;margin:clamp(28px,6vw,120px);border-radius:22px;overflow:hidden;background:radial-gradient(1200px 720px at 82% -160px,color-mix(in srgb,var(--color-accent-900) 62%,transparent),transparent 60%),radial-gradient(1100px 800px at -10% 100%,color-mix(in srgb,black 32%,transparent),transparent 55%),var(--color-bg)">
+
+<nav style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;max-width:1080px;margin:0 auto;padding:24px clamp(20px,5vw,72px) 0">
+  <a href="index.html" style="display:flex;align-items:center;gap:11px;margin-right:auto;text-decoration:none;color:var(--color-text);font-family:var(--font-heading);font-weight:500;font-size:18px;letter-spacing:-0.01em">
+    <span aria-hidden="true" style="position:relative;display:block;width:23px;height:15px;flex:none">
+      <span style="position:absolute;left:0;top:0;width:15px;height:15px;border:1.5px solid var(--color-accent);border-radius:3px"></span>
+      <span style="position:absolute;left:8px;top:0;width:15px;height:15px;border:1.5px solid var(--color-accent-2-600);border-radius:3px"></span>
+    </span>Ready&nbsp;Up
+  </a>
+  <a href="index.html" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">Back to home</a>
+  <a href="faq.html" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">FAQ</a>
+  <sc-if value="{{ signedOut }}" hint-placeholder-val="{{ true }}">
+    <a class="btn btn-primary" href="join.html" style="font-size:14px;padding:9px 16px">Sign In</a>
+  </sc-if>
+  <sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
+    <a class="btn btn-primary" href="edit.html" style="font-size:14px;padding:9px 16px">My profile</a>
+  </sc-if>
+</nav>
+
+<main style="max-width:1080px;margin:0 auto;padding:0 clamp(20px,5vw,72px)">
+  <p style="margin:clamp(26px,4vw,40px) 0 0"><span class="tag tag-outline">Example profile: a demo, not a real member</span></p>
+
+  <header style="display:flex;flex-wrap:wrap;gap:clamp(22px,4vw,44px);align-items:flex-start;padding:clamp(22px,3vw,32px) 0 clamp(32px,5vw,52px)">
+    <sc-if value="{{ showImagery }}" hint-placeholder-val="{{ true }}">
+      <figure style="margin:0;flex:none">
+        <image-slot id="pr-avatar" shape="rounded" radius="16" src="uploads/you.jpg" placeholder="Headshot" style="width:112px;height:112px"></image-slot>
+      </figure>
+    </sc-if>
+    <div style="flex:1 1 420px;min-width:0">
+      <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(34px,5vw,60px);line-height:1.02;letter-spacing:-0.026em;margin:0 0 0 -0.05em">Jae Rivera</h1>
+      <p style="font-family:var(--font-heading);font-weight:500;font-size:clamp(17px,1.8vw,21px);line-height:1.3;color:var(--color-text);margin:12px 0 0">Systems &amp; Narrative Designer</p>
+      <div style="display:flex;flex-wrap:wrap;gap:6px 20px;align-items:center;margin:14px 0 0;font-size:14px;color:color-mix(in srgb,var(--color-text) 62%,transparent)">
+        <span style="display:inline-flex;align-items:center;gap:7px"><span aria-hidden="true" style="width:7px;height:7px;border-radius:50%;background:var(--color-accent);flex:none"></span>Between roles · open to teams</span>
+        <span>Lisbon · GMT+0</span>
+        <span>~6 years in games</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:16px 0 0">
+        <span style="font-size:14.5px;color:var(--color-accent-300);word-break:break-all">readyup.quest/jae-rivera</span>
+        <span class="tag tag-accent">Public</span>
+        <button class="btn btn-secondary" type="button" onClick="{{ copyLink }}" style="font-size:13.5px;padding:8px 14px">{{ copyLabel }}</button>
+        <a class="btn btn-secondary" href="edit.html" style="font-size:13.5px;padding:8px 14px">Edit profile</a>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 0">
+        <span class="tag tag-accent">Systems design</span>
+        <span class="tag tag-accent-2">Narrative</span>
+        <span class="tag tag-neutral">Level design</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 0">
+        <a class="btn btn-primary" href="#" style="font-size:14.5px;padding:11px 18px">Download CV</a>
+        <a class="btn btn-secondary" href="#" style="font-size:14.5px;padding:11px 18px">Showreel</a>
+        <a class="btn btn-secondary" href="#" style="font-size:14.5px;padding:11px 18px">own.page</a>
+        <a class="btn btn-secondary" href="#" style="font-size:14.5px;padding:11px 18px">MobyGames</a>
+        <a class="btn btn-secondary" href="#" style="font-size:14.5px;padding:11px 18px">itch.io</a>
+      </div>
+    </div>
+  </header>
+
+  <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
+
+  <section style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,64px);padding:clamp(32px,5vw,56px) 0">
+    <h2 style="flex:0 1 200px;font-family:var(--font-heading);font-weight:500;font-size:13px;line-height:14px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:6px 0 0">About</h2>
+    <p style="flex:1 1 460px;min-width:0;max-width:64ch;font-size:16.5px;line-height:28px;color:color-mix(in srgb,var(--color-text) 82%,transparent);margin:0">Systems and narrative designer with around six years across shipped and cancelled titles. I like turning messy mechanics into something that feels inevitable, and I'm happiest on a small team with one sharp idea. <strong style="color:var(--color-text);font-weight:600">Currently between roles and building with Ready Up teams while I look for the next one</strong>. Open to systems or narrative work, remote or around Lisbon.</p>
+  </section>
+
+  <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
+
+  <sc-if value="{{ showImagery }}" hint-placeholder-val="{{ true }}">
+    <section style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,64px);padding:clamp(32px,5vw,56px) 0">
+      <h2 style="flex:0 1 200px;font-family:var(--font-heading);font-weight:500;font-size:13px;line-height:14px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:6px 0 0">Showreel</h2>
+      <figure class="lighten" style="flex:1 1 460px;min-width:0;margin:0">
+        <image-slot id="pr-reel" shape="rounded" radius="10" placeholder="Embedded reel (YouTube or Vimeo)" style="width:100%;aspect-ratio:16/9"></image-slot>
+      </figure>
+    </section>
+    <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
+  </sc-if>
+
+  <section style="padding:clamp(32px,5vw,56px) 0">
+    <div style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,64px)">
+      <h2 style="flex:0 1 200px;font-family:var(--font-heading);font-weight:500;font-size:13px;line-height:14px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:6px 0 0">Projects &amp; credits</h2>
+      <div style="flex:1 1 460px;min-width:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">
+        <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);overflow:hidden;display:flex;flex-direction:column">
+          <sc-if value="{{ showImagery }}" hint-placeholder-val="{{ true }}">
+            <div class="lighten"><image-slot id="pr-p1" shape="rect" placeholder="Key art" style="width:100%;aspect-ratio:16/9"></image-slot></div>
+          </sc-if>
+          <div style="padding:16px 16px 18px;flex:1">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:17px;line-height:1.2;margin:0">Neon Harbour</h3>
+            <p style="font-size:12.5px;line-height:18px;color:var(--color-accent);margin:4px 0 0">Systems Designer</p>
+            <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:10px 0 0">A tide-timing puzzle game built with a Ready Up team of five in four weeks. Designed the core loop and economy.</p>
+            <p style="font-size:11.5px;line-height:18px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:12px 0 0">Ready Up · shipped on itch.io</p>
+          </div>
+        </div>
+        <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);overflow:hidden;display:flex;flex-direction:column">
+          <sc-if value="{{ showImagery }}" hint-placeholder-val="{{ true }}">
+            <div class="lighten"><image-slot id="pr-p2" shape="rect" placeholder="Key art" style="width:100%;aspect-ratio:16/9"></image-slot></div>
+          </sc-if>
+          <div style="padding:16px 16px 18px;flex:1">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:17px;line-height:1.2;margin:0">Paper Kingdoms</h3>
+            <p style="font-size:12.5px;line-height:18px;color:var(--color-accent);margin:4px 0 0">Design &amp; Story</p>
+            <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:10px 0 0">A branching-narrative strategy prototype. Wrote the world and built the choice architecture in Ink.</p>
+            <p style="font-size:11.5px;line-height:18px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:12px 0 0">Ready Up · in progress</p>
+          </div>
+        </div>
+        <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);overflow:hidden;display:flex;flex-direction:column">
+          <sc-if value="{{ showImagery }}" hint-placeholder-val="{{ true }}">
+            <div class="lighten"><image-slot id="pr-p3" shape="rect" placeholder="Key art" style="width:100%;aspect-ratio:16/9"></image-slot></div>
+          </sc-if>
+          <div style="padding:16px 16px 18px;flex:1">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:17px;line-height:1.2;margin:0">Harborline (shipped)</h3>
+            <p style="font-size:12.5px;line-height:18px;color:var(--color-accent);margin:4px 0 0">Systems Designer</p>
+            <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:10px 0 0">Live co-op title, 2 years on the systems team. Owned the progression and crafting systems through launch.</p>
+            <p style="font-size:11.5px;line-height:18px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:12px 0 0">Studio credit · 2021–2023</p>
+          </div>
+        </div>
+        <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);overflow:hidden;display:flex;flex-direction:column">
+          <sc-if value="{{ showImagery }}" hint-placeholder-val="{{ true }}">
+            <div style="width:100%;aspect-ratio:16/9;background:repeating-linear-gradient(135deg,var(--color-neutral-900) 0 10px,var(--color-surface) 10px 20px);display:flex;align-items:flex-end;padding:10px 12px">
+              <span style="font-size:11.5px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">No imagery (NDA)</span>
+            </div>
+          </sc-if>
+          <div style="padding:16px 16px 18px;flex:1">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:17px;line-height:1.2;margin:0">Untitled RPG (cancelled)</h3>
+            <p style="font-size:12.5px;line-height:18px;color:var(--color-accent);margin:4px 0 0">Systems Designer</p>
+            <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:10px 0 0">Two years on a AAA RPG cancelled before launch. Details limited under NDA — the kind of work that usually leaves no portfolio behind.</p>
+            <p style="font-size:11.5px;line-height:18px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:12px 0 0">Studio credit · under NDA</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
+
+  <section style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,64px);padding:clamp(32px,5vw,56px) 0">
+    <h2 style="flex:0 1 200px;font-family:var(--font-heading);font-weight:500;font-size:13px;line-height:14px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:6px 0 0">Skills &amp; tools</h2>
+    <div style="flex:1 1 460px;min-width:0;display:flex;flex-wrap:wrap;gap:7px">
+      <span class="tag tag-neutral">Systems design</span>
+      <span class="tag tag-neutral">Narrative design</span>
+      <span class="tag tag-neutral">Economy &amp; balancing</span>
+      <span class="tag tag-neutral">Level design</span>
+      <span class="tag tag-neutral">Unity</span>
+      <span class="tag tag-neutral">Ink</span>
+      <span class="tag tag-neutral">Twine</span>
+      <span class="tag tag-neutral">Miro</span>
+      <span class="tag tag-neutral">Notion</span>
+    </div>
+  </section>
+</main>
+
+<footer style="max-width:1080px;margin:0 auto;padding:clamp(28px,4vw,44px) clamp(20px,5vw,72px) clamp(48px,6vw,72px);display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:space-between;align-items:center;font-size:13px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent);background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent) no-repeat top / 100% 1px">
+  <div>Ready&nbsp;Up · 2026</div>
+  <div style="display:flex;gap:18px;flex-wrap:wrap"><a href="index.html" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">Home</a><a href="faq.html" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">FAQ</a></div>
+  <div>Made by <a href="https://own.page/malonsor" style="color:var(--color-accent-300)">Miguel Alonso</a></div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showImagery&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Layout&quot;}}">
+class Component extends DCLogic {
+  state = { copied: false, signedIn: false };
+  componentDidMount() {
+    let v = false;
+    try { v = localStorage.getItem("readyup.signedIn") === "1"; } catch (e) {}
+    if (v) this.setState({ signedIn: true });
+  }
+  renderVals() {
+    return {
+      signedIn: this.state.signedIn,
+      signedOut: !this.state.signedIn,
+      showImagery: this.props.showImagery ?? true,
+      copyLabel: this.state.copied ? "Link copied" : "Copy link",
+      copyLink: () => {
+        if (navigator.clipboard) navigator.clipboard.writeText("https://readyup.quest/jae-rivera").catch(() => {});
+        this.setState({ copied: true });
+        setTimeout(() => this.setState({ copied: false }), 2000);
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>
