@@ -396,7 +396,7 @@ body{background:#080b12}
       <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;margin:44px 0 18px;max-width:80ch">
         <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.6vw,30px);line-height:1.14;letter-spacing:-0.016em;margin:0">{{ hubHeading }}</h2>
         <sc-if value="{{ isNewMember }}" hint-placeholder-val="{{ true }}">
-          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:0">{{ doneCount }} of 8 added. All optional, all editable later</p>
+          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:0">{{ doneCount }} of 10 added. All optional, all editable later</p>
         </sc-if>
         <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
           <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:0">Everything here is optional. Save when you're done.</p>
@@ -421,15 +421,11 @@ body{background:#080b12}
           </div>
         </div><div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
           <div style="display:flex;gap:10px;align-items:baseline;justify-content:space-between">
-            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">Who can see it</h3>
-            <span class="tag tag-accent">Set</span>
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">Showreel</h3>
+            <span class="tag tag-neutral">Optional</span>
           </div>
-          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:10px 0 14px">Job-hunting quietly? Keep it to members.</p>
-          <div style="display:flex;flex-direction:column;gap:9px">
-            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="vis" checked="{{ visPublic }}" onChange="{{ pickVisPublic }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span>Public: anyone with the link</span></label>
-            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="vis" checked="{{ visMembers }}" onChange="{{ pickVisMembers }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span>Members only: people inside Ready Up</span></label>
-            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="vis" checked="{{ visHidden }}" onChange="{{ pickVisHidden }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span>Hidden: only teams I join</span></label>
-          </div>
+          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:10px 0 14px">A YouTube or Vimeo link. It plays inline on your profile.</p>
+          <input class="input" type="url" placeholder="youtube.com/watch?v=…" value="{{ showreel }}" onChange="{{ setShowreel }}">
         </div>
         <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
           <div style="display:flex;gap:10px;align-items:baseline;justify-content:space-between">
@@ -507,7 +503,35 @@ body{background:#080b12}
             <input class="input" type="url" placeholder="your web page" value="{{ link3 }}" onChange="{{ setLink3 }}">
           </div>
         </div>
-        
+        <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
+          <div style="display:flex;gap:10px;align-items:baseline;justify-content:space-between">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">Who can see it</h3>
+            <span class="tag tag-accent">Set</span>
+          </div>
+          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:10px 0 14px">Job-hunting quietly? Keep it to members.</p>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="vis" checked="{{ visPublic }}" onChange="{{ pickVisPublic }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span>Public: anyone with the link</span></label>
+            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="vis" checked="{{ visMembers }}" onChange="{{ pickVisMembers }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span>Members only: people inside Ready Up</span></label>
+            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="vis" checked="{{ visHidden }}" onChange="{{ pickVisHidden }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span>Hidden: only teams I join</span></label>
+          </div>
+        </div>
+        <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px;grid-column:1/-1">
+          <div style="display:flex;gap:10px;align-items:baseline;justify-content:space-between">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">Projects &amp; credits</h3>
+            <span class="tag tag-neutral">Optional</span>
+          </div>
+          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:10px 0 16px">Anything you worked on, here or elsewhere. Under an NDA? Name the role and leave the details out.</p>
+          <sc-for list="{{ projects }}" as="proj" hint-placeholder-count="1">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;padding:0 0 14px;margin:0 0 14px;background:linear-gradient(to right,transparent,var(--color-divider) 12px calc(100% - 12px),transparent) no-repeat bottom / 100% 1px">
+              <input class="input" type="text" placeholder="Project name" value="{{ proj.title }}" onChange="{{ proj.setTitle }}">
+              <input class="input" type="text" placeholder="Your role" value="{{ proj.role }}" onChange="{{ proj.setRole }}">
+              <input class="input" type="text" placeholder="Where and when" value="{{ proj.meta }}" onChange="{{ proj.setMeta }}">
+              <textarea class="input" rows="2" placeholder="What you did on it" value="{{ proj.blurb }}" onChange="{{ proj.setBlurb }}" style="grid-column:1/-1;resize:vertical;font-family:inherit"></textarea>
+              <button class="btn btn-secondary" type="button" onClick="{{ proj.remove }}" style="font-size:13.5px;padding:8px 14px;justify-self:start;color:var(--color-danger);border-color:color-mix(in srgb,var(--color-danger) 50%,transparent)">Remove</button>
+            </div>
+          </sc-for>
+          <button class="btn btn-secondary" type="button" onClick="{{ addProject }}" style="font-size:14px;padding:9px 15px">Add a project</button>
+        </div>
       </div>
 
       <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
@@ -594,7 +618,7 @@ class Component extends DCLogic {
     location: "", timezone: "", avail: "", bio: "",
     skills: [], skillDraft: "", cv: false, avatar: false,
     handle: "", handleEdited: false, copied: false, avatarPath: "", cvPath: "", cvName: "",
-    deletionAt: null,
+    deletionAt: null, showreel: "", projects: [],
     handleFree: true,
     code: "", codeError: "", codeTries: 0, saved: false, confirmCv: false, confirmDelete: false, busy: false, deleteStep: 1, deletePass: "", deletePassError: "",
     link1: "", link2: "", link3: "", vis: "members"
@@ -632,6 +656,8 @@ class Component extends DCLogic {
       skills: s.skills,
       links: [s.link1, s.link2, s.link3].map((x) => x.trim()).filter(Boolean),
       visibility: s.vis,
+      showreel_url: s.showreel.trim(),
+      projects: s.projects.filter(function (p) { return (p.title || "").trim(); }),
       avatar_path: s.avatarPath || null,
       cv_path: s.cvPath || null
     };
@@ -649,6 +675,7 @@ class Component extends DCLogic {
       avatar: !!r.avatar_path, avatarPath: r.avatar_path || "",
       cv: !!r.cv_path, cvPath: r.cv_path || "",
       deletionAt: r.deletion_scheduled_at || null,
+      showreel: r.showreel_url || "", projects: r.projects || [],
       cvName: r.cv_path ? String(r.cv_path).split("/").pop() : ""
     };
   }
@@ -734,7 +761,8 @@ class Component extends DCLogic {
     const c = this.pwChecks(s.password);
     const filled = [
       s.avatar, s.location.trim() || s.timezone.trim(), s.avail, s.bio.trim(),
-      s.skills.length, s.cv, s.link1.trim() || s.link2.trim() || s.link3.trim(), true
+      s.skills.length, s.cv, s.link1.trim() || s.link2.trim() || s.link3.trim(), true,
+      s.showreel.trim(), s.projects.some(function (p) { return (p.title || "").trim(); })
     ].filter(Boolean).length;
 
     const setAvail = (v) => () => this.setState({ avail: v });
@@ -769,7 +797,7 @@ class Component extends DCLogic {
         this.setState({ busy: true, error: "" });
         this.api().saveProfile(this.toRow()).then((r) => {
           if (!r.ok) return this.setState({ busy: false, error: r.error });
-          this.setState({ busy: false, saved: true });
+          this.setState({ busy: false, saved: true, error: r.warning || "" });
           setTimeout(() => this.setState({ saved: false }), 2000);
         });
       },
@@ -994,6 +1022,24 @@ class Component extends DCLogic {
       deleteStep1: s.deleteStep === 1,
       deleteStep2: s.deleteStep === 2,
 
+      showreel: s.showreel,
+      setShowreel: this.val("showreel"),
+      addProject: () => this.setState({
+        projects: [...this.state.projects, { title: "", role: "", meta: "", blurb: "" }]
+      }),
+      projects: s.projects.map((p, i) => {
+        const patch = (key) => (e) => {
+          const next = this.state.projects.slice();
+          next[i] = Object.assign({}, next[i], { [key]: e.target.value });
+          this.setState({ projects: next });
+        };
+        return {
+          title: p.title || "", role: p.role || "", meta: p.meta || "", blurb: p.blurb || "",
+          setTitle: patch("title"), setRole: patch("role"),
+          setMeta: patch("meta"), setBlurb: patch("blurb"),
+          remove: () => this.setState({ projects: this.state.projects.filter((_, j) => j !== i) })
+        };
+      }),
       availTag1: availTag("between"), availTag2: availTag("side"), availTag3: availTag("browsing"),
       pickAvail1: setAvail("between"), pickAvail2: setAvail("side"), pickAvail3: setAvail("browsing"),
 
@@ -1039,7 +1085,7 @@ class Component extends DCLogic {
       pickVisHidden: () => this.setState({ vis: "hidden" }),
 
       doneCount: filled,
-      progressPct: Math.round((filled / 8) * 100) + "%"
+      progressPct: Math.round((filled / 10) * 100) + "%"
     };
   }
 }

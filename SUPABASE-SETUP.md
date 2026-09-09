@@ -272,6 +272,52 @@ The front end doesn't duplicate this list. A blocked handle is caught at save ti
 and surfaces as "That's already taken. Try another." If you'd rather it said
 something more specific, tell me and I'll add the phrasing.
 
+## 6d. Showreel and projects columns
+
+The edit page collects a showreel link and a list of projects. Both need columns:
+
+```sql
+alter table public.profiles add column showreel_url text;
+alter table public.profiles add column projects jsonb not null default '[]';
+```
+
+Projects are stored as a JSON array on the profile rather than in their own table.
+Each entry looks like
+`{"title": "...", "role": "...", "meta": "...", "blurb": "..."}`. That keeps them
+under the same row-level security as the rest of the profile, with nothing extra to
+configure.
+
+The trade-off, worth knowing before this grows: JSON entries are private claims, not
+shared credits. Two people on the same game each write their own version, and neither
+confirms the other. If credits ever need to be mutual or verifiable, that wants a real
+`projects` table with a join table for members — a bigger change, best made before
+many people have filled these in.
+
+## 6c. Let visitors download a CV from a public profile
+
+The `cvs` bucket is private and step 4 only granted read access to the owner. A
+recruiter opening `readyup.quest/jae-rivera` therefore sees the profile but cannot
+fetch the CV. This policy opens exactly one door: CVs belonging to profiles their
+owner has set to public.
+
+```sql
+create policy "cv readable on public profiles" on storage.objects
+  for select to anon, authenticated
+  using (
+    bucket_id = 'cvs'
+    and exists (
+      select 1 from public.profiles p
+      where p.id::text = (storage.foldername(name))[1]
+        and p.visibility = 'public'
+        and p.deletion_scheduled_at is null
+    )
+  );
+```
+
+Members-only and hidden profiles keep their CVs locked to the owner, and a profile
+awaiting deletion drops out immediately. The download link the page generates is
+signed and expires after an hour, so it can't be passed around indefinitely.
+
 ## 7. The 24-hour deletion grace period
 
 Deleting is not immediate. When someone confirms, the site stamps

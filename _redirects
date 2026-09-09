@@ -17,8 +17,8 @@
 /help            /faq          301
 /questions       /faq          301
 
-# NOT YET: the public profile catch-all.
-# Once the handle-driven profile page exists, add this as the LAST line:
-#   /*   /profile.html?u=:splat   200
-# Adding it now would serve the hardcoded example profile for every
-# mistyped URL on the site.
+# Public profiles: /jae-rivera serves profile.html, which reads the handle
+# from ?u= and looks it up. Real files and pages are matched first, so this
+# only catches addresses that aren't already something else.
+# KEEP THIS LAST — anything below it will never be reached.
+/*   /profile.html?u=:splat   200

@@ -48,6 +48,7 @@ window.READYUP_CONFIG = {
     if (/rate limit|too many/i.test(raw)) return { ok: false, error: "Too many attempts. Wait a minute and try again." };
     if (/password.*at least|weak password/i.test(raw)) return { ok: false, error: "That password is too weak. Try a longer one." };
     if (/duplicate key|already exists/i.test(raw)) return { ok: false, error: "That's already taken. Try another." };
+    if (/column .* does not exist|schema cache/i.test(raw)) return { ok: false, error: "A profile field isn't set up in the database yet. Run the latest SQL in SUPABASE-SETUP.md." };
     if (/blocked word/i.test(raw)) return { ok: false, error: "That handle isn't allowed. Please choose another." };
     if (/reserved/i.test(raw)) return { ok: false, error: "That handle is reserved. Please choose another." };
     if (/handle_shape|violates check constraint/i.test(raw)) return { ok: false, error: "Handles use lowercase letters, numbers and hyphens only." };
@@ -146,6 +147,32 @@ window.READYUP_CONFIG = {
         });
     },
 
+    // Public read by handle. RLS decides what comes back: a hidden profile,
+    // or one awaiting deletion, returns nothing even though the row exists.
+    getPublicProfile: function (handle) {
+      if (!configured()) return demo(null);
+      return db().from("profiles").select("*").ilike("handle", handle).maybeSingle()
+        .then(function (r) {
+          if (r.error) return fail(r.error);
+          return { ok: true, data: r.data || null };
+        });
+    },
+
+    // Public URL for an avatar. Cheap, synchronous, no signing needed.
+    avatarUrl: function (path) {
+      if (!path || !configured()) return "";
+      var r = db().storage.from("avatars").getPublicUrl(path);
+      return (r && r.data && r.data.publicUrl) || "";
+    },
+
+    // CVs live in a private bucket, so a link has to be signed and expires.
+    cvUrl: function (path) {
+      if (!path || !configured()) return Promise.resolve("");
+      return db().storage.from("cvs").createSignedUrl(path, 3600)
+        .then(function (r) { return (r.data && r.data.signedUrl) || ""; })
+        .catch(function () { return ""; });
+    },
+
     loadProfile: function () {
       if (!configured()) return demo(null);
       return db().auth.getUser().then(function (u) {
@@ -162,8 +189,22 @@ window.READYUP_CONFIG = {
         var id = u.data && u.data.user && u.data.user.id;
         if (!id) return { ok: false, error: "Not signed in." };
         var row = Object.assign({ id: id, updated_at: new Date().toISOString() }, fields);
-        return db().from("profiles").upsert(row)
-          .then(function (r) { return r.error ? fail(r.error) : { ok: true }; });
+        return db().from("profiles").upsert(row).then(function (r) {
+          if (!r.error) return { ok: true };
+          // A column the page knows about but the database doesn't yet: drop it
+          // and save the rest, so a pending migration can't cost someone their edits.
+          var miss = String(r.error.message || "").match(/column "?([a-z_]+)"?.*does not exist|'([a-z_]+)' column/i);
+          var key = miss && (miss[1] || miss[2]);
+          if (key && Object.prototype.hasOwnProperty.call(row, key)) {
+            var trimmed = Object.assign({}, row);
+            delete trimmed[key];
+            return db().from("profiles").upsert(trimmed).then(function (r2) {
+              if (r2.error) return fail(r2.error);
+              return { ok: true, warning: "Saved, but “" + key.replace(/_/g, " ") + "” couldn't be stored yet. Run the latest SQL in SUPABASE-SETUP.md." };
+            });
+          }
+          return fail(r.error);
+        });
       });
     },
 
