@@ -28,6 +28,8 @@
 }
 body{background:#080b12}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="readyup-api.js"></script>
 <script src="image-slot.js"></script>
 </helmet>
 
@@ -97,13 +99,14 @@ body{background:#080b12}
         </div>
         <div class="field">
           <label for="su-pass">Password</label>
-          <input class="input" id="su-pass" type="password" autoComplete="new-password" placeholder="{{ minPassLabel }}" value="{{ password }}" onChange="{{ setPassword }}">
-          <div style="display:flex;gap:5px;margin-top:8px">
-            <span aria-hidden="true" style="height:3px;flex:1;border-radius:2px;background:{{ meter1 }}"></span>
-            <span aria-hidden="true" style="height:3px;flex:1;border-radius:2px;background:{{ meter2 }}"></span>
-            <span aria-hidden="true" style="height:3px;flex:1;border-radius:2px;background:{{ meter3 }}"></span>
+          <input class="input" id="su-pass" type="password" autoComplete="new-password" placeholder="Mix letters, numbers and a symbol" value="{{ password }}" onChange="{{ setPassword }}">
+          <div role="status" style="display:flex;flex-wrap:wrap;gap:7px 16px;margin-top:12px">
+            <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;line-height:18px;color:{{ pwLenColor }}"><span aria-hidden="true" style="font-size:11px;width:9px">{{ pwLenMark }}</span>{{ pwLenLabel }}</span>
+            <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;line-height:18px;color:{{ pwUpColor }}"><span aria-hidden="true" style="font-size:11px;width:9px">{{ pwUpMark }}</span>Uppercase letter</span>
+            <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;line-height:18px;color:{{ pwLowColor }}"><span aria-hidden="true" style="font-size:11px;width:9px">{{ pwLowMark }}</span>Lowercase letter</span>
+            <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;line-height:18px;color:{{ pwNumColor }}"><span aria-hidden="true" style="font-size:11px;width:9px">{{ pwNumMark }}</span>Number</span>
+            <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;line-height:18px;color:{{ pwSymColor }}"><span aria-hidden="true" style="font-size:11px;width:9px">{{ pwSymMark }}</span>Symbol</span>
           </div>
-          <p style="font-size:12.5px;line-height:20px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:8px 0 0">{{ strengthLabel }}</p>
         </div>
         <div class="field">
           <label for="su-pass2">Confirm password</label>
@@ -130,10 +133,10 @@ body{background:#080b12}
 
       <sc-if value="{{ showCodeEntry }}" hint-placeholder-val="{{ true }}">
       <form onSubmit="{{ submitCode }}" class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-lg);padding:20px;margin:28px 0 0;max-width:46ch">
-        <label for="vc-code" style="display:block;font-size:15px;line-height:24px;color:var(--color-text);margin:0 0 6px">Or enter the six-digit code from the email</label>
+        <label for="vc-code" style="display:block;font-size:15px;line-height:24px;color:var(--color-text);margin:0 0 6px">Or enter the code from the email</label>
         <p style="font-size:13.5px;line-height:22px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:0 0 14px">Useful if you opened the email on your phone and you're signing up here.</p>
         <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start">
-          <input class="input" id="vc-code" type="text" inputMode="numeric" autoComplete="one-time-code" maxLength="7" placeholder="123456" value="{{ code }}" onChange="{{ setCode }}" style="flex:1 1 140px;min-width:0;font-family:var(--font-heading);font-size:19px;letter-spacing:0.22em">
+          <input class="input" id="vc-code" type="text" inputMode="numeric" autoComplete="one-time-code" maxLength="10" placeholder="Code from the email" value="{{ code }}" onChange="{{ setCode }}" style="flex:1 1 180px;min-width:0;font-family:var(--font-heading);font-size:19px;letter-spacing:0.16em">
           <button class="btn btn-primary" type="submit" style="font-size:14.5px;padding:11px 18px;flex:none">Verify</button>
         </div>
         <sc-if value="{{ codeError }}" hint-placeholder-val="{{ false }}">
@@ -173,7 +176,7 @@ body{background:#080b12}
       <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:16px 0 0">We ask for the profile first on purpose: Ready Up only works if the people in the Discord are people you can actually team up with.</p>
       <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-lg);padding:20px;margin:28px 0 0;display:flex;flex-wrap:wrap;gap:16px;align-items:center">
         <span aria-hidden="true" style="flex:none;width:2px;align-self:stretch;min-height:44px;border-radius:2px;background:var(--color-accent-700)"></span>
-        <span style="flex:1 1 240px;min-width:0;font-size:14.5px;line-height:24px;color:color-mix(in srgb,var(--color-text) 62%,transparent)">Discord invite, unlocks after your profile</span>
+        <span style="flex:1 1 240px;min-width:0;font-size:14.5px;line-height:24px;color:color-mix(in srgb,var(--color-text) 62%,transparent)">Get your Discord link after saving your profile!</span>
         <span class="tag tag-outline">Locked</span>
       </div>
       <p style="margin:28px 0 0"><button class="btn btn-primary" type="button" onClick="{{ goProfile1 }}" style="font-size:15px;padding:12px 20px">Start my profile</button></p>
@@ -212,13 +215,14 @@ body{background:#080b12}
       <form onSubmit="{{ submitReset }}" class="elev-sm" style="flex:1 1 360px;min-width:280px;background:var(--color-surface);border-radius:var(--radius-lg);padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:16px">
         <div class="field">
           <label for="rp-pass">New password</label>
-          <input class="input" id="rp-pass" type="password" autoComplete="new-password" placeholder="{{ minPassLabel }}" value="{{ password }}" onChange="{{ setPassword }}">
-          <div style="display:flex;gap:5px;margin-top:8px">
-            <span aria-hidden="true" style="height:3px;flex:1;border-radius:2px;background:{{ meter1 }}"></span>
-            <span aria-hidden="true" style="height:3px;flex:1;border-radius:2px;background:{{ meter2 }}"></span>
-            <span aria-hidden="true" style="height:3px;flex:1;border-radius:2px;background:{{ meter3 }}"></span>
+          <input class="input" id="rp-pass" type="password" autoComplete="new-password" placeholder="Mix letters, numbers and a symbol" value="{{ password }}" onChange="{{ setPassword }}">
+          <div role="status" style="display:flex;flex-wrap:wrap;gap:7px 16px;margin-top:12px">
+            <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;line-height:18px;color:{{ pwLenColor }}"><span aria-hidden="true" style="font-size:11px;width:9px">{{ pwLenMark }}</span>{{ pwLenLabel }}</span>
+            <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;line-height:18px;color:{{ pwUpColor }}"><span aria-hidden="true" style="font-size:11px;width:9px">{{ pwUpMark }}</span>Uppercase letter</span>
+            <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;line-height:18px;color:{{ pwLowColor }}"><span aria-hidden="true" style="font-size:11px;width:9px">{{ pwLowMark }}</span>Lowercase letter</span>
+            <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;line-height:18px;color:{{ pwNumColor }}"><span aria-hidden="true" style="font-size:11px;width:9px">{{ pwNumMark }}</span>Number</span>
+            <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;line-height:18px;color:{{ pwSymColor }}"><span aria-hidden="true" style="font-size:11px;width:9px">{{ pwSymMark }}</span>Symbol</span>
           </div>
-          <p style="font-size:12.5px;line-height:20px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:8px 0 0">{{ strengthLabel }}</p>
         </div>
         <div class="field">
           <label for="rp-pass2">Confirm new password</label>
@@ -302,6 +306,17 @@ body{background:#080b12}
         </div>
       </div>
       </sc-if>
+      <sc-if value="{{ deletionPending }}" hint-placeholder-val="{{ false }}">
+        <div role="status" class="elev-sm" style="max-width:80ch;margin:0 0 28px;background:var(--color-surface);border-radius:var(--radius-lg);padding:18px 20px;display:flex;flex-wrap:wrap;gap:16px;align-items:center">
+          <span aria-hidden="true" style="flex:none;width:2px;align-self:stretch;min-height:40px;border-radius:2px;background:var(--color-danger)"></span>
+          <span style="flex:1 1 280px;min-width:0">
+            <span style="display:block;font-family:var(--font-heading);font-weight:500;font-size:16px;line-height:1.3;color:var(--color-text)">Deletion scheduled for {{ deletionWhen }}</span>
+            <span style="display:block;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 70%,transparent);margin-top:6px">Your profile is hidden from everyone in the meantime. Nothing is removed until then, and you can stop this at any point.</span>
+          </span>
+          <button class="btn btn-primary" type="button" onClick="{{ cancelDeletion }}" style="font-size:14.5px;padding:11px 18px;flex:none">Cancel deletion</button>
+        </div>
+      </sc-if>
+
       <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
       <div style="display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,56px);align-items:flex-end;max-width:70ch">
         <div style="flex:1 1 340px;min-width:0">
@@ -366,7 +381,7 @@ body{background:#080b12}
         <div style="flex:1 1 300px;min-width:0">
           <span class="tag tag-accent" style="margin-bottom:14px;display:inline-flex">Unlocked</span>
           <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.6vw,30px);line-height:1.14;letter-spacing:-0.016em;margin:0">Come and meet everyone</h2>
-          <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 82%,transparent);margin:14px 0 0;max-width:46ch">This is where the projects get pitched and the teams come together. Say hello in <strong style="color:var(--color-text);font-weight:600">#introductions</strong>. Mention your discipline and someone will pull you onto something.</p>
+          <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 82%,transparent);margin:14px 0 0;max-width:46ch">This is where the projects get pitched and the teams come together!<br>Say hello in <strong style="color:var(--color-text);font-weight:600">#introductions</strong>! Tell us a bit about yourself (maybe add your profile link ;)) and we'll get the ball rolling!</p>
         </div>
         <a class="btn" href="https://discord.gg/zZHKW8BMCS" style="font-size:15px;padding:12px 20px;color:var(--color-accent-200);border-color:var(--color-accent-300);flex:none">Open the Discord invite</a>
       </section>
@@ -499,7 +514,7 @@ body{background:#080b12}
         <div style="max-width:80ch;margin:44px 0 0;padding:20px 0 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;display:flex;flex-wrap:wrap;gap:16px;align-items:center">
           <div style="flex:1 1 320px;min-width:0">
             <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">Delete account</h3>
-            <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 66%,transparent);margin:8px 0 0;max-width:56ch">Removes your profile, your CV and your links from the server. Credits on projects you worked on stay with the team.</p>
+            <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 66%,transparent);margin:8px 0 0;max-width:56ch">Hides your profile now and removes it, your CV and your links from the server 24 hours later. Credits on projects you worked on stay with the team.</p>
           </div>
           <button class="btn btn-secondary" type="button" onClick="{{ askDeleteAccount }}" style="font-size:14px;padding:10px 16px;flex:none;color:var(--color-danger);border-color:color-mix(in srgb,var(--color-danger) 50%,transparent)">Delete account</button>
         </div>
@@ -509,16 +524,16 @@ body{background:#080b12}
         <div class="dialog-backdrop" style="position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:24px;background:color-mix(in srgb,#05070c 72%,transparent)">
           <div class="dialog elev-lg" role="dialog" aria-modal="true" aria-labelledby="acc-del-title" style="background:var(--color-surface);border-radius:var(--radius-lg);padding:clamp(22px,3vw,28px);max-width:46ch;width:100%">
             <sc-if value="{{ deleteStep1 }}" hint-placeholder-val="{{ true }}">
-              <h2 id="acc-del-title" style="font-family:var(--font-heading);font-weight:500;font-size:clamp(19px,2.2vw,23px);line-height:1.2;letter-spacing:-0.012em;margin:0">This will delete your account and remove your profile from the server. It cannot be undone. Are you sure?</h2>
+              <h2 id="acc-del-title" style="font-family:var(--font-heading);font-weight:500;font-size:clamp(19px,2.2vw,23px);line-height:1.2;letter-spacing:-0.012em;margin:0">Delete your account? Your profile hides straight away, and everything is permanently removed 24 hours from now.</h2>
               <div style="display:flex;flex-wrap:wrap;gap:10px;margin:24px 0 0">
-                <button class="btn btn-secondary" type="button" onClick="{{ goDeleteStep2 }}" style="font-size:15px;padding:11px 20px;color:var(--color-danger);border-color:color-mix(in srgb,var(--color-danger) 55%,transparent)">Yes, delete my account</button>
+                <button class="btn btn-secondary" type="button" onClick="{{ goDeleteStep2 }}" style="font-size:15px;padding:11px 20px;color:var(--color-danger);border-color:color-mix(in srgb,var(--color-danger) 55%,transparent)">Yes, schedule deletion</button>
                 <button class="btn btn-primary" type="button" onClick="{{ cancelDeleteAccount }}" style="font-size:15px;padding:11px 20px">No</button>
               </div>
             </sc-if>
             <sc-if value="{{ deleteStep2 }}" hint-placeholder-val="{{ false }}">
               <form onSubmit="{{ submitDeleteAccount }}">
-                <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(19px,2.2vw,23px);line-height:1.2;letter-spacing:-0.012em;margin:0">Type your password to delete</h2>
-                <p style="font-size:14.5px;line-height:24px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:12px 0 18px">Last step. Once this goes through, your profile and files are gone for good.</p>
+                <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(19px,2.2vw,23px);line-height:1.2;letter-spacing:-0.012em;margin:0">Type your password to confirm</h2>
+                <p style="font-size:14.5px;line-height:24px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:12px 0 18px">Your account stays active for 24 hours, then everything is permanently deleted. You can cancel any time before then.</p>
                 <div class="field">
                   <label for="del-pass">Password</label>
                   <input class="input" id="del-pass" type="password" autoComplete="current-password" placeholder="••••••••" value="{{ deletePass }}" onChange="{{ setDeletePass }}">
@@ -527,7 +542,7 @@ body{background:#080b12}
                   <p role="alert" style="display:flex;gap:10px;font-size:14px;line-height:22px;color:var(--color-accent-200);background:color-mix(in srgb,var(--color-accent-900) 70%,transparent);border-radius:var(--radius-sm);padding:10px 12px;margin:14px 0 0"><span aria-hidden="true">⚠</span>{{ deletePassErrorMsg }}</p>
                 </sc-if>
                 <div style="display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 0">
-                  <button class="btn btn-secondary" type="submit" style="font-size:15px;padding:11px 20px;color:var(--color-danger);border-color:color-mix(in srgb,var(--color-danger) 55%,transparent)">Delete my account</button>
+                  <button class="btn btn-secondary" type="submit" style="font-size:15px;padding:11px 20px;color:var(--color-danger);border-color:color-mix(in srgb,var(--color-danger) 55%,transparent)">Schedule deletion</button>
                   <button class="btn btn-primary" type="button" onClick="{{ cancelDeleteAccount }}" style="font-size:15px;padding:11px 20px">Cancel</button>
                 </div>
               </form>
@@ -554,6 +569,9 @@ body{background:#080b12}
           <button class="btn btn-secondary" type="button" onClick="{{ saveEdits }}" style="font-size:15px;padding:12px 20px">{{ saveLabel }}</button>
         </sc-if>
         <a href="index.html" style="font-size:13.5px;color:color-mix(in srgb,var(--color-text) 66%,transparent)" style-hover="color:var(--color-accent)">{{ hubExitLabel }}</a>
+        <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ signOut }}" style="background:none;border:0;padding:0;cursor:pointer;font-family:inherit;font-size:13.5px;color:color-mix(in srgb,var(--color-text) 66%,transparent)" style-hover="color:var(--color-accent)">Sign out</button>
+        </sc-if>
       </div>
     </div>
   </sc-if>
@@ -575,19 +593,65 @@ class Component extends DCLogic {
     displayName: "", discipline: "", headline: "",
     location: "", timezone: "", avail: "", bio: "",
     skills: [], skillDraft: "", cv: false, avatar: false,
-    handle: "", handleEdited: false, copied: false,
-    code: "", codeError: "", codeTries: 0, saved: false, confirmCv: false, confirmDelete: false, deleteStep: 1, deletePass: "", deletePassError: "",
+    handle: "", handleEdited: false, copied: false, avatarPath: "", cvPath: "", cvName: "",
+    deletionAt: null,
+    handleFree: true,
+    code: "", codeError: "", codeTries: 0, saved: false, confirmCv: false, confirmDelete: false, busy: false, deleteStep: 1, deletePass: "", deletePassError: "",
     link1: "", link2: "", link3: "", vis: "members"
   };
 
   // the email's verify link and the reset link land here as ?screen=verified / ?screen=reset
   componentDidMount() {
-    // this page is the member's own profile editor: load their record and stay here
-    this.setState({ screen: "edit", ...this.savedProfile() });
+    // this page is the member's own editor: load their record and stay here
+    this.setState({ screen: "edit" });
+    this.api().getSession().then((sess) => {
+      if (!sess.demo && !sess.data) { window.location.href = "join.html"; return; }
+      this.api().loadProfile().then((p) => {
+        this.setState(p.ok && p.data ? this.fromRow(p.data) : this.savedProfile());
+      });
+    });
   }
 
   // stands in for the record we'd load for a signed-in member
   markSignedIn() { try { localStorage.setItem("readyup.signedIn", "1"); } catch (e) {} }
+  markSignedOut() { try { localStorage.removeItem("readyup.signedIn"); } catch (e) {} }
+  api() { return window.ReadyUpAPI; }
+
+  // form state <-> the "profiles" table
+  toRow() {
+    const s = this.state;
+    return {
+      handle: this.handleState().shown,
+      display_name: s.displayName.trim(),
+      discipline: s.discipline,
+      headline: s.headline.trim(),
+      location: s.location.trim(),
+      timezone: s.timezone.trim(),
+      availability: s.avail,
+      bio: s.bio.trim(),
+      skills: s.skills,
+      links: [s.link1, s.link2, s.link3].map((x) => x.trim()).filter(Boolean),
+      visibility: s.vis,
+      avatar_path: s.avatarPath || null,
+      cv_path: s.cvPath || null
+    };
+  }
+
+  fromRow(r) {
+    const links = r.links || [];
+    return {
+      handle: r.handle || "", handleEdited: true,
+      displayName: r.display_name || "", discipline: r.discipline || "",
+      headline: r.headline || "", location: r.location || "", timezone: r.timezone || "",
+      avail: r.availability || "", bio: r.bio || "", skills: r.skills || [],
+      link1: links[0] || "", link2: links[1] || "", link3: links[2] || "",
+      vis: r.visibility || "members",
+      avatar: !!r.avatar_path, avatarPath: r.avatar_path || "",
+      cv: !!r.cv_path, cvPath: r.cv_path || "",
+      deletionAt: r.deletion_scheduled_at || null,
+      cvName: r.cv_path ? String(r.cv_path).split("/").pop() : ""
+    };
+  }
 
   savedProfile() {
     return {
@@ -621,15 +685,30 @@ class Component extends DCLogic {
     ].join(", ");
   }
 
+  pickFile(accept, done) {
+    const el = document.createElement("input");
+    el.type = "file";
+    el.accept = accept;
+    el.addEventListener("change", () => { if (el.files && el.files[0]) done(el.files[0]); });
+    el.click();
+  }
+
   minPass() { return Math.max(6, Number(this.props.minPasswordLength) || 8); }
 
-  strength() {
-    const p = this.state.password;
-    let s = 0;
-    if (p.length >= this.minPass()) s++;
-    if (p.length >= this.minPass() + 4) s++;
-    if (/[^a-zA-Z0-9]/.test(p) || (/[a-z]/.test(p) && /[A-Z]/.test(p) && /\d/.test(p))) s++;
-    return Math.min(s, 3);
+  pwChecks(p) {
+    p = p || "";
+    return {
+      len: p.length >= this.minPass(),
+      up: /[A-Z]/.test(p),
+      low: /[a-z]/.test(p),
+      num: /[0-9]/.test(p),
+      sym: /[^A-Za-z0-9]/.test(p)
+    };
+  }
+
+  pwOk(p) {
+    var c = this.pwChecks(p);
+    return c.len && c.up && c.low && c.num && c.sym;
   }
 
   // typing-safe: keeps a hyphen the user just typed, only leading ones are dropped
@@ -645,14 +724,14 @@ class Component extends DCLogic {
     if (!settled) return { value, shown, ok: false, msg: "Three characters or more. Letters, numbers and hyphens.", tone: "muted" };
     if (settled.length < 3) return { value, shown, ok: false, msg: "A little longer, please. Three characters minimum.", tone: "warn" };
     if (taken.includes(settled)) return { value, shown, ok: false, msg: "readyup.quest/" + settled + " is taken. Try another.", tone: "warn" };
+    if (this.state.handleFree === false) return { value, shown, ok: false, msg: "readyup.quest/" + settled + " is taken. Try another.", tone: "warn" };
     return { value, shown, ok: true, msg: this.state.screen === "edit" ? "\u2713 Address saved" : "\u2713 readyup.quest/" + settled + " is yours", tone: "ok" };
   }
 
   renderVals() {
     const s = { ...this.state, screen: this.state.screen || "signin" };
     const h = this.handleState();
-    const st = this.strength();
-    const bar = (n) => st >= n ? "var(--color-accent)" : "color-mix(in srgb,var(--color-text) 12%,transparent)";
+    const c = this.pwChecks(s.password);
     const filled = [
       s.avatar, s.location.trim() || s.timezone.trim(), s.avail, s.bio.trim(),
       s.skills.length, s.cv, s.link1.trim() || s.link2.trim() || s.link3.trim(), true
@@ -677,10 +756,22 @@ class Component extends DCLogic {
       isEditing: s.screen === "edit",
       hubHeading: s.screen === "edit" ? "Your profile" : "Finish your profile",
       hubExitLabel: s.screen === "edit" ? "Done for now" : "I'll finish this later",
-      saveLabel: s.saved ? "Saved" : "Save changes",
+      saveLabel: s.busy ? "Saving…" : s.saved ? "Saved" : "Save changes",
+      busy: s.busy,
+      signOut: () => {
+        this.api().signOut().then(() => {
+          this.markSignedOut();
+          window.location.href = "index.html";
+        });
+      },
       saveEdits: () => {
-        this.setState({ saved: true });
-        setTimeout(() => this.setState({ saved: false }), 2000);
+        if (this.state.busy) return;
+        this.setState({ busy: true, error: "" });
+        this.api().saveProfile(this.toRow()).then((r) => {
+          if (!r.ok) return this.setState({ busy: false, error: r.error });
+          this.setState({ busy: false, saved: true });
+          setTimeout(() => this.setState({ saved: false }), 2000);
+        });
       },
 
       email: s.email, password: s.password, password2: s.password2, agreed: s.agreed,
@@ -690,11 +781,12 @@ class Component extends DCLogic {
       resent: s.resent > 0,
       resentLabel: s.resent === 1 ? "give it another minute" : "that's " + s.resent + " sends now",
 
-      meter1: bar(1), meter2: bar(2), meter3: bar(3),
-      minPassLabel: "At least " + this.minPass() + " characters",
-      strengthLabel: !s.password ? "At least " + this.minPass() + " characters." :
-        st <= 1 ? "Weak. Longer is stronger than clever." :
-        st === 2 ? "Decent. A little longer would help." : "Strong.",
+      pwLenLabel: this.minPass() + "+ characters",
+      pwLenMark: c.len ? "✓" : "○", pwLenColor: c.len ? "var(--color-ok)" : "color-mix(in srgb,var(--color-text) 50%,transparent)",
+      pwUpMark: c.up ? "✓" : "○", pwUpColor: c.up ? "var(--color-ok)" : "color-mix(in srgb,var(--color-text) 50%,transparent)",
+      pwLowMark: c.low ? "✓" : "○", pwLowColor: c.low ? "var(--color-ok)" : "color-mix(in srgb,var(--color-text) 50%,transparent)",
+      pwNumMark: c.num ? "✓" : "○", pwNumColor: c.num ? "var(--color-ok)" : "color-mix(in srgb,var(--color-text) 50%,transparent)",
+      pwSymMark: c.sym ? "✓" : "○", pwSymColor: c.sym ? "var(--color-ok)" : "color-mix(in srgb,var(--color-text) 50%,transparent)",
 
       setEmail: this.val("email"), setPassword: this.val("password"), setPassword2: this.val("password2"),
       setAgreed: (e) => this.setState({ agreed: e.target.checked }),
@@ -708,24 +800,29 @@ class Component extends DCLogic {
 
       showCodeEntry: this.props.showCodeEntry ?? true,
       code: s.code,
-      setCode: (e) => this.setState({ code: e.target.value.replace(/[^0-9]/g, "").slice(0, 6), codeError: "" }),
+      setCode: (e) => this.setState({ code: e.target.value.replace(/[^0-9]/g, "").slice(0, 10), codeError: "" }),
       codeError: !!s.codeError,
       codeErrorMsg: s.codeError,
       submitCode: (e) => {
         e.preventDefault();
         const v = this.state.code.trim();
-        if (v.length < 6) return this.setState({ codeError: "That code is six digits long." });
-        // demo rule: the code in the sample email is 402913
-        if (v !== "402913") {
-          const tries = this.state.codeTries + 1;
-          return this.setState({
-            codeTries: tries,
-            codeError: tries >= 3
-              ? "Still no match. Use the link in the email instead, or send yourself a fresh one."
-              : "That code doesn't match the one we sent. Check the email and try again."
-          });
-        }
-        this.setState({ screen: "verified", code: "", codeError: "", codeTries: 0 });
+        if (v.length < 6) return this.setState({ codeError: "That code looks too short. Copy the whole thing from the email." });
+        if (this.state.busy) return;
+        this.setState({ busy: true });
+        this.api().verifyCode(this.state.email.trim(), v).then((r) => {
+          if (!r.ok) {
+            const tries = this.state.codeTries + 1;
+            return this.setState({
+              busy: false,
+              codeTries: tries,
+              codeError: tries >= 3
+                ? "Still no match. Use the link in the email instead, or send yourself a fresh one."
+                : r.error
+            });
+          }
+          this.markSignedIn();
+          this.setState({ busy: false, screen: "verified", code: "", codeError: "", codeTries: 0 });
+        });
       },
       goSignin: () => this.go("signin"),
       goSignup: () => this.go("signup"),
@@ -739,40 +836,78 @@ class Component extends DCLogic {
 
       submitSignin: (e) => {
         e.preventDefault();
+        if (this.state.busy) return;
         if (!this.emailOk()) return this.setState({ error: "That email doesn't look right." });
-        if (s.password.length < this.minPass()) return this.setState({ error: "Password is at least " + this.minPass() + " characters." });
-        // a returning member lands on their own profile hub, not the create-time screen
-        this.markSignedIn();
-        this.setState({ screen: "edit", error: "", ...this.savedProfile() });
+        if (!s.password) return this.setState({ error: "Enter your password." });
+        this.setState({ busy: true, error: "" });
+        this.api().signIn(s.email.trim(), s.password).then((r) => {
+          if (!r.ok) return this.setState({ busy: false, error: r.error });
+          this.markSignedIn();
+          // a returning member lands on their own profile hub
+          this.api().loadProfile().then((p) => {
+            const rec = (p.ok && p.data) ? this.fromRow(p.data) : this.savedProfile();
+            this.setState({ busy: false, screen: "edit", error: "", ...rec });
+          });
+        });
       },
       submitSignup: (e) => {
         e.preventDefault();
         if (!this.emailOk()) return this.setState({ error: "We need a valid email to verify your account." });
-        if (s.password.length < this.minPass()) return this.setState({ error: "Passwords are at least " + this.minPass() + " characters." });
+        if (!this.pwOk(s.password)) return this.setState({ error: "Your password needs all five things listed under the field." });
         if (s.password !== s.password2) return this.setState({ error: "Those two passwords don't match." });
         if (!s.agreed) return this.setState({ error: "Please agree to the Community Guidelines to continue." });
-        this.setState({ screen: "inbox", error: "", resent: 0 });
+        if (this.state.busy) return;
+        this.setState({ busy: true, error: "" });
+        this.api().signUp(s.email.trim(), s.password).then((r) => {
+          if (!r.ok) return this.setState({ busy: false, error: r.error });
+          this.setState({ busy: false, screen: "inbox", error: "", resent: 0 });
+        });
       },
       submitForgot: (e) => {
         e.preventDefault();
         if (!this.emailOk()) return this.setState({ error: "That email doesn't look right." });
-        this.go("resetsent");
+        if (this.state.busy) return;
+        this.setState({ busy: true, error: "" });
+        // always reports success, so the form can't be used to discover accounts
+        this.api().sendPasswordReset(s.email.trim()).then(() => {
+          this.setState({ busy: false, screen: "resetsent", error: "" });
+        });
       },
       submitReset: (e) => {
         e.preventDefault();
-        if (s.password.length < this.minPass()) return this.setState({ error: "Passwords are at least " + this.minPass() + " characters." });
+        if (!this.pwOk(s.password)) return this.setState({ error: "Your password needs all five things listed under the field." });
         if (s.password !== s.password2) return this.setState({ error: "Those two passwords don't match." });
-        this.go("signin");
+        if (this.state.busy) return;
+        this.setState({ busy: true, error: "" });
+        this.api().setNewPassword(s.password).then((r) => {
+          if (!r.ok) return this.setState({ busy: false, error: r.error });
+          this.setState({ busy: false, screen: "signin", error: "", password: "", password2: "" });
+        });
       },
       submitProfile1: (e) => {
         e.preventDefault();
         if (!s.displayName.trim()) return this.setState({ error: "A display name is how you'll be credited." });
         if (!h.ok) return this.setState({ error: "Choose a profile address that's free and at least three characters." });
         if (!s.discipline) return this.setState({ error: "Pick your main discipline so teams can find you." });
-        this.markSignedIn();
-        this.setState({ screen: "profile2", error: "" });
+        if (this.state.busy) return;
+        this.setState({ busy: true, error: "" });
+        this.api().handleAvailable(h.shown).then((avail) => {
+          // a check that failed is not a check that passed
+          if (!avail.ok) return this.setState({ busy: false, error: avail.error });
+          if (avail.data && avail.data.available === false) {
+            return this.setState({ busy: false, error: "readyup.quest/" + h.shown + " was taken a moment ago. Pick another." });
+          }
+          return this.api().saveProfile(this.toRow()).then((r) => {
+            if (!r.ok) return this.setState({ busy: false, error: r.error });
+            this.markSignedIn();
+            this.setState({ busy: false, screen: "profile2", error: "" });
+          });
+        });
       },
-      resend: () => this.setState({ resent: this.state.resent + 1, code: "", codeError: "", codeTries: 0 }),
+      resend: () => {
+        this.api().resendVerification(this.state.email.trim());
+        this.setState({ resent: this.state.resent + 1, code: "", codeError: "", codeTries: 0 });
+      },
 
       skillKey: (e) => {
         if (e.key !== "Enter") return;
@@ -792,15 +927,34 @@ class Component extends DCLogic {
       avatarBorder: s.avatar ? "var(--color-accent-600)" : "color-mix(in srgb,var(--color-text) 14%,transparent)",
       avatarFg: s.avatar ? "var(--color-accent-200)" : "color-mix(in srgb,var(--color-text) 45%,transparent)",
       avatarLabel: s.avatar ? "Remove photo" : "Upload a photo",
-      toggleAvatar: () => this.setState({ avatar: !this.state.avatar }),
+      toggleAvatar: () => {
+        if (this.state.avatar) return this.setState({ avatar: false, avatarPath: "" });
+        this.pickFile("image/*", (file) => {
+          this.setState({ busy: true });
+          this.api().uploadFile("avatars", file).then((r) => {
+            if (!r.ok) return this.setState({ busy: false, error: r.error });
+            this.setState({ busy: false, avatar: true, avatarPath: (r.data && r.data.path) || "" });
+          });
+        });
+      },
       cvAttached: !!s.cv,
       cvMissing: !s.cv,
       cvHref: "#CV_FILE",
-      cvFileName: "jae-rivera-cv.pdf, added 12 Aug",
-      replaceCv: () => this.setState({ cv: true }),
+      cvFileName: s.cvName || "jae-rivera-cv.pdf, added 12 Aug",
+      replaceCv: () => this.pickFile("application/pdf", (file) => {
+        this.setState({ busy: true });
+        this.api().uploadFile("cvs", file).then((r) => {
+          if (!r.ok) return this.setState({ busy: false, error: r.error });
+          this.setState({ busy: false, cv: true, cvPath: (r.data && r.data.path) || "", cvName: file.name });
+        });
+      }),
       deleteCv: () => this.setState({ confirmCv: true }),
       cancelDeleteCv: () => this.setState({ confirmCv: false }),
-      confirmDeleteCv: () => this.setState({ cv: false, confirmCv: false }),
+      confirmDeleteCv: () => {
+        const path = this.state.cvPath;
+        if (path) this.api().removeFile("cvs", path);
+        this.setState({ cv: false, cvPath: "", cvName: "", confirmCv: false });
+      },
       confirmingCv: !!s.confirmCv,
       askDeleteAccount: () => this.setState({ confirmDelete: true, deleteStep: 1, deletePass: "", deletePassError: "" }),
       cancelDeleteAccount: () => this.setState({ confirmDelete: false, deleteStep: 1, deletePass: "", deletePassError: "" }),
@@ -814,8 +968,27 @@ class Component extends DCLogic {
         const p = this.state.deletePass;
         if (!p) return this.setState({ deletePassError: "Type your password to confirm." });
         if (p.length < this.minPass()) return this.setState({ deletePassError: "That isn't your password." });
-        try { localStorage.removeItem("readyup.signedIn"); } catch (err) {}
-        window.location.href = "index.html";
+        if (this.state.busy) return;
+        this.setState({ busy: true, deletePassError: "" });
+        this.api().requestDeletion(p).then((r) => {
+          if (!r.ok) return this.setState({ busy: false, deletePassError: r.error });
+          this.setState({
+            busy: false, confirmDelete: false, deleteStep: 1, deletePass: "",
+            deletionAt: (r.data && r.data.scheduledFor) || new Date(Date.now() + 864e5).toISOString()
+          });
+        });
+      },
+      deletionPending: !!s.deletionAt,
+      deletionWhen: s.deletionAt ? new Date(s.deletionAt).toLocaleString(undefined, {
+        weekday: "long", hour: "numeric", minute: "2-digit"
+      }) : "",
+      cancelDeletion: () => {
+        if (this.state.busy) return;
+        this.setState({ busy: true });
+        this.api().cancelDeletion().then((r) => {
+          if (!r.ok) return this.setState({ busy: false, error: r.error });
+          this.setState({ busy: false, deletionAt: null });
+        });
       },
       confirmingDelete: !!s.confirmDelete,
       deleteStep1: s.deleteStep === 1,
@@ -830,7 +1003,20 @@ class Component extends DCLogic {
       handleMsgColor: h.tone === "ok" ? "var(--color-ok)"
         : h.tone === "warn" ? "var(--color-accent-200)"
         : "color-mix(in srgb,var(--color-text) 55%,transparent)",
-      setHandle: (e) => this.setState({ handle: e.target.value, handleEdited: true }),
+      setHandle: (e) => {
+        const v = e.target.value;
+        this.setState({ handle: v, handleEdited: true });
+        clearTimeout(this._handleTimer);
+        this._handleTimer = setTimeout(() => {
+          const probe = this.handleState().shown;
+          if (!probe || probe.length < 3) return;
+          this.api().handleAvailable(probe).then((r) => {
+            if (this.handleState().shown !== probe) return; // typed on since
+            if (r.ok && r.data) this.setState({ handleFree: r.data.available !== false });
+            else this.setState({ handleFree: true }); // unknown: let the submit-time check decide
+          });
+        }, 350);
+      },
 
       copyLabel: s.copied ? "Link copied" : "Copy link",
       copyLink: () => {

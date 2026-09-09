@@ -13,7 +13,7 @@ itself) to your web root, so that `index.html` sits at the top level of the doma
 | `profile.html` | `readyup.quest/profile` | Example member profile |
 | `join.html` | `readyup.quest/join` | Sign in, sign up, verification, password reset |
 | `edit.html` | `readyup.quest/edit` | Edit your profile |
-| `verify-email.html` | not a page | The verification email template — give this to whoever sends your mail, don't upload it as a page |
+| `verify-email.html` | not a page | The verification email template — paste into Supabase's email settings, don't upload it as a page. Its links are absolute on purpose; emails have no base document, so relative links are dead on arrival. |
 
 Supporting files, all required:
 
@@ -22,65 +22,46 @@ Supporting files, all required:
 - `styles.css` and `_ds/nocturne-…/` — the design system. Keep the folder name exactly as it is.
 - `uploads/pasted-…jpg` — the hex artwork in the page margins.
 - `uploads/you.jpg` — the avatar used on the landing card and the example profile.
+- `readyup-api.js` — the Supabase wiring, holding the publishable keys. **Required**:
+  every page loads it, and without it every form fails silently.
+- `_redirects` — clean URLs and redirects (Cloudflare Pages / Netlify).
+- `SUPABASE-SETUP.md` — backend setup notes. Harmless to upload, or leave it out.
 
 Keep the folder structure exactly as it is. All links are relative, so the site works
 in a subfolder or on a staging domain without changes.
 
-## Clean URLs (dropping the .html)
+## Clean URLs and redirects
 
-The pages link to each other as `faq.html`, `profile.html` and so on, which works
-anywhere with no configuration. If you'd rather the address bar read `readyup.quest/faq`,
-add one of the following. Both keep the `.html` links working, so nothing breaks.
+`_redirects` in this folder handles both. It is the Cloudflare Pages / Netlify
+format and needs no other configuration — upload it with everything else.
 
-**Apache** — create a file called `.htaccess` at the web root:
+On **GitHub Pages** that file is ignored. Pages still serves `/faq` from
+`faq.html`, but the redirect lines do nothing, and it cannot serve profile pages
+at `/handle` at all — see below.
+
+On **Apache**, translate it to `.htaccess`:
 
     RewriteEngine On
-    # serve /faq from faq.html
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME}\.html -f
     RewriteRule ^(.+)$ $1.html [L]
-    # send /faq.html to /faq, once, for search engines
-    RewriteCond %{THE_REQUEST} \s/+(.+)\.html[\s?] [NC]
-    RewriteRule ^ /%1 [R=301,L]
-
-**Nginx** — inside your `server { }` block:
-
-    location / {
-      try_files $uri $uri.html $uri/ =404;
-    }
-
-**Netlify, Vercel, Cloudflare Pages, GitHub Pages** — this is the default behaviour.
-Drop the folder in and `/faq` will resolve to `faq.html` on its own.
-
-## Redirects worth adding
-
-Point common guesses at the real pages so nobody lands on a 404:
-
-| From | To |
-| --- | --- |
-| `/signup`, `/sign-up`, `/register`, `/login`, `/signin` | `/join` |
-| `/account`, `/settings`, `/my-profile` | `/edit` |
-| `/rules`, `/code-of-conduct` | `/guidelines` |
-| `/help`, `/questions` | `/faq` |
-| `/discord` | your Discord invite (see the note below) |
-
-Apache, in the same `.htaccess`:
-
     Redirect 301 /signup /join
     Redirect 301 /login /join
     Redirect 301 /account /edit
     Redirect 301 /rules /guidelines
 
-Nginx:
+On **Nginx**, inside `server { }`:
 
-    location = /signup { return 301 /join; }
-    location = /login  { return 301 /join; }
-    location = /account { return 301 /edit; }
-    location = /rules  { return 301 /guidelines; }
+    location / { try_files $uri $uri.html $uri/ =404; }
 
-A note on `/discord`: the whole site deliberately gates the invite behind sign-up, so
-a public `/discord` redirect would undo that. Only add it if you change your mind about
-the gate.
+### Profile URLs
+
+Members share `readyup.quest/their-handle`. That needs a catch-all rewrite to a
+handle-driven profile page. The rule is written in `_redirects`, commented out,
+because that page does not exist yet — uncomment the last line once it does.
+
+This is the one capability GitHub Pages lacks. If the site stays on Pages, profile
+links will have to look like `/profile.html?u=their-handle` instead.
 
 ## DNS
 
@@ -115,5 +96,6 @@ server support before launch:
 ## Making changes later
 
 Edit the `.dc.html` files in the project root, not the files in `dist/` — those are the
-build output and get overwritten. Ask for a re-export and this folder is rebuilt with the
+build output and get overwritten. One exception to the build step: `verify-email.html`
+is copied verbatim, never link-rewritten, because its URLs must stay absolute. Ask for a re-export and this folder is rebuilt with the
 deployment names and links.

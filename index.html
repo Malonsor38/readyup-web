@@ -34,6 +34,8 @@ a:hover{color:var(--color-accent-300)}
 }
 body{background:#080b12}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="readyup-api.js"></script>
 <script src="image-slot.js"></script>
 </helmet>
 
@@ -225,6 +227,13 @@ class Component extends DCLogic {
     let v = false;
     try { v = localStorage.getItem("readyup.signedIn") === "1"; } catch (e) {}
     if (v) this.setState({ signedIn: true });
+    // the real answer, once the SDK has read its session
+    const api = window.ReadyUpAPI;
+    if (api) api.getSession().then((r) => {
+      if (r.demo) return;
+      this.setState({ signedIn: !!r.data });
+      try { r.data ? localStorage.setItem("readyup.signedIn", "1") : localStorage.removeItem("readyup.signedIn"); } catch (e) {}
+    });
   }
   renderVals() {
     const p = this.props;
