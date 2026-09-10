@@ -253,6 +253,22 @@ window.READYUP_CONFIG = {
 
     /* ---- projects ----------------------------------------------------- */
 
+    // Someone's Ready Up credits, for their public profile. RLS returns only
+    // active and past rows, so a pending invite never shows up as a credit.
+    publicCredits: function (profileId) {
+      if (!configured()) return demo([]);
+      return db().from("project_members")
+        .select("role_label,is_owner,state,joined_at,left_at,projects(name,slug,pitch,status)")
+        .eq("profile_id", profileId)
+        .in("state", ["active", "past"])
+        .then(function (r) {
+          if (r.error) return fail(r.error);
+          var rows = (r.data || []).filter(function (m) { return m.projects; });
+          return { ok: true, data: rows };
+        });
+    },
+
+
     // Everything I'm on, in any state, with my membership row attached.
     myProjects: function () {
       if (!configured()) return demo([]);

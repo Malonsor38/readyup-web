@@ -280,8 +280,9 @@ class Component extends DCLogic {
     if (!api || !api.configured()) return this.setState({ status: "missing" });
 
     api.getSession().then((r) => {
-      const user = r && r.data;
-      this.setState({ signedIn: !!user, uid: (user && user.id) || null });
+      const session = r && r.data;
+      const uid = (session && session.user && session.user.id) || null;
+      this.setState({ signedIn: !!session, uid: uid });
       this.load(slug);
     });
   }

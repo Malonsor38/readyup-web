@@ -28,7 +28,7 @@ a:hover{color:var(--color-accent-300)}
   --color-accent-2-400:#f0c46b; --color-accent-2-500:#e0a83f; --color-accent-2-600:#b8862c;
   --color-accent-2-800:#63481a;
   --color-section:#17264d; --color-section-glow:#223766;
-  --color-mark:#e6bc6a;
+  --color-mark:#e6bc6a; --color-ok:#6fcf97; --color-danger:#ff8a7a;
 }
 body{background:#080b12}
 </style>
@@ -149,11 +149,31 @@ body{background:#080b12}
       </section>
     </sc-if>
 
+    <sc-if value="{{ hasCredits }}" hint-placeholder-val="{{ false }}">
+      <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
+      <section style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,64px);padding:clamp(32px,5vw,56px) 0">
+        <h2 style="flex:0 1 200px;font-family:var(--font-heading);font-weight:500;font-size:13px;line-height:14px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:6px 0 0">Ready Up projects</h2>
+        <div style="flex:1 1 460px;min-width:0;display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ credits }}" as="cr" hint-placeholder-count="0">
+            <a href="{{ cr.href }}" class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:16px 18px;display:block;text-decoration:none;color:var(--color-text)" style-hover="box-shadow:var(--shadow-md)">
+              <span style="display:flex;flex-wrap:wrap;gap:10px;align-items:baseline">
+                <span style="font-family:var(--font-heading);font-weight:500;font-size:17px;letter-spacing:-0.01em">{{ cr.name }}</span>
+                <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:color-mix(in srgb,var(--color-text) 60%,transparent)"><span aria-hidden="true" style="width:6px;height:6px;border-radius:50%;background:{{ cr.dot }}"></span>{{ cr.statusLabel }}</span>
+                <span style="margin-left:auto;font-size:12.5px;color:var(--color-accent-300)">{{ cr.roleLine }}</span>
+              </span>
+              <span style="display:block;font-size:14.5px;line-height:23px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin-top:10px">{{ cr.pitch }}</span>
+              <span style="display:block;font-size:11.5px;line-height:18px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin-top:10px">{{ cr.meta }}</span>
+            </a>
+          </sc-for>
+        </div>
+      </section>
+    </sc-if>
+
     <sc-if value="{{ hasProjects }}" hint-placeholder-val="{{ false }}">
       <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
       <section style="padding:clamp(32px,5vw,56px) 0">
         <div style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,64px)">
-          <h2 style="flex:0 1 200px;font-family:var(--font-heading);font-weight:500;font-size:13px;line-height:14px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:6px 0 0">Projects &amp; credits</h2>
+          <h2 style="flex:0 1 200px;font-family:var(--font-heading);font-weight:500;font-size:13px;line-height:14px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:6px 0 0">Other work</h2>
           <div style="flex:1 1 460px;min-width:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">
             <sc-for list="{{ projects }}" as="proj" hint-placeholder-count="0">
               <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);overflow:hidden;display:flex;flex-direction:column">
@@ -212,7 +232,7 @@ class Component extends DCLogic {
   state = {
     status: "loading", // loading | found | missing
     handle: "", row: null, signedIn: false, isOwner: false,
-    avatarSrc: "", cvHref: "", copied: false
+    avatarSrc: "", cvHref: "", copied: false, credits: []
   };
 
   api() { return window.ReadyUpAPI; }
@@ -245,6 +265,10 @@ class Component extends DCLogic {
       if (!r.ok || !r.data) return this.setState({ status: "missing" });
       var row = r.data;
       this.setState({ status: "found", row: row, avatarSrc: api.avatarUrl(row.avatar_path) });
+
+      if (api.publicCredits) api.publicCredits(row.id).then((c) => {
+        if (c.ok) this.setState({ credits: c.data || [] });
+      });
 
       if (row.cv_path) api.cvUrl(row.cv_path).then((u) => this.setState({ cvHref: u }));
 
@@ -369,6 +393,30 @@ class Component extends DCLogic {
       showreelPlain: !!(r.showreel_url || "").trim() && !this.embedUrl(r.showreel_url),
       showreelHref: /^https?:\/\//i.test(r.showreel_url || "") ? r.showreel_url : "https://" + (r.showreel_url || ""),
 
+      hasCredits: s.credits.length > 0,
+      credits: s.credits.map(function (m) {
+        var pr = m.projects;
+        var dots = {
+          forming: "var(--color-accent-400)", active: "var(--color-ok)",
+          paused: "color-mix(in srgb,var(--color-text) 40%,transparent)",
+          shipped: "var(--color-accent-2-400)",
+          archived: "color-mix(in srgb,var(--color-text) 30%,transparent)"
+        };
+        var labels = { forming: "Forming", active: "Active", paused: "Paused", shipped: "Shipped", archived: "Archived" };
+        var year = function (d) { return d ? String(d).slice(0, 4) : ""; };
+        var span = m.state === "past"
+          ? "Was on the team" + (year(m.joined_at) ? " · " + year(m.joined_at) + (year(m.left_at) && year(m.left_at) !== year(m.joined_at) ? "–" + year(m.left_at) : "") : "")
+          : "On the team" + (year(m.joined_at) ? " since " + year(m.joined_at) : "");
+        return {
+          name: pr.name,
+          href: "/p/" + pr.slug,
+          pitch: pr.pitch || "",
+          roleLine: m.is_owner ? "Director" : (m.role_label || ""),
+          dot: dots[pr.status] || dots.forming,
+          statusLabel: labels[pr.status] || "Forming",
+          meta: span
+        };
+      }),
       hasProjects: !!(r.projects && r.projects.length),
       projects: (r.projects || []).map(function (p) {
         return {
