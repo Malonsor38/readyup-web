@@ -506,6 +506,18 @@ body{background:#080b12}
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:22px 0 0;max-width:80ch;margin-left:auto;margin-right:auto">
         <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
           <div style="display:flex;gap:10px;align-items:baseline;justify-content:space-between">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">Who can see it</h3>
+            <span class="tag tag-accent">Set</span>
+          </div>
+          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:10px 0 14px">Job-hunting quietly? Keep it to members.</p>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="vis" checked="{{ visPublic }}" onChange="{{ pickVisPublic }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span>Public: anyone with the link</span></label>
+            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="vis" checked="{{ visMembers }}" onChange="{{ pickVisMembers }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span>Members only: people inside Ready Up</span></label>
+            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="vis" checked="{{ visHidden }}" onChange="{{ pickVisHidden }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span>Hidden: only teams I join</span></label>
+          </div>
+        </div>
+        <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
+          <div style="display:flex;gap:10px;align-items:baseline;justify-content:space-between">
             <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">Avatar</h3>
             <span class="tag tag-neutral">Optional</span>
           </div>
@@ -630,18 +642,6 @@ body{background:#080b12}
             <textarea class="input" rows="2" placeholder="{{ aiNotePlaceholder }}" value="{{ aiNote }}" onChange="{{ setAiNote }}" style="resize:vertical;font-family:inherit;margin-top:12px"></textarea>
           </sc-if>
           </sc-if>
-        </div>
-        <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
-          <div style="display:flex;gap:10px;align-items:baseline;justify-content:space-between">
-            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">Who can see it</h3>
-            <span class="tag tag-accent">Set</span>
-          </div>
-          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:10px 0 14px">Job-hunting quietly? Keep it to members.</p>
-          <div style="display:flex;flex-direction:column;gap:9px">
-            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="vis" checked="{{ visPublic }}" onChange="{{ pickVisPublic }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span>Public: anyone with the link</span></label>
-            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="vis" checked="{{ visMembers }}" onChange="{{ pickVisMembers }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span>Members only: people inside Ready Up</span></label>
-            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="vis" checked="{{ visHidden }}" onChange="{{ pickVisHidden }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span>Hidden: only teams I join</span></label>
-          </div>
         </div>
         <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px;grid-column:1/-1">
           <div style="display:flex;gap:10px;align-items:baseline;justify-content:space-between">
