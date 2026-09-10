@@ -55,6 +55,7 @@ create unique index profiles_handle_key on public.profiles (lower(handle));
 -- reject handles that collide with a route or a brand term
 create table public.reserved_handles (handle text primary key);
 insert into public.reserved_handles (handle) values
+  ('p'), ('project'), ('projects'),   -- project routes live at /p/<slug>
   ('readyup'),('ready-up'),('readyupquest'),('official'),('staff'),('team'),
   ('admin'),('administrator'),('moderator'),('mod'),('mods'),('support'),
   ('help'),('contact'),('info'),('hello'),('noreply'),('no-reply'),

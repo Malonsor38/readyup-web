@@ -36,9 +36,9 @@ body{background:#080b12}
 <div aria-hidden="true" style="position:fixed;inset:0;z-index:0">
   <div style="width:100%;height:100%;background:#05060c url('uploads/pasted-1788859460260-0.jpg') center / cover no-repeat"></div>
 </div>
-<div style="position:relative;z-index:1;margin:clamp(28px,6vw,120px);border-radius:22px;overflow:hidden;background:radial-gradient(1200px 720px at 82% -160px,color-mix(in srgb,var(--color-accent-900) 62%,transparent),transparent 60%),radial-gradient(1100px 800px at -10% 100%,color-mix(in srgb,black 32%,transparent),transparent 55%),var(--color-bg)">
+<div style="position:relative;z-index:1;margin:clamp(28px,6vw,120px) auto;max-width:min(1560px,calc(100% - 2 * clamp(28px,6vw,120px)));border-radius:22px;overflow:hidden;background:radial-gradient(1200px 720px at 82% -160px,color-mix(in srgb,var(--color-accent-900) 62%,transparent),transparent 60%),radial-gradient(1100px 800px at -10% 100%,color-mix(in srgb,black 32%,transparent),transparent 55%),var(--color-bg)">
 
-<nav style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;max-width:1080px;margin:0 auto;padding:24px clamp(20px,5vw,56px) 0">
+<nav style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;max-width:1140px;margin:0 auto;padding:24px clamp(20px,5vw,56px) 0">
   <a href="index.html" style="display:flex;align-items:center;gap:11px;margin-right:auto;text-decoration:none;color:var(--color-text);font-family:var(--font-heading);font-weight:500;font-size:18px;letter-spacing:-0.01em">
     <span aria-hidden="true" style="position:relative;display:block;width:23px;height:15px;flex:none">
       <span style="position:absolute;left:0;top:0;width:15px;height:15px;border:1.5px solid var(--color-accent);border-radius:3px"></span>
@@ -49,7 +49,7 @@ body{background:#080b12}
   <a href="index.html" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">Back to home</a>
 </nav>
 
-<main style="max-width:1080px;margin:0 auto;padding:clamp(28px,5vw,64px) clamp(20px,5vw,56px) clamp(48px,7vw,96px)">
+<main style="max-width:1140px;margin:0 auto;padding:clamp(28px,5vw,64px) clamp(20px,5vw,56px) clamp(48px,7vw,96px)">
 
   <sc-if value="{{ isSignin }}" hint-placeholder-val="{{ true }}">
     <div style="display:flex;flex-wrap:wrap;gap:clamp(28px,5vw,72px);align-items:flex-start">
@@ -602,7 +602,7 @@ body{background:#080b12}
 
 </main>
 
-<footer style="max-width:1080px;margin:0 auto;padding:clamp(24px,4vw,40px) clamp(20px,5vw,56px) clamp(40px,5vw,64px);display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:space-between;align-items:center;font-size:13px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">
+<footer style="max-width:1140px;margin:0 auto;padding:clamp(24px,4vw,40px) clamp(20px,5vw,56px) clamp(40px,5vw,64px);display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:space-between;align-items:center;font-size:13px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">
   <div>Ready&nbsp;Up · 2026</div>
   <div style="display:flex;gap:18px;flex-wrap:wrap"><a href="faq.html" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">FAQ</a><a href="guidelines.html" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">Community Guidelines</a></div>
   <div>Made by <a href="https://own.page/malonsor" style="color:var(--color-accent-300)">Miguel Alonso</a></div>
@@ -704,6 +704,7 @@ class Component extends DCLogic {
       "noreply", "no-reply", "postmaster", "webmaster", "abuse", "security", "legal", "billing",
       // routes we may want later
       "about", "api", "auth", "blog", "careers", "dashboard", "discord", "docs", "faq", "guidelines",
+      "p", "project", "projects",
       "home", "jobs", "login", "logout", "me", "new", "news", "password", "press", "privacy",
       "profile", "profiles", "projects", "register", "reset", "search", "settings", "signin",
       "signup", "terms", "u", "user", "users", "verify", "www",
