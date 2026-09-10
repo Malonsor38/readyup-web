@@ -226,7 +226,28 @@ Then Authentication → URL Configuration:
 Supabase's built-in mail is rate-limited and not meant for production volume.
 Before launch, set up a real SMTP provider under Project Settings → Auth → SMTP.
 
-### 5c. Match the password rules server-side
+### 4b. AI disclosure columns
+
+Two columns behind the profile's "AI use" card. Run this before deploying the
+build that adds it, or saving a profile will fail.
+
+```sql
+alter table public.profiles
+  add column if not exists ai_disclosure text
+    check (ai_disclosure is null or ai_disclosure in ('none','around','mild','full','other')),
+  add column if not exists ai_disclosure_note text;
+```
+
+The five codes are a ladder of how close AI gets to the thing you make: `none`
+(nowhere), `around` (beside the work), `mild` (inside the making, human-authored),
+`full` (generative), `other` (free text). The note field is available on all of
+them, not just `other`.
+
+The value is a short code, not the label, so the wording can be reworded later
+without touching stored data. `null` means the member chose not to say, and
+nothing appears on their profile. The note is only kept for `other`.
+
+## 5c. Match the password rules server-side
 
 The sign-up form requires 8+ characters with an uppercase letter, a lowercase
 letter, a number and a symbol, shown as a live checklist under the field. That check

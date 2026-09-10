@@ -172,6 +172,34 @@ body{background:#080b12}
       </section>
     </sc-if>
 
+    <sc-if value="{{ hasAiDisclosure }}" hint-placeholder-val="{{ false }}">
+      <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
+      <section style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,64px);padding:clamp(32px,5vw,56px) 0">
+        <h2 style="flex:0 1 200px;font-family:var(--font-heading);font-weight:500;font-size:13px;line-height:14px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:6px 0 0">AI use</h2>
+        <div style="flex:1 1 460px;min-width:0;max-width:64ch">
+          <p style="display:flex;align-items:baseline;gap:10px;font-size:16px;line-height:26px;color:var(--color-text);margin:0">
+            <span aria-hidden="true" style="flex:none;width:8px;height:8px;border-radius:50%;background:{{ aiDot }};margin-top:9px"></span>{{ aiLabel }}
+          </p>
+          <sc-if value="{{ hasAiNote }}" hint-placeholder-val="{{ false }}">
+            <p style="font-size:14.5px;line-height:24px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:10px 0 0;white-space:pre-line">{{ aiNote }}</p>
+          </sc-if>
+          <p style="font-size:12px;line-height:20px;color:color-mix(in srgb,var(--color-text) 45%,transparent);margin:12px 0 0">Self-declared by this member.</p>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ hasSkills }}" hint-placeholder-val="{{ true }}">
+      <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
+      <section style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,64px);padding:clamp(32px,5vw,56px) 0">
+        <h2 style="flex:0 1 200px;font-family:var(--font-heading);font-weight:500;font-size:13px;line-height:14px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:6px 0 0">Skills &amp; tools</h2>
+        <div style="flex:1 1 460px;min-width:0;display:flex;flex-wrap:wrap;gap:7px">
+          <sc-for list="{{ skills }}" as="skill" hint-placeholder-count="5">
+            <span class="tag tag-neutral">{{ skill.label }}</span>
+          </sc-for>
+        </div>
+      </section>
+    </sc-if>
+
     <sc-if value="{{ hasProjects }}" hint-placeholder-val="{{ false }}">
       <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
       <section style="padding:clamp(32px,5vw,56px) 0">
@@ -199,18 +227,6 @@ body{background:#080b12}
               </div>
             </sc-for>
           </div>
-        </div>
-      </section>
-    </sc-if>
-
-    <sc-if value="{{ hasSkills }}" hint-placeholder-val="{{ true }}">
-      <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
-      <section style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,64px);padding:clamp(32px,5vw,56px) 0">
-        <h2 style="flex:0 1 200px;font-family:var(--font-heading);font-weight:500;font-size:13px;line-height:14px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:6px 0 0">Skills &amp; tools</h2>
-        <div style="flex:1 1 460px;min-width:0;display:flex;flex-wrap:wrap;gap:7px">
-          <sc-for list="{{ skills }}" as="skill" hint-placeholder-count="5">
-            <span class="tag tag-neutral">{{ skill.label }}</span>
-          </sc-for>
         </div>
       </section>
     </sc-if>
@@ -465,6 +481,24 @@ class Component extends DCLogic {
           hasBlurb: !!(p.blurb || "").trim()
         };
       }),
+
+      hasAiDisclosure: !!(r.ai_disclosure || "").trim(),
+      aiLabel: {
+        none: "Doesn't work with AI",
+        around: "Uses AI around the work, not in it",
+        mild: "Uses AI while making, and authors the result",
+        full: "Works generatively with AI",
+        other: "Works with AI — described below"
+      }[(r.ai_disclosure || "").trim()] || (r.ai_disclosure || "").trim(),
+      aiDot: {
+        none: "var(--color-ok)",
+        around: "var(--color-accent-400)",
+        mild: "var(--color-accent-300)",
+        full: "var(--color-accent-2-400)",
+        other: "color-mix(in srgb,var(--color-text) 45%,transparent)"
+      }[(r.ai_disclosure || "").trim()] || "color-mix(in srgb,var(--color-text) 45%,transparent)",
+      aiNote: (r.ai_disclosure_note || "").trim(),
+      hasAiNote: !!(r.ai_disclosure_note || "").trim(),
 
       skills: (r.skills || []).map(function (label) { return { label: label }; }),
       hasSkills: !!(r.skills && r.skills.length),

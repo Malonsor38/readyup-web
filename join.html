@@ -612,6 +612,25 @@ body{background:#080b12}
             <p style="font-size:12px;line-height:18px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:0">Leave the label blank and we'll name it from the site — linkedin.com becomes LinkedIn. Full web addresses only; anything that isn't a link stays hidden.</p>
           </div>
         </div>
+        <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px;grid-column:1/-1">
+          <div style="display:flex;gap:10px;align-items:baseline;justify-content:space-between">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">AI use</h3>
+            <span class="tag tag-neutral">Optional</span>
+          </div>
+          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:10px 0 14px">How you work with AI, as a rule. This is about your practice, not any one project.</p>
+          <div style="display:flex;flex-direction:column;gap:11px">
+            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="ai" checked="{{ aiNone }}" onChange="{{ pickAiNone }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span><strong style="font-weight:600;color:var(--color-text)">I don't work with AI</strong> — not in the making, not around it.</span></label>
+            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="ai" checked="{{ aiAround }}" onChange="{{ pickAiAround }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span><strong style="font-weight:600;color:var(--color-text)">I use AI around the work, not in it</strong> — planning, research, notes, admin. Nothing it produces ends up in what I make.</span></label>
+            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="ai" checked="{{ aiMild }}" onChange="{{ pickAiMild }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span><strong style="font-weight:600;color:var(--color-text)">I use AI while making, and author the result</strong> — drafts, autocomplete, iterations, always reworked and reviewed by me.</span></label>
+            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="ai" checked="{{ aiFull }}" onChange="{{ pickAiFull }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span><strong style="font-weight:600;color:var(--color-text)">I work generatively with AI</strong> — AI produces material that ships, and I direct and curate it.</span></label>
+            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="ai" checked="{{ aiOther }}" onChange="{{ pickAiOther }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span><strong style="font-weight:600;color:var(--color-text)">Something else</strong> — describe it below.</span></label>
+            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 55%,transparent);cursor:pointer"><input type="radio" name="ai" checked="{{ aiUnset }}" onChange="{{ pickAiUnset }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span>Rather not say — nothing is shown on your profile</span></label>
+          </div>
+          <sc-if value="{{ aiNoteVisible }}" hint-placeholder-val="{{ false }}">
+            <textarea class="input" rows="2" placeholder="{{ aiNotePlaceholder }}" value="{{ aiNote }}" onChange="{{ setAiNote }}" style="resize:vertical;font-family:inherit;margin-top:12px"></textarea>
+          </sc-if>
+          </sc-if>
+        </div>
         <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
           <div style="display:flex;gap:10px;align-items:baseline;justify-content:space-between">
             <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">Who can see it</h3>
@@ -744,7 +763,7 @@ class Component extends DCLogic {
     deletionAt: null, showreel: "", projects: [],
     handleFree: true,
     code: "", codeError: "", codeTries: 0, saved: false, confirmCv: false, confirmDelete: false, busy: false, deleteStep: 1, deletePass: "", deletePassError: "",
-    linkList: [], vis: "members",
+    linkList: [], vis: "members", ai: "", aiNote: "",
     myProjects: [], newName: "", newSlug: "", newSlugEdited: false, newPitch: "",
     projMsg: "", projMsgOk: false
   };
@@ -788,6 +807,8 @@ class Component extends DCLogic {
         })
         .filter(Boolean),
       visibility: s.vis,
+      ai_disclosure: s.ai || null,
+      ai_disclosure_note: s.ai ? (s.aiNote.trim() || null) : null,
       showreel_url: s.showreel.trim(),
       projects: s.projects
         .filter(function (p) { return (p.title || "").trim(); })
@@ -858,6 +879,8 @@ class Component extends DCLogic {
   fromRow(r) {
     const links = r.links || [];
     return {
+      ai: r.ai_disclosure || "",
+      aiNote: r.ai_disclosure_note || "",
       handle: r.handle || "", handleEdited: true,
       displayName: r.display_name || "", discipline: this.canonDiscipline((r.discipline || "").split(",")[0]),
       discipline2: this.canonDiscipline((r.discipline || "").split(",")[1]),
@@ -1429,6 +1452,25 @@ class Component extends DCLogic {
         : s.vis === "members"
         ? "The link works for anyone, but people outside Ready Up see only your name and discipline until they sign in."
         : "Only teams you join can open this. Anyone else with the link sees a page saying the profile is private.",
+
+      aiNone: s.ai === "none", aiAround: s.ai === "around", aiMild: s.ai === "mild",
+      aiFull: s.ai === "full", aiOther: s.ai === "other", aiUnset: !s.ai,
+      aiNotePlaceholder: {
+        none: "Anything you want to add (optional)",
+        around: "e.g. I use it for research notes and planning, never for assets",
+        mild: "e.g. autocomplete and first drafts, rewritten by hand",
+        full: "e.g. I direct image generation, then paint over the results",
+        other: "How you work with AI, in your own words"
+      }[s.ai] || "",
+      pickAiNone: () => this.setState({ ai: "none" }),
+      pickAiAround: () => this.setState({ ai: "around" }),
+      pickAiMild: () => this.setState({ ai: "mild" }),
+      pickAiFull: () => this.setState({ ai: "full" }),
+      pickAiOther: () => this.setState({ ai: "other" }),
+      pickAiUnset: () => this.setState({ ai: "" }),
+      aiNoteVisible: !!s.ai,
+      aiNote: s.aiNote,
+      setAiNote: (e) => this.setState({ aiNote: e.target.value }),
 
       visPublic: s.vis === "public", visMembers: s.vis === "members", visHidden: s.vis === "hidden",
       pickVisPublic: () => this.setState({ vis: "public" }),
