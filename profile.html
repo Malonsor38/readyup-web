@@ -267,11 +267,19 @@ class Component extends DCLogic {
     return "";
   }
 
+  // Chromium will happily parse "social link example" as a URL and show the
+  // percent-encoded mess; Firefox throws. Neither should ever reach a visitor,
+  // so anything without a dot, or with a space, is not a link.
+  looksLikeUrl(v) {
+    var s = String(v || "").trim();
+    return !!s && !/\s/.test(s) && /^[^.]*\.[^.]/.test(s.replace(/^https?:\/\//i, ""));
+  }
+
   linkLabel(url) {
     try {
       var host = new URL(/^https?:\/\//i.test(url) ? url : "https://" + url).hostname;
-      return host.replace(/^www\./, "");
-    } catch (e) { return url; }
+      return decodeURIComponent(host).replace(/^www\./, "");
+    } catch (e) { return String(url).replace(/^https?:\/\//i, "").split("/")[0]; }
   }
 
   renderVals() {
@@ -337,7 +345,7 @@ class Component extends DCLogic {
       skills: (r.skills || []).map(function (label) { return { label: label }; }),
       hasSkills: !!(r.skills && r.skills.length),
 
-      links: (r.links || []).map((u) => ({
+      links: (r.links || []).filter((u) => this.looksLikeUrl(u)).map((u) => ({
         href: /^https?:\/\//i.test(u) ? u : "https://" + u,
         label: this.linkLabel(u)
       })),
