@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta charset="utf-8">
+<title>Ready Up: profile</title>
+<link rel="stylesheet" href="_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/styles.css">
+<script src="_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/_ds_bundle.js"></script>
+<style>
+body{margin:0;text-wrap:pretty}
+a{color:var(--color-accent)}
+a:hover{color:var(--color-accent-300)}
+</style>
+<style>
+:root{
+  --color-bg:#10141f; --color-surface:#1a2030; --color-text:#eaeef6;
+  --color-accent:#3b74f0;
+  --color-accent-100:#eff4ff; --color-accent-200:#d3e0ff; --color-accent-300:#a8c4ff;
+  --color-accent-400:#7aa2fb; --color-accent-500:#3b74f0; --color-accent-600:#2a58c4;
+  --color-accent-700:#1f4193; --color-accent-800:#172d63; --color-accent-900:#0f1c3c;
+  --color-accent-2-100:#fff8ea; --color-accent-2-200:#fdecc9; --color-accent-2-300:#f8dba0;
+  --color-accent-2-400:#f0c46b; --color-accent-2-500:#e0a83f; --color-accent-2-600:#b8862c;
+  --color-accent-2-800:#63481a;
+  --color-section:#17264d; --color-section-glow:#223766;
+  --color-mark:#e6bc6a;
+}
+body{background:#080b12}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="readyup-api.js"></script>
+</helmet>
+
+<div aria-hidden="true" style="position:fixed;inset:0;z-index:0">
+  <div style="width:100%;height:100%;background:#05060c url('uploads/pasted-1788859460260-0.jpg') center / cover no-repeat"></div>
+</div>
+<div style="position:relative;z-index:1;margin:clamp(28px,6vw,120px) auto;max-width:min(1560px,calc(100% - 2 * clamp(28px,6vw,120px)));border-radius:22px;overflow:hidden;background:radial-gradient(1200px 720px at 82% -160px,color-mix(in srgb,var(--color-accent-900) 62%,transparent),transparent 60%),radial-gradient(1100px 800px at -10% 100%,color-mix(in srgb,black 32%,transparent),transparent 55%),var(--color-bg)">
+
+<nav style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;max-width:1140px;margin:0 auto;padding:24px clamp(20px,5vw,72px) 0">
+  <a href="index.html" style="display:flex;align-items:center;gap:11px;margin-right:auto;text-decoration:none;color:var(--color-text);font-family:var(--font-heading);font-weight:500;font-size:18px;letter-spacing:-0.01em">
+    <span aria-hidden="true" style="position:relative;display:block;width:23px;height:15px;flex:none">
+      <span style="position:absolute;left:0;top:0;width:15px;height:15px;border:1.5px solid var(--color-accent);border-radius:3px"></span>
+      <span style="position:absolute;left:8px;top:0;width:15px;height:15px;border:1.5px solid var(--color-accent-2-500);border-radius:3px"></span>
+    </span>Ready&nbsp;Up
+  </a>
+  <a href="index.html" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">Back to home</a>
+  <a href="faq.html" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">FAQ</a>
+  <sc-if value="{{ signedOut }}" hint-placeholder-val="{{ true }}">
+    <a class="btn btn-primary" href="join.html" style="font-size:14px;padding:9px 16px">Sign In</a>
+  </sc-if>
+  <sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
+    <a class="btn btn-primary" href="edit.html" style="font-size:14px;padding:9px 16px">My profile</a>
+  </sc-if>
+</nav>
+
+<main style="max-width:1140px;margin:0 auto;padding:0 clamp(20px,5vw,72px)">
+
+  <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:clamp(60px,10vw,140px) 0;display:flex;align-items:center;gap:14px">
+      <span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>
+      <p style="font-size:15px;line-height:24px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:0">Loading profile…</p>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isMissing }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:clamp(50px,8vw,110px) 0;max-width:56ch">
+      <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 20px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Nothing here</span>
+      <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(30px,4.4vw,52px);line-height:1.04;letter-spacing:-0.024em;margin:0 0 0 -0.04em">{{ missingTitle }}</h1>
+      <p style="font-size:16.5px;line-height:28px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:24px 0 0">{{ missingBody }}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 0">
+        <a class="btn btn-primary" href="index.html" style="font-size:15px;padding:12px 20px">Go to Ready Up</a>
+        <a class="btn btn-secondary" href="join.html" style="font-size:15px;padding:12px 20px">Sign In</a>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isFound }}" hint-placeholder-val="{{ true }}">
+    <sc-if value="{{ isOwner }}" hint-placeholder-val="{{ false }}">
+      <p style="margin:clamp(26px,4vw,40px) 0 0;display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+        <span class="tag tag-outline">This is how your profile looks to others</span>
+        <a href="edit.html" style="font-size:13.5px">Edit it</a>
+      </p>
+    </sc-if>
+
+    <header style="display:flex;flex-wrap:wrap;gap:clamp(22px,4vw,44px);align-items:flex-start;padding:clamp(30px,4vw,44px) 0 clamp(32px,5vw,52px)">
+      <sc-if value="{{ hasAvatar }}" hint-placeholder-val="{{ false }}">
+        <figure style="margin:0;flex:none">
+          <img src="{{ avatarSrc }}" alt="" style="display:block;width:112px;height:112px;border-radius:16px;object-fit:cover;background:var(--color-surface)">
+        </figure>
+      </sc-if>
+      <div style="flex:1 1 420px;min-width:0">
+        <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(34px,5vw,60px);line-height:1.02;letter-spacing:-0.026em;margin:0 0 0 -0.05em">{{ displayName }}</h1>
+        <sc-if value="{{ hasHeadline }}" hint-placeholder-val="{{ true }}">
+          <p style="font-family:var(--font-heading);font-weight:500;font-size:clamp(17px,1.8vw,21px);line-height:1.3;color:var(--color-text);margin:12px 0 0">{{ headline }}</p>
+        </sc-if>
+        <div style="display:flex;flex-wrap:wrap;gap:6px 20px;align-items:center;margin:14px 0 0;font-size:14px;color:color-mix(in srgb,var(--color-text) 62%,transparent)">
+          <sc-if value="{{ hasAvailability }}" hint-placeholder-val="{{ true }}">
+            <span style="display:inline-flex;align-items:center;gap:7px"><span aria-hidden="true" style="width:7px;height:7px;border-radius:50%;background:var(--color-accent);flex:none"></span>{{ availabilityLabel }}</span>
+          </sc-if>
+          <sc-if value="{{ hasPlace }}" hint-placeholder-val="{{ true }}">
+            <span>{{ placeLabel }}</span>
+          </sc-if>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:16px 0 0">
+          <span style="font-size:14.5px;color:var(--color-accent-300);word-break:break-all">{{ profileUrlShown }}</span>
+          <button class="btn btn-secondary" type="button" onClick="{{ copyLink }}" style="font-size:13.5px;padding:8px 14px">{{ copyLabel }}</button>
+        </div>
+        <sc-if value="{{ hasDiscipline }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 0">
+            <span class="tag tag-accent">{{ discipline }}</span>
+          </div>
+        </sc-if>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 0">
+          <sc-if value="{{ hasCv }}" hint-placeholder-val="{{ false }}">
+            <a class="btn btn-primary" href="{{ cvHref }}" target="_blank" rel="noopener" style="font-size:14.5px;padding:11px 18px">Download CV</a>
+          </sc-if>
+          <sc-for list="{{ links }}" as="link" hint-placeholder-count="2">
+            <a class="btn btn-secondary" href="{{ link.href }}" target="_blank" rel="noopener noreferrer" style="font-size:14.5px;padding:11px 18px">{{ link.label }}</a>
+          </sc-for>
+        </div>
+      </div>
+    </header>
+
+    <sc-if value="{{ hasBio }}" hint-placeholder-val="{{ true }}">
+      <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
+      <section style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,64px);padding:clamp(32px,5vw,56px) 0">
+        <h2 style="flex:0 1 200px;font-family:var(--font-heading);font-weight:500;font-size:13px;line-height:14px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:6px 0 0">About</h2>
+        <p style="flex:1 1 460px;min-width:0;max-width:64ch;font-size:16.5px;line-height:28px;color:color-mix(in srgb,var(--color-text) 82%,transparent);margin:0;white-space:pre-line">{{ bio }}</p>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ hasShowreel }}" hint-placeholder-val="{{ false }}">
+      <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
+      <section style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,64px);padding:clamp(32px,5vw,56px) 0">
+        <h2 style="flex:0 1 200px;font-family:var(--font-heading);font-weight:500;font-size:13px;line-height:14px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:6px 0 0">Showreel</h2>
+        <div style="flex:1 1 460px;min-width:0">
+          <sc-if value="{{ showreelEmbeds }}" hint-placeholder-val="{{ true }}">
+            <iframe src="{{ showreelEmbed }}" title="Showreel" allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture" allowFullScreen="{{ true }}" style="display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:var(--radius-md);background:var(--color-surface)"></iframe>
+          </sc-if>
+          <sc-if value="{{ showreelPlain }}" hint-placeholder-val="{{ false }}">
+            <a class="btn btn-secondary" href="{{ showreelHref }}" target="_blank" rel="noopener noreferrer" style="font-size:14.5px;padding:11px 18px">Watch the showreel</a>
+          </sc-if>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ hasProjects }}" hint-placeholder-val="{{ false }}">
+      <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
+      <section style="padding:clamp(32px,5vw,56px) 0">
+        <div style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,64px)">
+          <h2 style="flex:0 1 200px;font-family:var(--font-heading);font-weight:500;font-size:13px;line-height:14px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:6px 0 0">Projects &amp; credits</h2>
+          <div style="flex:1 1 460px;min-width:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">
+            <sc-for list="{{ projects }}" as="proj" hint-placeholder-count="2">
+              <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:16px 16px 18px">
+                <h3 style="font-family:var(--font-heading);font-weight:500;font-size:17px;line-height:1.2;margin:0">{{ proj.title }}</h3>
+                <sc-if value="{{ proj.hasRole }}" hint-placeholder-val="{{ true }}">
+                  <p style="font-size:12.5px;line-height:18px;color:var(--color-accent-300);margin:4px 0 0">{{ proj.role }}</p>
+                </sc-if>
+                <sc-if value="{{ proj.hasBlurb }}" hint-placeholder-val="{{ true }}">
+                  <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:10px 0 0">{{ proj.blurb }}</p>
+                </sc-if>
+                <sc-if value="{{ proj.hasMeta }}" hint-placeholder-val="{{ true }}">
+                  <p style="font-size:11.5px;line-height:18px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:12px 0 0">{{ proj.meta }}</p>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ hasSkills }}" hint-placeholder-val="{{ true }}">
+      <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
+      <section style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,64px);padding:clamp(32px,5vw,56px) 0">
+        <h2 style="flex:0 1 200px;font-family:var(--font-heading);font-weight:500;font-size:13px;line-height:14px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:6px 0 0">Skills &amp; tools</h2>
+        <div style="flex:1 1 460px;min-width:0;display:flex;flex-wrap:wrap;gap:7px">
+          <sc-for list="{{ skills }}" as="skill" hint-placeholder-count="5">
+            <span class="tag tag-neutral">{{ skill.label }}</span>
+          </sc-for>
+        </div>
+      </section>
+    </sc-if>
+
+    <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
+    <section style="display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between;padding:clamp(28px,4vw,44px) 0">
+      <p style="font-size:15px;line-height:26px;color:color-mix(in srgb,var(--color-text) 66%,transparent);margin:0;max-width:52ch">{{ ctaLine }}</p>
+      <a class="btn btn-secondary" href="index.html" style="font-size:14.5px;padding:11px 18px;flex:none">What is Ready Up?</a>
+    </section>
+  </sc-if>
+</main>
+
+<footer style="max-width:1140px;margin:0 auto;padding:clamp(28px,4vw,44px) clamp(20px,5vw,72px) clamp(48px,6vw,72px);display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:space-between;align-items:center;font-size:13px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent);background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent) no-repeat top / 100% 1px">
+  <div>Ready&nbsp;Up · 2026</div>
+  <div style="display:flex;gap:18px;flex-wrap:wrap"><a href="index.html" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">Home</a><a href="faq.html" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">FAQ</a></div>
+  <div>Made by <a href="https://own.page/malonsor" style="color:var(--color-accent-300)">Miguel Alonso</a></div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    status: "loading", // loading | found | missing
+    handle: "", row: null, signedIn: false, isOwner: false,
+    avatarSrc: "", cvHref: "", copied: false
+  };
+
+  api() { return window.ReadyUpAPI; }
+
+  // /jae-rivera is rewritten to ?u=jae-rivera, but accept a bare path too
+  readHandle() {
+    try {
+      var q = new URLSearchParams(window.location.search).get("u");
+      if (q) return q.trim().toLowerCase();
+      var seg = window.location.pathname.split("/").filter(Boolean).pop() || "";
+      if (seg && !/\.[a-z]+$/i.test(seg)) return seg.trim().toLowerCase();
+    } catch (e) {}
+    return "";
+  }
+
+  componentDidMount() {
+    var api = this.api();
+    var handle = this.readHandle();
+    this.setState({ handle: handle });
+
+    if (api) api.getSession().then((r) => {
+      if (!r.demo) this.setState({ signedIn: !!r.data });
+    });
+
+    // no handle in the URL: nothing to look up
+    if (!handle) return this.setState({ status: "missing" });
+    if (!api || !api.configured()) return this.setState({ status: "missing" });
+
+    api.getPublicProfile(handle).then((r) => {
+      if (!r.ok || !r.data) return this.setState({ status: "missing" });
+      var row = r.data;
+      this.setState({ status: "found", row: row, avatarSrc: api.avatarUrl(row.avatar_path) });
+
+      if (row.cv_path) api.cvUrl(row.cv_path).then((u) => this.setState({ cvHref: u }));
+
+      api.loadProfile().then((mine) => {
+        if (mine.ok && mine.data && mine.data.id === row.id) this.setState({ isOwner: true });
+      });
+    });
+  }
+
+  // YouTube and Vimeo get an inline player; anything else becomes a plain link
+  embedUrl(raw) {
+    if (!raw) return "";
+    var url = /^https?:\/\//i.test(raw) ? raw : "https://" + raw;
+    var yt = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,})/i);
+    if (yt) return "https://www.youtube-nocookie.com/embed/" + yt[1];
+    var vm = url.match(/vimeo\.com\/(?:video\/)?(\d+)/i);
+    if (vm) return "https://player.vimeo.com/video/" + vm[1];
+    return "";
+  }
+
+  linkLabel(url) {
+    try {
+      var host = new URL(/^https?:\/\//i.test(url) ? url : "https://" + url).hostname;
+      return host.replace(/^www\./, "");
+    } catch (e) { return url; }
+  }
+
+  renderVals() {
+    var s = this.state;
+    var r = s.row || {};
+    var name = (r.display_name || "").trim();
+    var place = [r.location, r.timezone].filter(function (x) { return x && x.trim(); }).join(" · ");
+
+    var availability = {
+      between: "Between roles · open to teams",
+      side: "Working, building on the side",
+      browsing: "Just browsing"
+    }[r.availability] || "";
+
+    var url = "readyup.quest/" + (r.handle || s.handle);
+
+    return {
+      isLoading: s.status === "loading",
+      isFound: s.status === "found",
+      isMissing: s.status === "missing",
+      isOwner: s.isOwner,
+      signedIn: s.signedIn,
+      signedOut: !s.signedIn,
+
+      missingTitle: s.handle ? "No profile at that address" : "No profile requested",
+      missingBody: s.handle
+        ? "readyup.quest/" + s.handle + " doesn't lead anywhere. The member may have changed their address, kept their profile private, or left Ready Up. Addresses are case-insensitive, so a typo is the likeliest cause."
+        : "This page shows a member's profile, so it needs an address like readyup.quest/their-handle.",
+
+      displayName: name || (r.handle || ""),
+      headline: (r.headline || "").trim(), hasHeadline: !!(r.headline || "").trim(),
+      discipline: r.discipline || "", hasDiscipline: !!r.discipline,
+      availabilityLabel: availability, hasAvailability: !!availability,
+      placeLabel: place, hasPlace: !!place,
+      bio: (r.bio || "").trim(), hasBio: !!(r.bio || "").trim(),
+
+      hasAvatar: !!s.avatarSrc,
+      avatarSrc: s.avatarSrc,
+      hasCv: !!s.cvHref,
+      cvHref: s.cvHref,
+
+      hasShowreel: !!(r.showreel_url || "").trim(),
+      showreelEmbed: this.embedUrl(r.showreel_url),
+      showreelEmbeds: !!this.embedUrl(r.showreel_url),
+      showreelPlain: !!(r.showreel_url || "").trim() && !this.embedUrl(r.showreel_url),
+      showreelHref: /^https?:\/\//i.test(r.showreel_url || "") ? r.showreel_url : "https://" + (r.showreel_url || ""),
+
+      hasProjects: !!(r.projects && r.projects.length),
+      projects: (r.projects || []).map(function (p) {
+        return {
+          title: p.title || "", role: p.role || "", meta: p.meta || "", blurb: p.blurb || "",
+          hasRole: !!(p.role || "").trim(),
+          hasMeta: !!(p.meta || "").trim(),
+          hasBlurb: !!(p.blurb || "").trim()
+        };
+      }),
+
+      skills: (r.skills || []).map(function (label) { return { label: label }; }),
+      hasSkills: !!(r.skills && r.skills.length),
+
+      links: (r.links || []).map((u) => ({
+        href: /^https?:\/\//i.test(u) ? u : "https://" + u,
+        label: this.linkLabel(u)
+      })),
+
+      profileUrlShown: url,
+      copyLabel: s.copied ? "Link copied" : "Copy link",
+      copyLink: () => {
+        if (navigator.clipboard) navigator.clipboard.writeText("https://" + url).catch(function () {});
+        this.setState({ copied: true });
+        setTimeout(() => this.setState({ copied: false }), 2000);
+      },
+
+      ctaLine: (name ? name.split(/\s+/)[0] : "This member") +
+        " builds with Ready Up: a place for people between roles to make things together and come away with credited work."
+    };
+  }
+}
+</script>
+</body>
+</html>
