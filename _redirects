@@ -1,24 +1,37 @@
-# Convenience redirects only.
+# ORDER MATTERS — first match wins, and on Cloudflare Workers this file is
+# evaluated BEFORE static files are matched. Every real page therefore needs an
+# explicit rule above the catch-all, or /* swallows it.
 #
-# Do NOT add /faq -> /faq.html rewrites here: Cloudflare's html_handling
-# already serves faq.html at /faq, and the two rules fight each other.
+# 200 = rewrite, the address bar keeps the pretty URL.
+# 301 = a real redirect.
 
-/signup          /join         301
-/sign-up         /join         301
-/register        /join         301
-/login           /join         301
-/signin          /join         301
-/sign-in         /join         301
-/account         /edit         301
-/settings        /edit         301
-/my-profile      /edit         301
-/rules           /guidelines   301
-/code-of-conduct /guidelines   301
-/help            /faq          301
-/questions       /faq          301
+# --- the root, first of all: /* would otherwise match it with an empty splat
+/                /index.html        200
 
-# Public profiles: /jae-rivera serves profile.html, which reads the handle
-# from ?u= and looks it up. Real files and pages are matched first, so this
-# only catches addresses that aren't already something else.
-# KEEP THIS LAST — anything below it will never be reached.
-/*   /profile.html?u=:splat   200
+# --- real pages
+/faq             /faq.html          200
+/guidelines      /guidelines.html   200
+/join            /join.html         200
+/edit            /edit.html         200
+/profile         /profile.html      200
+
+# --- convenience redirects
+/signup          /join              301
+/sign-up         /join              301
+/register        /join              301
+/login           /join              301
+/signin          /join              301
+/sign-in         /join              301
+/account         /edit              301
+/settings        /edit              301
+/my-profile      /edit              301
+/rules           /guidelines        301
+/code-of-conduct /guidelines        301
+/help            /faq               301
+/questions       /faq               301
+
+# --- project spaces, above the profile catch-all (not built yet)
+# /p/*           /project.html?slug=:splat   200
+
+# --- KEEP LAST: any remaining path is treated as a member handle.
+/*               /profile.html?u=:splat      200
