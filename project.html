@@ -265,7 +265,9 @@ class Component extends DCLogic {
       if (q) return q.trim().toLowerCase();
       const parts = window.location.pathname.split("/").filter(Boolean);
       const last = parts[parts.length - 1] || "";
-      if (last && !/\.[a-z]+$/i.test(last)) return last.trim().toLowerCase();
+      // "project" is this page's own name, never a slug — seeing it means the
+      // /p/* rewrite lost its query, so treat it as no slug at all.
+      if (last && last !== "project" && !/\.[a-z]+$/i.test(last)) return last.trim().toLowerCase();
     } catch (e) {}
     return "";
   }

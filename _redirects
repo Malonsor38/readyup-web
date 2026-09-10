@@ -1,17 +1,29 @@
-# Convenience redirects only.
+# Routing. ORDER MATTERS — first match wins.
 #
-# NO catch-all here. On Cloudflare Workers this file is evaluated before static
-# files are matched, so a /* rule swallows CSS, JS and images too and the site
-# loads unstyled. Member profiles are handled instead by 404.html, which
-# Cloudflare serves for any path that isn't a real file — see wrangler.jsonc.
+# html_handling is OFF in wrangler.jsonc, so nothing is auto-redirected behind
+# our backs. That matters: with it on, Cloudflare turned the /p/* rewrite into
+# an external redirect to /project and threw the ?slug= away.
 #
-# Clean URLs (/faq -> faq.html) come from html_handling, not from rules here.
-# Do not add page rewrites: combined with html_handling they cause a loop.
+# There is NO catch-all in this file. A /* rule is evaluated before static
+# files and swallows CSS, JS and images. Member profiles are served instead by
+# 404.html (a copy of profile.html), which Cloudflare returns for any path that
+# isn't a real file — see not_found_handling in wrangler.jsonc.
+#
+# 200 = rewrite, the address bar keeps the pretty URL.
+# 301 = a real redirect.
 
-# Project spaces: /p/<slug> is served by project.html, which reads the slug.
-# Specific, not a catch-all, so it can't swallow assets.
+# --- real pages, each declared explicitly
+/                /index.html                 200
+/faq             /faq.html                   200
+/guidelines      /guidelines.html            200
+/join            /join.html                  200
+/edit            /edit.html                  200
+/profile         /profile.html               200
+
+# --- project spaces: /p/<slug> keeps its pretty URL, project.html reads ?slug
 /p/*             /project.html?slug=:splat   200
 
+# --- convenience redirects
 /signup          /join         301
 /sign-up         /join         301
 /register        /join         301
@@ -25,3 +37,4 @@
 /code-of-conduct /guidelines   301
 /help            /faq          301
 /questions       /faq          301
+/projects        /edit         301

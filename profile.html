@@ -223,7 +223,7 @@ class Component extends DCLogic {
       var q = new URLSearchParams(window.location.search).get("u");
       if (q) return q.trim().toLowerCase();
       var seg = window.location.pathname.split("/").filter(Boolean).pop() || "";
-      if (seg && !/\.[a-z]+$/i.test(seg)) return seg.trim().toLowerCase();
+      if (seg && seg !== "profile" && !/\.[a-z]+$/i.test(seg)) return seg.trim().toLowerCase();
     } catch (e) {}
     return "";
   }
