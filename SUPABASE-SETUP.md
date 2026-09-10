@@ -295,6 +295,18 @@ confirms the other. If credits ever need to be mutual or verifiable, that wants 
 `projects` table with a join table for members — a bigger change, best made before
 many people have filled these in.
 
+## 6b. The avatars bucket must be public
+
+The edit page signs its own avatar URL, so it shows your photo whatever the bucket
+setting. A **visitor** cannot sign anything, so a public profile can only display
+an avatar if the bucket serves it anonymously.
+
+Storage → `avatars` → Settings → tick **Public bucket**.
+
+Nothing sensitive lives there: the file name is a random timestamp under a user id,
+and an avatar is already shown to anyone who can see the profile. CVs stay private
+— that is a different bucket, handled below.
+
 ## 6c. Let visitors download a CV from a public profile
 
 The `cvs` bucket is private and step 4 only granted read access to the owner. A

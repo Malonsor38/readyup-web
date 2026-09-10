@@ -416,9 +416,17 @@ body{background:#080b12}
           </div>
           <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:10px 0 14px">A face makes people far likelier to reach out.</p>
           <div style="display:flex;gap:12px;align-items:center">
-            <span aria-hidden="true" style="flex:none;display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:10px;font-family:var(--font-heading);font-weight:500;font-size:18px;letter-spacing:-0.01em;background:{{ avatarBg }};border:1px solid {{ avatarBorder }};color:{{ avatarFg }}">{{ avatarInitial }}</span>
+            <sc-if value="{{ hasAvatarImage }}" hint-placeholder-val="{{ false }}">
+              <img src="{{ avatarSrc }}" alt="Your avatar" onError="{{ avatarFailed }}" style="flex:none;display:block;width:48px;height:48px;border-radius:10px;object-fit:cover;background:var(--color-surface)">
+            </sc-if>
+            <sc-if value="{{ noAvatarImage }}" hint-placeholder-val="{{ true }}">
+              <span aria-hidden="true" style="flex:none;display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:10px;font-family:var(--font-heading);font-weight:500;font-size:18px;letter-spacing:-0.01em;background:{{ avatarBg }};border:1px solid {{ avatarBorder }};color:{{ avatarFg }}">{{ avatarInitial }}</span>
+            </sc-if>
             <button class="btn btn-secondary" type="button" onClick="{{ toggleAvatar }}" style="font-size:14px;padding:9px 15px">{{ avatarLabel }}</button>
           </div>
+          <sc-if value="{{ hasAvatarStatus }}" hint-placeholder-val="{{ false }}">
+            <p role="status" style="font-size:12.5px;line-height:20px;color:{{ avatarStatusColor }};margin:10px 0 0">{{ avatarStatus }}</p>
+          </sc-if>
         </div><div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
           <div style="display:flex;gap:10px;align-items:baseline;justify-content:space-between">
             <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">Showreel</h3>
@@ -588,7 +596,7 @@ body{background:#080b12}
       </sc-if>
 
       <div style="display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;margin:32px 0 0;max-width:80ch">
-        <a class="btn btn-primary" href="profile.html" style="font-size:15px;padding:12px 20px">View my profile</a>
+        <a class="btn btn-primary" href="{{ myProfileHref }}" style="font-size:15px;padding:12px 20px">View my profile</a>
         <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
           <button class="btn btn-secondary" type="button" onClick="{{ saveEdits }}" style="font-size:15px;padding:12px 20px">{{ saveLabel }}</button>
         </sc-if>
@@ -617,7 +625,8 @@ class Component extends DCLogic {
     displayName: "", discipline: "", headline: "",
     location: "", timezone: "", avail: "", bio: "",
     skills: [], skillDraft: "", cv: false, avatar: false,
-    handle: "", handleEdited: false, copied: false, avatarPath: "", cvPath: "", cvName: "",
+    handle: "", handleEdited: false, copied: false, avatarPath: "", avatarSrc: "",
+    avatarStatus: "", avatarStatusOk: false, cvPath: "", cvName: "",
     deletionAt: null, showreel: "", projects: [],
     handleFree: true,
     code: "", codeError: "", codeTries: 0, saved: false, confirmCv: false, confirmDelete: false, busy: false, deleteStep: 1, deletePass: "", deletePassError: "",
@@ -631,7 +640,9 @@ class Component extends DCLogic {
     this.api().getSession().then((sess) => {
       if (!sess.demo && !sess.data) { window.location.href = "join.html"; return; }
       this.api().loadProfile().then((p) => {
-        this.setState(p.ok && p.data ? this.fromRow(p.data) : this.savedProfile());
+        const rec = (p.ok && p.data) ? this.fromRow(p.data) : this.savedProfile();
+        this.setState(rec);
+        this.refreshAvatar(rec.avatarPath);
       });
     });
   }
@@ -661,6 +672,14 @@ class Component extends DCLogic {
       avatar_path: s.avatarPath || null,
       cv_path: s.cvPath || null
     };
+  }
+
+  // The bucket may be private, so ask for a signed URL rather than assuming
+  // a public one. Resolves into state; the monogram shows until it lands.
+  refreshAvatar(path) {
+    const api = this.api();
+    if (!path || !api || !api.avatarSignedUrl) return this.setState({ avatarSrc: "" });
+    api.avatarSignedUrl(path).then((u) => this.setState({ avatarSrc: u || "" }));
   }
 
   fromRow(r) {
@@ -718,7 +737,17 @@ class Component extends DCLogic {
     const el = document.createElement("input");
     el.type = "file";
     el.accept = accept;
-    el.addEventListener("change", () => { if (el.files && el.files[0]) done(el.files[0]); });
+    // A detached input opens the dialog but does not reliably fire "change",
+    // so it has to live in the document until the pick is done.
+    el.style.cssText = "position:fixed;left:-9999px;width:1px;height:1px;opacity:0";
+    const cleanup = () => setTimeout(() => { if (el.parentNode) el.remove(); }, 0);
+    el.addEventListener("change", () => {
+      const file = el.files && el.files[0];
+      cleanup();
+      if (file) done(file);
+    });
+    el.addEventListener("cancel", cleanup);
+    document.body.appendChild(el);
     el.click();
   }
 
@@ -761,6 +790,7 @@ class Component extends DCLogic {
     const s = { ...this.state, screen: this.state.screen || "signin" };
     const h = this.handleState();
     const c = this.pwChecks(s.password);
+    const avatarSrc = s.avatarSrc;
     const filled = [
       s.avatar, s.location.trim() || s.timezone.trim(), s.avail, s.bio.trim(),
       s.skills.length, s.cv, s.link1.trim() || s.link2.trim() || s.link3.trim(), true,
@@ -877,6 +907,7 @@ class Component extends DCLogic {
           this.api().loadProfile().then((p) => {
             const rec = (p.ok && p.data) ? this.fromRow(p.data) : this.savedProfile();
             this.setState({ busy: false, screen: "edit", error: "", ...rec });
+            this.refreshAvatar(rec.avatarPath);
           });
         });
       },
@@ -952,18 +983,45 @@ class Component extends DCLogic {
         remove: () => this.setState({ skills: this.state.skills.filter((x) => x !== label) })
       })),
 
+      avatarSrc: avatarSrc,
+      avatarFailed: () => this.setState({ avatarSrc: "" }),
+      avatarStatus: s.avatarStatus || "",
+      hasAvatarStatus: !!s.avatarStatus,
+      avatarStatusColor: s.avatarStatusOk ? "var(--color-ok)" : "var(--color-accent-200)",
+      hasAvatarImage: !!avatarSrc,
+      noAvatarImage: !avatarSrc,
+      myProfileHref: h.shown && h.ok ? "/" + h.shown : "profile.html",
       avatarInitial: (s.displayName.trim()[0] || "?").toUpperCase(),
       avatarBg: s.avatar ? "var(--color-accent-800)" : "color-mix(in srgb,var(--color-text) 7%,transparent)",
       avatarBorder: s.avatar ? "var(--color-accent-600)" : "color-mix(in srgb,var(--color-text) 14%,transparent)",
       avatarFg: s.avatar ? "var(--color-accent-200)" : "color-mix(in srgb,var(--color-text) 45%,transparent)",
       avatarLabel: s.avatar ? "Remove photo" : "Upload a photo",
       toggleAvatar: () => {
-        if (this.state.avatar) return this.setState({ avatar: false, avatarPath: "" });
+        if (this.state.avatar) {
+          return this.setState({ avatar: false, avatarPath: "", avatarSrc: "" }, () => {
+            this.api().saveProfile(this.toRow());
+          });
+        }
         this.pickFile("image/*", (file) => {
-          this.setState({ busy: true });
+          if (file.size > 5 * 1024 * 1024) {
+            return this.setState({ avatarStatus: "That image is over 5MB. Try a smaller one.", avatarStatusOk: false });
+          }
+          this.setState({ busy: true, avatarStatus: "Uploading…", avatarStatusOk: false });
           this.api().uploadFile("avatars", file).then((r) => {
-            if (!r.ok) return this.setState({ busy: false, error: r.error });
-            this.setState({ busy: false, avatar: true, avatarPath: (r.data && r.data.path) || "" });
+            if (!r.ok) return this.setState({ busy: false, avatarStatus: r.error || "Upload failed.", avatarStatusOk: false, error: r.error });
+            const p = (r.data && r.data.path) || "";
+            this.setState({ avatar: true, avatarPath: p }, () => {
+              this.refreshAvatar(p);
+              this.api().saveProfile(this.toRow()).then((sr) => {
+                this.setState({
+                  busy: false,
+                  error: sr.ok ? "" : sr.error,
+                  avatarStatus: sr.ok ? "Photo saved" : (sr.error || "Saved the file but not the profile."),
+                  avatarStatusOk: !!sr.ok
+                });
+                if (sr.ok) setTimeout(() => this.setState({ avatarStatus: "" }), 2500);
+              });
+            });
           });
         });
       },
@@ -972,7 +1030,10 @@ class Component extends DCLogic {
       cvHref: "#CV_FILE",
       cvFileName: s.cvName || "jae-rivera-cv.pdf, added 12 Aug",
       replaceCv: () => this.pickFile("application/pdf", (file) => {
-        this.setState({ busy: true });
+        if (file.size > 10 * 1024 * 1024) {
+          return this.setState({ error: "That PDF is over 10MB. Try a smaller one." });
+        }
+        this.setState({ busy: true, error: "" });
         this.api().uploadFile("cvs", file).then((r) => {
           if (!r.ok) return this.setState({ busy: false, error: r.error });
           this.setState({ busy: false, cv: true, cvPath: (r.data && r.data.path) || "", cvName: file.name });

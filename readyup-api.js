@@ -158,6 +158,19 @@ window.READYUP_CONFIG = {
         });
     },
 
+    // A URL the owner can always load, whether or not the bucket is public.
+    // Falls back to the public URL if signing is refused.
+    avatarSignedUrl: function (path) {
+      var self = this;
+      if (!path || !configured()) return Promise.resolve("");
+      return db().storage.from("avatars").createSignedUrl(path, 3600)
+        .then(function (r) {
+          var u = r && r.data && r.data.signedUrl;
+          return u || self.avatarUrl(path);
+        })
+        .catch(function () { return self.avatarUrl(path); });
+    },
+
     // Public URL for an avatar. Cheap, synchronous, no signing needed.
     avatarUrl: function (path) {
       if (!path || !configured()) return "";
