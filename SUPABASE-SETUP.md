@@ -152,6 +152,10 @@ create policy "own cv upload" on storage.objects
   for insert to authenticated
   with check (bucket_id = 'cvs' and (storage.foldername(name))[1] = auth.uid()::text);
 
+create policy "own avatar read" on storage.objects
+  for select to authenticated
+  using (bucket_id = 'avatars' and (storage.foldername(name))[1] = auth.uid()::text);
+
 create policy "own cv read" on storage.objects
   for select to authenticated
   using (bucket_id = 'cvs' and (storage.foldername(name))[1] = auth.uid()::text);
@@ -159,6 +163,13 @@ create policy "own cv read" on storage.objects
 create policy "own file delete" on storage.objects
   for delete to authenticated
   using (bucket_id in ('avatars','cvs') and (storage.foldername(name))[1] = auth.uid()::text);
+
+-- Uploads use upsert, which Supabase treats as needing UPDATE as well as
+-- INSERT. Without this, uploads fail even for a file that does not exist yet.
+create policy "own file update" on storage.objects
+  for update to authenticated
+  using (bucket_id in ('avatars','cvs') and (storage.foldername(name))[1] = auth.uid()::text)
+  with check (bucket_id in ('avatars','cvs') and (storage.foldername(name))[1] = auth.uid()::text);
 ```
 
 ## 5. Email
@@ -402,7 +413,7 @@ Runs are logged in `cron.job_run_details`.
 
 - [ ] Keys filled into `readyup-api.js`, `service_role` nowhere near `dist/`
 - [ ] RLS enabled on `profiles` and verified (sign out, try to read a hidden profile)
-- [ ] Storage policies applied; `cvs` bucket is private
+- [ ] Storage policies applied (insert, select, update, delete); `cvs` private, `avatars` public
 - [ ] Email templates carry `{{ .ConfirmationURL }}` and `{{ .Token }}`
 - [ ] Custom SMTP configured
 - [ ] Redirect URLs allow-listed

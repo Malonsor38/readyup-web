@@ -535,6 +535,19 @@ body{background:#080b12}
               <input class="input" type="text" placeholder="Your role" value="{{ proj.role }}" onChange="{{ proj.setRole }}">
               <input class="input" type="text" placeholder="Where and when" value="{{ proj.meta }}" onChange="{{ proj.setMeta }}">
               <textarea class="input" rows="2" placeholder="What you did on it" value="{{ proj.blurb }}" onChange="{{ proj.setBlurb }}" style="grid-column:1/-1;resize:vertical;font-family:inherit"></textarea>
+              <input class="input" type="url" placeholder="Link — store page, itch, video, repo" value="{{ proj.url }}" onChange="{{ proj.setUrl }}" style="grid-column:1/-1">
+              <div style="grid-column:1/-1;display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+                <sc-if value="{{ proj.hasImage }}" hint-placeholder-val="{{ false }}">
+                  <img src="{{ proj.imageSrc }}" alt="" style="display:block;width:96px;aspect-ratio:16/9;object-fit:cover;border-radius:6px;background:var(--color-bg)">
+                </sc-if>
+                <button class="btn btn-secondary" type="button" onClick="{{ proj.pickImage }}" style="font-size:13.5px;padding:8px 14px">{{ proj.imageLabel }}</button>
+                <sc-if value="{{ proj.hasImage }}" hint-placeholder-val="{{ false }}">
+                  <button class="btn btn-secondary" type="button" onClick="{{ proj.clearImage }}" style="font-size:13.5px;padding:8px 14px;color:var(--color-danger);border-color:color-mix(in srgb,var(--color-danger) 50%,transparent)">Remove art</button>
+                </sc-if>
+                <sc-if value="{{ proj.busy }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-size:12.5px;color:color-mix(in srgb,var(--color-text) 60%,transparent)">Uploading…</span>
+                </sc-if>
+              </div>
               <button class="btn btn-secondary" type="button" onClick="{{ proj.remove }}" style="font-size:13.5px;padding:8px 14px;justify-self:start;color:var(--color-danger);border-color:color-mix(in srgb,var(--color-danger) 50%,transparent)">Remove</button>
             </div>
           </sc-for>
@@ -668,7 +681,11 @@ class Component extends DCLogic {
       links: [s.link1, s.link2, s.link3].map((x) => x.trim()).filter(Boolean),
       visibility: s.vis,
       showreel_url: s.showreel.trim(),
-      projects: s.projects.filter(function (p) { return (p.title || "").trim(); }),
+      projects: s.projects
+        .filter(function (p) { return (p.title || "").trim(); })
+        .map(function (p) {
+          return { title: p.title, role: p.role, meta: p.meta, blurb: p.blurb, url: p.url || "", image: p.image || "" };
+        }),
       avatar_path: s.avatarPath || null,
       cv_path: s.cvPath || null
     };
@@ -680,6 +697,11 @@ class Component extends DCLogic {
     const api = this.api();
     if (!path || !api || !api.avatarSignedUrl) return this.setState({ avatarSrc: "" });
     api.avatarSignedUrl(path).then((u) => this.setState({ avatarSrc: u || "" }));
+  }
+
+  patchProject(i, fields) {
+    const next = this.state.projects.map((p, j) => j === i ? { ...p, ...fields } : p);
+    this.setState({ projects: next });
   }
 
   fromRow(r) {
@@ -1088,7 +1110,7 @@ class Component extends DCLogic {
       showreel: s.showreel,
       setShowreel: this.val("showreel"),
       addProject: () => this.setState({
-        projects: [...this.state.projects, { title: "", role: "", meta: "", blurb: "" }]
+        projects: [...this.state.projects, { title: "", role: "", meta: "", blurb: "", url: "", image: "" }]
       }),
       projects: s.projects.map((p, i) => {
         const patch = (key) => (e) => {
@@ -1098,8 +1120,22 @@ class Component extends DCLogic {
         };
         return {
           title: p.title || "", role: p.role || "", meta: p.meta || "", blurb: p.blurb || "",
+          url: p.url || "", image: p.image || "",
+          imageSrc: p.image && this.api() && this.api().avatarUrl ? this.api().avatarUrl(p.image) : "",
+          hasImage: !!p.image,
+          imageLabel: p.image ? "Replace art" : "Add key art",
+          busy: !!p.uploading,
           setTitle: patch("title"), setRole: patch("role"),
-          setMeta: patch("meta"), setBlurb: patch("blurb"),
+          setMeta: patch("meta"), setBlurb: patch("blurb"), setUrl: patch("url"),
+          pickImage: () => this.pickFile("image/*", (file) => {
+            if (file.size > 5 * 1024 * 1024) return this.setState({ error: "That image is over 5MB. Try a smaller one." });
+            this.patchProject(i, { uploading: true });
+            this.api().uploadFile("avatars", file).then((r) => {
+              if (!r.ok) return this.patchProject(i, { uploading: false }) || this.setState({ error: r.error });
+              this.patchProject(i, { uploading: false, image: (r.data && r.data.path) || "" });
+            });
+          }),
+          clearImage: () => this.patchProject(i, { image: "" }),
           remove: () => this.setState({ projects: this.state.projects.filter((_, j) => j !== i) })
         };
       }),

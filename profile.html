@@ -156,7 +156,11 @@ body{background:#080b12}
           <h2 style="flex:0 1 200px;font-family:var(--font-heading);font-weight:500;font-size:13px;line-height:14px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:6px 0 0">Projects &amp; credits</h2>
           <div style="flex:1 1 460px;min-width:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">
             <sc-for list="{{ projects }}" as="proj" hint-placeholder-count="2">
-              <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:16px 16px 18px">
+              <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);overflow:hidden;display:flex;flex-direction:column">
+                <sc-if value="{{ proj.hasImage }}" hint-placeholder-val="{{ false }}">
+                  <img src="{{ proj.imageSrc }}" alt="" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--color-bg)">
+                </sc-if>
+                <div style="padding:16px 16px 18px;flex:1;display:flex;flex-direction:column">
                 <h3 style="font-family:var(--font-heading);font-weight:500;font-size:17px;line-height:1.2;margin:0">{{ proj.title }}</h3>
                 <sc-if value="{{ proj.hasRole }}" hint-placeholder-val="{{ true }}">
                   <p style="font-size:12.5px;line-height:18px;color:var(--color-accent-300);margin:4px 0 0">{{ proj.role }}</p>
@@ -167,6 +171,10 @@ body{background:#080b12}
                 <sc-if value="{{ proj.hasMeta }}" hint-placeholder-val="{{ true }}">
                   <p style="font-size:11.5px;line-height:18px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:12px 0 0">{{ proj.meta }}</p>
                 </sc-if>
+                <sc-if value="{{ proj.hasUrl }}" hint-placeholder-val="{{ false }}">
+                  <p style="margin:14px 0 0"><a href="{{ proj.url }}" target="_blank" rel="noopener noreferrer" style="font-size:13.5px;color:var(--color-accent-300);text-decoration:none" style-hover="color:var(--color-accent-200)">Visit the project →</a></p>
+                </sc-if>
+                </div>
               </div>
             </sc-for>
           </div>
@@ -269,6 +277,7 @@ class Component extends DCLogic {
   renderVals() {
     var s = this.state;
     var r = s.row || {};
+    var api = this.api();
     var name = (r.display_name || "").trim();
     var place = [r.location, r.timezone].filter(function (x) { return x && x.trim(); }).join(" · ");
 
@@ -315,6 +324,10 @@ class Component extends DCLogic {
       projects: (r.projects || []).map(function (p) {
         return {
           title: p.title || "", role: p.role || "", meta: p.meta || "", blurb: p.blurb || "",
+          hasImage: !!p.image,
+          imageSrc: p.image && api && api.avatarUrl ? api.avatarUrl(p.image) : "",
+          hasUrl: !!(p.url || "").trim(),
+          url: /^https?:\/\//i.test(p.url || "") ? p.url : "https://" + (p.url || ""),
           hasRole: !!(p.role || "").trim(),
           hasMeta: !!(p.meta || "").trim(),
           hasBlurb: !!(p.blurb || "").trim()
