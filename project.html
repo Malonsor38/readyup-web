@@ -159,13 +159,25 @@ body{background:#080b12}
             </div>
           </sc-if>
           <sc-if value="{{ noResources }}" hint-placeholder-val="{{ false }}">
-            <p style="font-size:15px;line-height:26px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:0 0 18px;max-width:52ch">Nothing here yet. Add the board, the repo, the drive — whatever a new person would need on their first day.</p>
+            <p style="font-size:15px;line-height:26px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:0 0 18px;max-width:52ch">Nothing here yet. Add the resource links as you need for the team.</p>
           </sc-if>
           <sc-if value="{{ canAdd }}" hint-placeholder-val="{{ false }}">
-            <form onSubmit="{{ submitResource }}" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr) auto;gap:8px;align-items:center;max-width:60ch">
-              <input class="input" type="text" placeholder="Label — Trello, repo, drive" value="{{ resLabel }}" onChange="{{ setResLabel }}">
-              <input class="input" type="url" placeholder="https://…" value="{{ resUrl }}" onChange="{{ setResUrl }}">
-              <button class="btn btn-primary" type="submit" style="font-size:14px;padding:9px 15px">Add</button>
+            <form onSubmit="{{ submitResource }}" style="max-width:60ch">
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <sc-if value="{{ hasDrafts }}" hint-placeholder-val="{{ false }}">
+                  <sc-for list="{{ drafts }}" as="d" hint-placeholder-count="0">
+                    <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr) auto;gap:8px;align-items:center">
+                      <input class="input" type="text" placeholder="Label" value="{{ d.label }}" onChange="{{ d.setLabel }}">
+                      <input class="input" type="url" placeholder="https://…" value="{{ d.url }}" onChange="{{ d.setUrl }}">
+                      <button class="btn btn-secondary" type="button" onClick="{{ d.remove }}" style="font-size:12.5px;padding:8px 11px;color:var(--color-danger);border-color:color-mix(in srgb,var(--color-danger) 45%,transparent)">Clear</button>
+                    </div>
+                  </sc-for>
+                </sc-if>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0">
+                <button class="btn btn-secondary" type="button" onClick="{{ addDraft }}" style="font-size:14px;padding:9px 15px">Add another row</button>
+                <button class="btn btn-primary" type="submit" style="font-size:14px;padding:9px 15px">{{ addLabel }}</button>
+              </div>
             </form>
           </sc-if>
           <p style="font-size:12.5px;line-height:20px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:16px 0 0;max-width:56ch">These links are shown to the team only, but Ready Up can't control the tools themselves. If someone leaves, remove them in Trello and GitHub too.</p>
@@ -251,7 +263,7 @@ class Component extends DCLogic {
   state = {
     status: "loading", row: null, slug: "", uid: null, signedIn: false,
     resources: [], error: "", copied: false,
-    resLabel: "", resUrl: "",
+    drafts: [{ label: "", url: "" }],
     inviteHandle: "", inviteRole: "", inviteMsg: "", inviteOk: false,
     editName: "", editPitch: "", editStatus: "forming", saved: false, busy: false
   };
@@ -426,16 +438,35 @@ class Component extends DCLogic {
       hasResources: s.resources.length > 0,
       noResources: isMember && s.resources.length === 0,
       canAdd: isOwner || !!(mine && mine.can_add_resources && mine.state === "active"),
-      resLabel: s.resLabel, resUrl: s.resUrl,
-      setResLabel: (e) => this.setState({ resLabel: e.target.value }),
-      setResUrl: (e) => this.setState({ resUrl: e.target.value }),
+      drafts: s.drafts.map((d, i) => {
+        const set = (k) => (e) => {
+          const v = e.target.value;
+          this.setState({ drafts: this.state.drafts.map((x, j) => j === i ? { ...x, [k]: v } : x) });
+        };
+        return {
+          label: d.label, url: d.url,
+          setLabel: set("label"), setUrl: set("url"),
+          remove: () => {
+            const next = this.state.drafts.filter((_, j) => j !== i);
+            this.setState({ drafts: next.length ? next : [{ label: "", url: "" }] });
+          }
+        };
+      }),
+      hasDrafts: s.drafts.length > 0,
+      addDraft: () => this.setState({ drafts: [...this.state.drafts, { label: "", url: "" }] }),
+      addLabel: s.drafts.filter((d) => d.url.trim()).length > 1 ? "Add these links" : "Add link",
       submitResource: (e) => {
         e.preventDefault();
-        const label = s.resLabel.trim(), u = s.resUrl.trim();
-        if (!label || !u) return this.setState({ error: "A link needs both a label and an address." });
-        this.api().addResource(row.id, label, u).then((r) => {
-          if (!r.ok) return this.setState({ error: r.error });
-          this.setState({ resLabel: "", resUrl: "", error: "" });
+        const ready = this.state.drafts
+          .map((d) => ({ label: d.label.trim(), url: d.url.trim() }))
+          .filter((d) => d.url);
+        if (!ready.length) return this.setState({ error: "A link needs an address." });
+        if (ready.some((d) => !d.label)) return this.setState({ error: "Every link needs a label." });
+        this.setState({ error: "" });
+        // one at a time, so a single bad row can't lose the others
+        Promise.all(ready.map((d) => this.api().addResource(row.id, d.label, d.url))).then((rs) => {
+          const failed = rs.find((r) => !r.ok);
+          this.setState({ drafts: [{ label: "", url: "" }], error: failed ? failed.error : "" });
           this.api().listResources(row.id).then((rr) => { if (rr.ok) this.setState({ resources: rr.data || [] }); });
         });
       },

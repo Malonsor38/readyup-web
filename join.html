@@ -56,13 +56,13 @@ body{background:#080b12}
       <div style="flex:1 1 340px;min-width:0;max-width:44ch">
         <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 20px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Welcome back</span>
         <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(32px,4.4vw,54px);line-height:1.04;letter-spacing:-0.024em;margin:0 0 0 -0.04em">Sign in</h1>
-        <p style="font-size:16px;line-height:28px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:22px 0 0">Pick up where you left off: your projects, your credits, your profile.</p>
+        <p style="font-size:16px;line-height:28px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:22px 0 0">Pick up where you left off: your projects, your credits, your profile...</p>
         <p style="font-size:14px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:16px 0 0">New here? <a href="{{ noop }}" onClick="{{ goSignup }}" style="color:var(--color-accent-300)">Create an account</a>. It takes a minute.</p>
       </div>
       <form onSubmit="{{ submitSignin }}" class="elev-sm" style="flex:1 1 380px;min-width:280px;background:var(--color-surface);border-radius:var(--radius-lg);padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:16px">
         <div class="field">
           <label for="si-email">Email</label>
-          <input class="input" id="si-email" type="email" autoComplete="email" placeholder="you@studio.com" value="{{ email }}" onChange="{{ setEmail }}">
+          <input class="input" id="si-email" type="email" autoComplete="email" placeholder="you@mail.com" value="{{ email }}" onChange="{{ setEmail }}">
         </div>
         <div class="field">
           <label for="si-pass">Password</label>
@@ -84,18 +84,18 @@ body{background:#080b12}
       <div style="flex:1 1 340px;min-width:0;max-width:44ch">
         <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 20px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Step 1 of 3</span>
         <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(32px,4.4vw,54px);line-height:1.04;letter-spacing:-0.024em;margin:0 0 0 -0.04em">Create your account</h1>
-        <p style="font-size:16px;line-height:28px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:22px 0 0">Email, password, done. We'll verify your address, then you'll set up a profile and get the Discord invite.</p>
+        <p style="font-size:16px;line-height:28px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:22px 0 0">Email, password, done. We'll verify your address, then you can set up your profile and engage with the community.</p>
         <div style="display:flex;flex-direction:column;gap:12px;margin:26px 0 0">
           <p style="display:flex;gap:12px;font-size:14.5px;line-height:24px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:0"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:12px"></span>Free, and always free for the people making things.</p>
-          <p style="display:flex;gap:12px;font-size:14.5px;line-height:24px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:0"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:12px"></span>Your profile is yours to keep, and you choose who sees it.</p>
-          <p style="display:flex;gap:12px;font-size:14.5px;line-height:24px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:0"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:12px"></span>Verification keeps the community real: one person, one account.</p>
+          <p style="display:flex;gap:12px;font-size:14.5px;line-height:24px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:0"><span aria-hidden="true" style="flex: 0 0 auto; width: 14px; height: 1px; background: var(--color-mark); margin-top: 12px;"></span>Your profile is yours to keep, share it however you want.</p>
+          <p style="display:flex;gap:12px;font-size:14.5px;line-height:24px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:0"><span aria-hidden="true" style="flex: 0 0 auto; width: 14px; height: 1px; background: var(--color-mark); margin-top: 12px;"></span>Verification keeps ownership safe and clear.</p>
         </div>
         <p style="font-size:14px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:22px 0 0">Already have an account? <a href="{{ noop }}" onClick="{{ goSignin }}" style="color:var(--color-accent-300)">Sign in</a>.</p>
       </div>
       <form onSubmit="{{ submitSignup }}" class="elev-sm" style="flex:1 1 380px;min-width:280px;background:var(--color-surface);border-radius:var(--radius-lg);padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:16px">
         <div class="field">
           <label for="su-email">Email</label>
-          <input class="input" id="su-email" type="email" autoComplete="email" placeholder="you@studio.com" value="{{ email }}" onChange="{{ setEmail }}">
+          <input class="input" id="su-email" type="email" autoComplete="email" placeholder="you@mail.com" value="{{ email }}" onChange="{{ setEmail }}">
         </div>
         <div class="field">
           <label for="su-pass">Password</label>
@@ -194,7 +194,7 @@ body{background:#080b12}
       <form onSubmit="{{ submitForgot }}" class="elev-sm" style="flex:1 1 360px;min-width:280px;background:var(--color-surface);border-radius:var(--radius-lg);padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:16px">
         <div class="field">
           <label for="fp-email">Email</label>
-          <input class="input" id="fp-email" type="email" autoComplete="email" placeholder="you@studio.com" value="{{ email }}" onChange="{{ setEmail }}">
+          <input class="input" id="fp-email" type="email" autoComplete="email" placeholder="you@mail.com" value="{{ email }}" onChange="{{ setEmail }}">
         </div>
         <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
           <p role="alert" style="display:flex;gap:10px;font-size:14px;line-height:22px;color:var(--color-accent-200);background:color-mix(in srgb,var(--color-accent-900) 70%,transparent);border-radius:var(--radius-sm);padding:10px 12px;margin:0"><span aria-hidden="true">⚠</span>{{ error }}</p>
@@ -954,7 +954,7 @@ class Component extends DCLogic {
       },
 
       email: s.email, password: s.password, password2: s.password2, agreed: s.agreed,
-      emailShown: s.email.trim() || "you@studio.com",
+      emailShown: s.email.trim() || "you@mail.com",
       firstNameShown: (s.displayName.trim().split(/\s+/)[0]) || "friend",
       error: s.error, hasError: !!s.error,
       resent: s.resent > 0,

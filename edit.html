@@ -62,7 +62,7 @@ body{background:#080b12}
       <form onSubmit="{{ submitSignin }}" class="elev-sm" style="flex:1 1 380px;min-width:280px;background:var(--color-surface);border-radius:var(--radius-lg);padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:16px">
         <div class="field">
           <label for="si-email">Email</label>
-          <input class="input" id="si-email" type="email" autoComplete="email" placeholder="you@studio.com" value="{{ email }}" onChange="{{ setEmail }}">
+          <input class="input" id="si-email" type="email" autoComplete="email" placeholder="you@mail.com" value="{{ email }}" onChange="{{ setEmail }}">
         </div>
         <div class="field">
           <label for="si-pass">Password</label>
@@ -95,7 +95,7 @@ body{background:#080b12}
       <form onSubmit="{{ submitSignup }}" class="elev-sm" style="flex:1 1 380px;min-width:280px;background:var(--color-surface);border-radius:var(--radius-lg);padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:16px">
         <div class="field">
           <label for="su-email">Email</label>
-          <input class="input" id="su-email" type="email" autoComplete="email" placeholder="you@studio.com" value="{{ email }}" onChange="{{ setEmail }}">
+          <input class="input" id="su-email" type="email" autoComplete="email" placeholder="you@mail.com" value="{{ email }}" onChange="{{ setEmail }}">
         </div>
         <div class="field">
           <label for="su-pass">Password</label>
@@ -194,7 +194,7 @@ body{background:#080b12}
       <form onSubmit="{{ submitForgot }}" class="elev-sm" style="flex:1 1 360px;min-width:280px;background:var(--color-surface);border-radius:var(--radius-lg);padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:16px">
         <div class="field">
           <label for="fp-email">Email</label>
-          <input class="input" id="fp-email" type="email" autoComplete="email" placeholder="you@studio.com" value="{{ email }}" onChange="{{ setEmail }}">
+          <input class="input" id="fp-email" type="email" autoComplete="email" placeholder="you@mail.com" value="{{ email }}" onChange="{{ setEmail }}">
         </div>
         <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
           <p role="alert" style="display:flex;gap:10px;font-size:14px;line-height:22px;color:var(--color-accent-200);background:color-mix(in srgb,var(--color-accent-900) 70%,transparent);border-radius:var(--radius-sm);padding:10px 12px;margin:0"><span aria-hidden="true">⚠</span>{{ error }}</p>
@@ -959,7 +959,7 @@ class Component extends DCLogic {
       },
 
       email: s.email, password: s.password, password2: s.password2, agreed: s.agreed,
-      emailShown: s.email.trim() || "you@studio.com",
+      emailShown: s.email.trim() || "you@mail.com",
       firstNameShown: (s.displayName.trim().split(/\s+/)[0]) || "friend",
       error: s.error, hasError: !!s.error,
       resent: s.resent > 0,
