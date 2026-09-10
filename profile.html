@@ -276,6 +276,24 @@ class Component extends DCLogic {
   }
 
   // Known hosts get a proper name; everything else falls back to the domain.
+  // The links column is text[], so an entry is a string. Historically that was
+  // a bare URL; now it is "label|url". JSON-shaped strings are rows written by
+  // an earlier build and are recovered here rather than shown raw.
+  parseLink(e) {
+    if (e && typeof e === "object") return { label: e.label || "", url: e.url || "" };
+    var s = String(e == null ? "" : e).trim();
+    if (!s) return { label: "", url: "" };
+    if (s.charAt(0) === "{") {
+      try {
+        var o = JSON.parse(s);
+        return { label: o.label || "", url: o.url || "" };
+      } catch (err) { /* fall through */ }
+    }
+    var bar = s.indexOf("|");
+    if (bar > -1) return { label: s.slice(0, bar).trim(), url: s.slice(bar + 1).trim() };
+    return { label: "", url: s };
+  }
+
   prettyLink(url) {
     var host = "";
     try {
@@ -371,7 +389,7 @@ class Component extends DCLogic {
       hasSkills: !!(r.skills && r.skills.length),
 
       links: (r.links || [])
-        .map(function (e) { return (e && typeof e === "object") ? e : { label: "", url: e }; })
+        .map((e) => this.parseLink(e))
         .filter((e) => this.looksLikeUrl(e.url))
         .map((e) => ({
           href: /^https?:\/\//i.test(e.url) ? e.url : "https://" + e.url,

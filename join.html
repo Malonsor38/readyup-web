@@ -681,8 +681,12 @@ class Component extends DCLogic {
       bio: s.bio.trim(),
       skills: s.skills,
       links: s.linkList
-        .map(function (e) { return { label: (e.label || "").trim(), url: (e.url || "").trim() }; })
-        .filter(function (e) { return e.url; }),
+        .map(function (e) {
+          var label = (e.label || "").trim().replace(/\|/g, " ");
+          var url = (e.url || "").trim();
+          return url ? (label ? label + "|" + url : url) : "";
+        })
+        .filter(Boolean),
       visibility: s.vis,
       showreel_url: s.showreel.trim(),
       projects: s.projects
@@ -703,6 +707,24 @@ class Component extends DCLogic {
     api.avatarSignedUrl(path).then((u) => this.setState({ avatarSrc: u || "" }));
   }
 
+  // The links column is text[], so an entry is a string. Historically that was
+  // a bare URL; now it is "label|url". JSON-shaped strings are rows written by
+  // an earlier build and are recovered here rather than shown raw.
+  parseLink(e) {
+    if (e && typeof e === "object") return { label: e.label || "", url: e.url || "" };
+    var s = String(e == null ? "" : e).trim();
+    if (!s) return { label: "", url: "" };
+    if (s.charAt(0) === "{") {
+      try {
+        var o = JSON.parse(s);
+        return { label: o.label || "", url: o.url || "" };
+      } catch (err) { /* fall through */ }
+    }
+    var bar = s.indexOf("|");
+    if (bar > -1) return { label: s.slice(0, bar).trim(), url: s.slice(bar + 1).trim() };
+    return { label: "", url: s };
+  }
+
   patchProject(i, fields) {
     const next = this.state.projects.map((p, j) => j === i ? { ...p, ...fields } : p);
     this.setState({ projects: next });
@@ -715,9 +737,7 @@ class Component extends DCLogic {
       displayName: r.display_name || "", discipline: r.discipline || "",
       headline: r.headline || "", location: r.location || "", timezone: r.timezone || "",
       avail: r.availability || "", bio: r.bio || "", skills: r.skills || [],
-      linkList: links.map(function (e) {
-        return (e && typeof e === "object") ? { label: e.label || "", url: e.url || "" } : { label: "", url: e || "" };
-      }),
+      linkList: links.map((e) => this.parseLink(e)).filter(function (e) { return e.url; }),
       vis: r.visibility || "members",
       avatar: !!r.avatar_path, avatarPath: r.avatar_path || "",
       cv: !!r.cv_path, cvPath: r.cv_path || "",
