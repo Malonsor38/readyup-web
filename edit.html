@@ -47,6 +47,9 @@ body{background:#080b12}
   </a>
   <a href="/faq" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">FAQ</a>
   <a href="/" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">Back to home</a>
+  <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
+    <button type="button" onClick="{{ signOut }}" style="background:none;border:0;padding:0;cursor:pointer;font-family:inherit;font-size:14px;color:color-mix(in srgb,var(--color-text) 62%,transparent)" style-hover="color:var(--color-accent)">Sign out</button>
+  </sc-if>
 </nav>
 
 <main style="max-width:1140px;margin:0 auto;padding:clamp(28px,5vw,64px) clamp(20px,5vw,56px) clamp(48px,7vw,96px)">
@@ -480,7 +483,7 @@ body{background:#080b12}
           <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:10px 0 14px">A face makes people far likelier to reach out.</p>
           <div style="display:flex;gap:12px;align-items:center">
             <sc-if value="{{ hasAvatarImage }}" hint-placeholder-val="{{ false }}">
-              <img src="{{ avatarSrc }}" alt="Your avatar" onError="{{ avatarFailed }}" style="flex:none;display:block;width:48px;height:48px;border-radius:10px;object-fit:cover;background:var(--color-surface)">
+              {{ avatarEl }}
             </sc-if>
             <sc-if value="{{ noAvatarImage }}" hint-placeholder-val="{{ true }}">
               <span aria-hidden="true" style="flex:none;display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:10px;font-family:var(--font-heading);font-weight:500;font-size:18px;letter-spacing:-0.01em;background:{{ avatarBg }};border:1px solid {{ avatarBorder }};color:{{ avatarFg }}">{{ avatarInitial }}</span>
@@ -722,7 +725,7 @@ class Component extends DCLogic {
     // this page is the member's own editor: load their record and stay here
     this.setState({ screen: "edit" });
     this.api().getSession().then((sess) => {
-      if (!sess.demo && !sess.data) { window.location.href = "join.html"; return; }
+      if (!sess.demo && !sess.data) { window.location.href = "/join"; return; }
       this.api().loadProfile().then((p) => {
         const rec = (p.ok && p.data) ? this.fromRow(p.data) : this.savedProfile();
         this.setState(rec);
@@ -1189,13 +1192,21 @@ class Component extends DCLogic {
       })),
 
       avatarSrc: avatarSrc,
-      avatarFailed: () => this.setState({ avatarSrc: "" }),
+      // built here so no unresolved {{ }} can ever reach an <img src>
+      avatarEl: avatarSrc
+        ? React.createElement("img", {
+            src: avatarSrc, alt: "Your avatar",
+            onError: () => this.setState({ avatarSrc: "" }),
+            style: { flex: "none", display: "block", width: "48px", height: "48px",
+                     borderRadius: "10px", objectFit: "cover", background: "var(--color-surface)" }
+          })
+        : null,
       avatarStatus: s.avatarStatus || "",
       hasAvatarStatus: !!s.avatarStatus,
       avatarStatusColor: s.avatarStatusOk ? "var(--color-ok)" : "var(--color-accent-200)",
       hasAvatarImage: !!avatarSrc,
       noAvatarImage: !avatarSrc,
-      myProfileHref: h.shown && h.ok ? "/" + h.shown : "profile.html",
+      myProfileHref: h.shown && h.ok ? "/" + h.shown : "/profile",
       avatarInitial: (s.displayName.trim()[0] || "?").toUpperCase(),
       avatarBg: s.avatar ? "var(--color-accent-800)" : "color-mix(in srgb,var(--color-text) 7%,transparent)",
       avatarBorder: s.avatar ? "var(--color-accent-600)" : "color-mix(in srgb,var(--color-text) 14%,transparent)",

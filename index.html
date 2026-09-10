@@ -80,6 +80,7 @@ body{background:#080b12}
   </sc-if>
   <sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
     <a class="btn btn-primary" href="/edit" style="font-size:14px;padding:9px 16px">My profile</a>
+    <button type="button" onClick="{{ navSignOut }}" style="background:none;border:0;padding:0;cursor:pointer;font-family:inherit;font-size:14px;color:color-mix(in srgb,var(--color-text) 62%,transparent)" style-hover="color:var(--color-accent)">Sign out</button>
   </sc-if>
 </nav>
 
@@ -224,7 +225,7 @@ body{background:#080b12}
         <p style="font-size:16.5px;line-height:28px;color:color-mix(in srgb,var(--color-text) 82%,transparent);margin:24px 0 0;max-width:54ch">The first small projects are still ahead, and there's room for you on them. All it takes to start is to sign up!</p>
       </div>
       <div style="display:flex;flex-wrap:wrap;gap:10px;flex:0 1 auto">
-        <a class="btn" href="/join?screen=signup" style="font-size:15px;padding:12px 20px;color:var(--color-accent-200);border-color:var(--color-accent-300)">Sign up</a>
+        <a class="btn" href="/join?screen=signup" style="font-size:15px;padding:12px 20px;color:var(--color-accent-200);border-color:var(--color-accent-300)">Create Account</a>
         <a class="btn" href="/join" style="font-size:15px;padding:12px 20px;color:var(--color-text);border-color:color-mix(in srgb,var(--color-text) 40%,transparent)">Sign in</a>
       </div>
     </div>
@@ -258,6 +259,12 @@ class Component extends DCLogic {
     const band = p.closingBand ?? "Indigo section ground";
     const imagery = p.showImagery ?? true;
     return {
+      navSignOut: () => {
+        try { localStorage.removeItem("readyup.signedIn"); } catch (e) {}
+        const api = window.ReadyUpAPI;
+        const go = () => { window.location.href = "/"; };
+        if (api && api.signOut) api.signOut().then(go, go); else go();
+      },
       signedIn: this.state.signedIn,
       signedOut: !this.state.signedIn,
       showImagery: imagery,

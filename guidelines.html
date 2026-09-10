@@ -58,6 +58,7 @@ body{background:#080b12}
   </sc-if>
   <sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
     <a class="btn btn-primary" href="/edit" style="font-size:14px;padding:9px 16px">My profile</a>
+    <button type="button" onClick="{{ navSignOut }}" style="background:none;border:0;padding:0;cursor:pointer;font-family:inherit;font-size:14px;color:color-mix(in srgb,var(--color-text) 62%,transparent)" style-hover="color:var(--color-accent)">Sign out</button>
   </sc-if>
 </nav>
 
@@ -196,7 +197,14 @@ class Component extends DCLogic {
     });
   }
   renderVals() {
-    return { signedIn: this.state.signedIn, signedOut: !this.state.signedIn };
+    return {
+      navSignOut: () => {
+        try { localStorage.removeItem("readyup.signedIn"); } catch (e) {}
+        const api = window.ReadyUpAPI;
+        const go = () => { window.location.href = "/"; };
+        if (api && api.signOut) api.signOut().then(go, go); else go();
+      },
+      signedIn: this.state.signedIn, signedOut: !this.state.signedIn };
   }
 }
 </script>

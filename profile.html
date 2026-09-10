@@ -55,6 +55,7 @@ body{background:#080b12}
   </sc-if>
   <sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
     <a class="btn btn-primary" href="/edit" style="font-size:14px;padding:9px 16px">My profile</a>
+    <button type="button" onClick="{{ navSignOut }}" style="background:none;border:0;padding:0;cursor:pointer;font-family:inherit;font-size:14px;color:color-mix(in srgb,var(--color-text) 62%,transparent)" style-hover="color:var(--color-accent)">Sign out</button>
   </sc-if>
 </nav>
 
@@ -90,7 +91,7 @@ body{background:#080b12}
     <header style="display:flex;flex-wrap:wrap;gap:clamp(22px,4vw,44px);align-items:flex-start;padding:clamp(30px,4vw,44px) 0 clamp(32px,5vw,52px)">
       <sc-if value="{{ hasAvatar }}" hint-placeholder-val="{{ false }}">
         <figure style="margin:0;flex:none">
-          <img src="{{ avatarSrc }}" alt="" style="display:block;width:112px;height:112px;border-radius:16px;object-fit:cover;background:var(--color-surface)">
+          {{ avatarEl }}
         </figure>
       </sc-if>
       <div style="flex:1 1 420px;min-width:0">
@@ -139,8 +140,8 @@ body{background:#080b12}
       <section style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,64px);padding:clamp(32px,5vw,56px) 0">
         <h2 style="flex:0 1 200px;font-family:var(--font-heading);font-weight:500;font-size:13px;line-height:14px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:6px 0 0">Showreel</h2>
         <div style="flex:1 1 460px;min-width:0">
-          <sc-if value="{{ showreelEmbeds }}" hint-placeholder-val="{{ true }}">
-            <iframe src="{{ showreelEmbed }}" title="Showreel" allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture" allowFullScreen="{{ true }}" style="display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:var(--radius-md);background:var(--color-surface)"></iframe>
+          <sc-if value="{{ showreelEmbeds }}" hint-placeholder-val="{{ false }}">
+            {{ showreelEl }}
           </sc-if>
           <sc-if value="{{ showreelPlain }}" hint-placeholder-val="{{ false }}">
             <a class="btn btn-secondary" href="{{ showreelHref }}" target="_blank" rel="noopener noreferrer" style="font-size:14.5px;padding:11px 18px">Watch the showreel</a>
@@ -367,6 +368,12 @@ class Component extends DCLogic {
       isFound: s.status === "found",
       isMissing: s.status === "missing",
       isOwner: s.isOwner,
+      navSignOut: () => {
+        try { localStorage.removeItem("readyup.signedIn"); } catch (e) {}
+        const api = window.ReadyUpAPI;
+        const go = () => { window.location.href = "/"; };
+        if (api && api.signOut) api.signOut().then(go, go); else go();
+      },
       signedIn: s.signedIn,
       signedOut: !s.signedIn,
 
@@ -383,11 +390,27 @@ class Component extends DCLogic {
       bio: (r.bio || "").trim(), hasBio: !!(r.bio || "").trim(),
 
       hasAvatar: !!s.avatarSrc,
+      avatarEl: s.avatarSrc
+        ? React.createElement("img", {
+            src: s.avatarSrc, alt: "",
+            onError: function (e) { e.target.style.display = "none"; },
+            style: { display: "block", width: "112px", height: "112px", borderRadius: "16px",
+                     objectFit: "cover", background: "var(--color-surface)" }
+          })
+        : null,
       avatarSrc: s.avatarSrc,
       hasCv: !!s.cvHref,
       cvHref: s.cvHref,
 
       hasShowreel: !!(r.showreel_url || "").trim(),
+      showreelEl: (function (src) {
+        return src ? React.createElement("iframe", {
+          src: src, title: "Showreel", allowFullScreen: true, loading: "lazy",
+          frameBorder: "0",
+          style: { display: "block", width: "100%", aspectRatio: "16/9", border: 0,
+                   borderRadius: "10px", background: "var(--color-surface)" }
+        }) : null;
+      })(this.embedUrl(r.showreel_url)),
       showreelEmbed: this.embedUrl(r.showreel_url),
       showreelEmbeds: !!this.embedUrl(r.showreel_url),
       showreelPlain: !!(r.showreel_url || "").trim() && !this.embedUrl(r.showreel_url),
