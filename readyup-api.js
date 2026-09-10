@@ -53,6 +53,13 @@ window.READYUP_CONFIG = {
     if (/reserved/i.test(raw)) return { ok: false, error: "That handle is reserved. Please choose another." };
     if (/handle_shape|violates check constraint/i.test(raw)) return { ok: false, error: "Handles use lowercase letters, numbers and hyphens only." };
     if (/failed to fetch|networkerror/i.test(raw)) return { ok: false, error: "Can't reach the server. Check your connection and try again." };
+
+    // Storage. These are the ones that actually happen, and each has a fix.
+    if (/bucket not found/i.test(raw)) return { ok: false, error: "That storage bucket doesn't exist yet. Create 'avatars' and 'cvs' in Supabase → Storage." };
+    if (/mime type|not supported/i.test(raw)) return { ok: false, error: "That file type isn't allowed for this bucket. Check the bucket's allowed MIME types in Supabase." };
+    if (/payload too large|maximum allowed size|entity too large/i.test(raw)) return { ok: false, error: "That file is larger than the bucket allows. Try a smaller one, or raise the bucket's file size limit." };
+    if (/row-level security|violates row-level|not authorized|permission denied/i.test(raw)) return { ok: false, error: "Storage refused the upload: the policies are missing or incomplete. Run the storage SQL in SUPABASE-SETUP.md, including 'own file update'." };
+    if (/jwt|not authenticated|invalid claim/i.test(raw)) return { ok: false, error: "Your session expired. Sign in again and retry." };
     return { ok: false, error: "Something went wrong on our end. Try again in a moment." };
   }
 
