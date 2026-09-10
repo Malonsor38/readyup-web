@@ -56,6 +56,7 @@ create unique index profiles_handle_key on public.profiles (lower(handle));
 create table public.reserved_handles (handle text primary key);
 insert into public.reserved_handles (handle) values
   ('p'), ('project'), ('projects'),   -- project routes live at /p/<slug>
+  ('example'), ('demo'),             -- 'sample' is the demo profile's own handle
   ('readyup'),('ready-up'),('readyupquest'),('official'),('staff'),('team'),
   ('admin'),('administrator'),('moderator'),('mod'),('mods'),('support'),
   ('help'),('contact'),('info'),('hello'),('noreply'),('no-reply'),
