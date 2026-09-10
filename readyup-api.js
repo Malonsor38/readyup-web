@@ -237,7 +237,7 @@ window.READYUP_CONFIG = {
         var id = u.data && u.data.user && u.data.user.id;
         if (!id) return { ok: false, error: "Not signed in." };
         var path = id + "/" + Date.now() + "-" + file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
-        return db().storage.from(bucket).upload(path, file, { upsert: true })
+        return db().storage.from(bucket).upload(path, file, { upsert: false, contentType: file.type || undefined })
           .then(function (r) { return r.error ? fail(r.error) : { ok: true, data: { path: path } }; });
       });
     },
