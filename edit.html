@@ -393,6 +393,69 @@ body{background:#080b12}
       </section>
       </sc-if>
 
+      <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
+      <section style="margin:44px 0 0;max-width:80ch">
+        <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;margin:0 0 18px">
+          <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.6vw,30px);line-height:1.14;letter-spacing:-0.016em;margin:0">Your projects</h2>
+          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:0">{{ ownedCountLine }}</p>
+        </div>
+
+        <sc-if value="{{ hasInvites }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:10px;margin:0 0 18px">
+            <sc-for list="{{ invites }}" as="inv" hint-placeholder-count="1">
+              <div class="elev-md" style="background:var(--color-section);border-radius:var(--radius-md);padding:16px 18px;display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+                <span style="flex:1 1 240px;min-width:0;font-size:15px;line-height:24px"><strong style="font-weight:600">{{ inv.name }}</strong> invited you{{ inv.roleSuffix }}</span>
+                <a class="btn btn-primary" href="{{ inv.href }}" style="flex:none;font-size:14px;padding:9px 15px">Open the invite</a>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ hasProjects }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:10px;margin:0 0 18px">
+            <sc-for list="{{ myProjects }}" as="pr" hint-placeholder-count="2">
+              <a href="{{ pr.href }}" class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:16px 18px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;text-decoration:none;color:var(--color-text)" style-hover="box-shadow:var(--shadow-md)">
+                <span style="flex:1 1 220px;min-width:0">
+                  <span style="display:block;font-family:var(--font-heading);font-weight:500;font-size:16.5px;letter-spacing:-0.01em">{{ pr.name }}</span>
+                  <span style="display:block;font-size:12.5px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin-top:3px">{{ pr.roleLine }}</span>
+                </span>
+                <span style="display:inline-flex;align-items:center;gap:7px;flex:none;font-size:12.5px;color:color-mix(in srgb,var(--color-text) 65%,transparent)">
+                  <span aria-hidden="true" style="width:7px;height:7px;border-radius:50%;background:{{ pr.dot }}"></span>{{ pr.statusLabel }}
+                </span>
+                <span style="flex:none;font-size:13px;color:var(--color-accent-300)">Open →</span>
+              </a>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ noProjects }}" hint-placeholder-val="{{ false }}">
+          <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 66%,transparent);margin:0 0 18px;max-width:56ch">Got an idea? Ready up a project and see who joins you.</p>
+        </sc-if>
+
+        <sc-if value="{{ canCreate }}" hint-placeholder-val="{{ true }}">
+          <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0 0 6px">Ready up a project</h3>
+            <p style="font-size:13.5px;line-height:22px;color:color-mix(in srgb,var(--color-text) 66%,transparent);margin:0 0 14px">You'll be its director. Invite people and add the team's links once it exists.</p>
+            <form onSubmit="{{ submitProject }}" style="display:flex;flex-direction:column;gap:10px">
+              <input class="input" type="text" placeholder="Project name" value="{{ newName }}" onChange="{{ setNewName }}">
+              <div style="display:flex;align-items:center;gap:8px">
+                <span style="flex:none;font-size:14px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">readyup.quest/p/</span>
+                <input class="input" type="text" placeholder="its-address" value="{{ newSlug }}" onChange="{{ setNewSlug }}" autoCapitalize="none" spellCheck="false" style="flex:1;min-width:0">
+              </div>
+              <textarea class="input" rows="2" placeholder="One or two lines on what it is" value="{{ newPitch }}" onChange="{{ setNewPitch }}" style="resize:vertical;font-family:inherit"></textarea>
+              <button class="btn btn-primary" type="submit" style="font-size:14px;padding:9px 15px;align-self:flex-start">Ready up a project</button>
+            </form>
+            <sc-if value="{{ hasProjMsg }}" hint-placeholder-val="{{ false }}">
+              <p role="status" style="font-size:13px;line-height:20px;color:{{ projMsgColor }};margin:12px 0 0">{{ projMsg }}</p>
+            </sc-if>
+          </div>
+        </sc-if>
+        <sc-if value="{{ atCap }}" hint-placeholder-val="{{ false }}">
+          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:0;max-width:56ch">You're directing three live projects, which is the limit. Ship, pause or archive one to start another.</p>
+        </sc-if>
+      </section>
+      </sc-if>
+
       <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;margin:44px 0 18px;max-width:80ch">
         <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.6vw,30px);line-height:1.14;letter-spacing:-0.016em;margin:0">{{ hubHeading }}</h2>
         <sc-if value="{{ isNewMember }}" hint-placeholder-val="{{ true }}">
@@ -535,7 +598,8 @@ body{background:#080b12}
             <span class="tag tag-neutral">Optional</span>
           </div>
           <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:10px 0 16px">Anything you worked on, here or elsewhere. Under an NDA? Name the role and leave the details out.</p>
-          <sc-for list="{{ projects }}" as="proj" hint-placeholder-count="1">
+          <sc-if value="{{ hasProjectRows }}" hint-placeholder-val="{{ false }}">
+          <sc-for list="{{ projects }}" as="proj" hint-placeholder-count="0">
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;padding:0 0 14px;margin:0 0 14px;background:linear-gradient(to right,transparent,var(--color-divider) 12px calc(100% - 12px),transparent) no-repeat bottom / 100% 1px">
               <input class="input" type="text" placeholder="Project name" value="{{ proj.title }}" onChange="{{ proj.setTitle }}">
               <input class="input" type="text" placeholder="Your role" value="{{ proj.role }}" onChange="{{ proj.setRole }}">
@@ -543,9 +607,7 @@ body{background:#080b12}
               <textarea class="input" rows="2" placeholder="What you did on it" value="{{ proj.blurb }}" onChange="{{ proj.setBlurb }}" style="grid-column:1/-1;resize:vertical;font-family:inherit"></textarea>
               <input class="input" type="url" placeholder="Link — store page, itch, video, repo" value="{{ proj.url }}" onChange="{{ proj.setUrl }}" style="grid-column:1/-1">
               <div style="grid-column:1/-1;display:flex;flex-wrap:wrap;gap:10px;align-items:center">
-                <sc-if value="{{ proj.hasImage }}" hint-placeholder-val="{{ false }}">
-                  <img src="{{ proj.imageSrc }}" alt="" style="display:block;width:96px;aspect-ratio:16/9;object-fit:cover;border-radius:6px;background:var(--color-bg)">
-                </sc-if>
+                {{ proj.artEl }}
                 <button class="btn btn-secondary" type="button" onClick="{{ proj.pickImage }}" style="font-size:13.5px;padding:8px 14px">{{ proj.imageLabel }}</button>
                 <sc-if value="{{ proj.hasImage }}" hint-placeholder-val="{{ false }}">
                   <button class="btn btn-secondary" type="button" onClick="{{ proj.clearImage }}" style="font-size:13.5px;padding:8px 14px;color:var(--color-danger);border-color:color-mix(in srgb,var(--color-danger) 50%,transparent)">Remove art</button>
@@ -557,6 +619,7 @@ body{background:#080b12}
               <button class="btn btn-secondary" type="button" onClick="{{ proj.remove }}" style="font-size:13.5px;padding:8px 14px;justify-self:start;color:var(--color-danger);border-color:color-mix(in srgb,var(--color-danger) 50%,transparent)">Remove</button>
             </div>
           </sc-for>
+          </sc-if>
           <button class="btn btn-secondary" type="button" onClick="{{ addProject }}" style="font-size:14px;padding:9px 15px">Add a project</button>
         </div>
       </div>
@@ -649,7 +712,9 @@ class Component extends DCLogic {
     deletionAt: null, showreel: "", projects: [],
     handleFree: true,
     code: "", codeError: "", codeTries: 0, saved: false, confirmCv: false, confirmDelete: false, busy: false, deleteStep: 1, deletePass: "", deletePassError: "",
-    linkList: [], vis: "members"
+    linkList: [], vis: "members",
+    myProjects: [], newName: "", newSlug: "", newSlugEdited: false, newPitch: "",
+    projMsg: "", projMsgOk: false
   };
 
   // the email's verify link and the reset link land here as ?screen=verified / ?screen=reset
@@ -662,6 +727,7 @@ class Component extends DCLogic {
         const rec = (p.ok && p.data) ? this.fromRow(p.data) : this.savedProfile();
         this.setState(rec);
         this.refreshAvatar(rec.avatarPath);
+        this.loadMyProjects();
       });
     });
   }
@@ -727,6 +793,12 @@ class Component extends DCLogic {
     var bar = s.indexOf("|");
     if (bar > -1) return { label: s.slice(0, bar).trim(), url: s.slice(bar + 1).trim() };
     return { label: "", url: s };
+  }
+
+  loadMyProjects() {
+    const api = this.api();
+    if (!api || !api.myProjects) return;
+    api.myProjects().then((r) => { if (r.ok) this.setState({ myProjects: r.data || [] }); });
   }
 
   patchProject(i, fields) {
@@ -916,6 +988,75 @@ class Component extends DCLogic {
         };
       }),
       addLink: () => this.setState({ linkList: [...this.state.linkList, { label: "", url: "" }] }),
+
+      // --- projects (real records, not the self-reported list) ---
+      invites: s.myProjects.filter((m) => m.state === "invited").map((m) => ({
+        name: m.projects.name,
+        href: "/p/" + m.projects.slug,
+        roleSuffix: m.role_label ? " as " + m.role_label : ""
+      })),
+      hasInvites: s.myProjects.some((m) => m.state === "invited"),
+
+      myProjects: s.myProjects.filter((m) => m.state === "active").map((m) => {
+        const p = m.projects;
+        const quiet = p.status === "active" && p.last_activity_at &&
+          (Date.now() - new Date(p.last_activity_at).getTime()) > 60 * 864e5;
+        const st = quiet ? "quiet" : p.status;
+        const dots = {
+          forming: "var(--color-accent-400)", active: "var(--color-ok)",
+          quiet: "color-mix(in srgb,var(--color-text) 40%,transparent)",
+          paused: "color-mix(in srgb,var(--color-text) 40%,transparent)",
+          shipped: "var(--color-accent-2-400)",
+          archived: "color-mix(in srgb,var(--color-text) 30%,transparent)"
+        };
+        const labels = { forming: "Forming", active: "Active", quiet: "Quiet", paused: "Paused", shipped: "Shipped", archived: "Archived" };
+        return {
+          name: p.name, href: "/p/" + p.slug,
+          roleLine: (m.is_owner ? "Director" : (m.role_label || "On the team")),
+          dot: dots[st] || dots.forming, statusLabel: labels[st] || "Forming"
+        };
+      }),
+      hasProjects: s.myProjects.some((m) => m.state === "active"),
+      noProjects: s.myProjects.filter((m) => m.state === "active").length === 0,
+      ownedCountLine: (() => {
+        const n = s.myProjects.filter((m) => m.is_owner && m.state === "active" &&
+          ["forming","active","paused"].indexOf(m.projects.status) > -1).length;
+        return n === 0 ? "Directing none yet" : "Directing " + n + " of 3";
+      })(),
+      canCreate: s.myProjects.filter((m) => m.is_owner && m.state === "active" &&
+        ["forming","active","paused"].indexOf(m.projects.status) > -1).length < 3,
+      atCap: s.myProjects.filter((m) => m.is_owner && m.state === "active" &&
+        ["forming","active","paused"].indexOf(m.projects.status) > -1).length >= 3,
+
+      newName: s.newName, newSlug: s.newSlug, newPitch: s.newPitch,
+      setNewName: (e) => {
+        const v = e.target.value;
+        this.setState(this.state.newSlugEdited
+          ? { newName: v }
+          : { newName: v, newSlug: this.slug(v) });
+      },
+      setNewSlug: (e) => this.setState({ newSlug: this.slug(e.target.value), newSlugEdited: true }),
+      setNewPitch: (e) => this.setState({ newPitch: e.target.value }),
+      projMsg: s.projMsg, hasProjMsg: !!s.projMsg,
+      projMsgColor: s.projMsgOk ? "var(--color-ok)" : "var(--color-accent-2-200)",
+      submitProject: (e) => {
+        e.preventDefault();
+        const name = s.newName.trim();
+        const slug = this.slug(s.newSlug || s.newName);
+        if (!name) return this.setState({ projMsg: "A project needs a name.", projMsgOk: false });
+        if (slug.length < 2) return this.setState({ projMsg: "The address needs at least two characters.", projMsgOk: false });
+        this.setState({ projMsg: "Creating…", projMsgOk: false });
+        this.api().slugFree(slug).then((f) => {
+          if (f.ok && f.data && !f.data.free) {
+            return this.setState({ projMsg: "readyup.quest/p/" + slug + " is taken. Try another.", projMsgOk: false });
+          }
+          this.api().createProject({ name, slug, pitch: s.newPitch.trim() }).then((r) => {
+            if (!r.ok) return this.setState({ projMsg: r.error, projMsgOk: false });
+            this.setState({ projMsg: "Created. Opening it…", projMsgOk: true });
+            window.location.href = "/p/" + slug;
+          });
+        });
+      },
       setSkillDraft: this.val("skillDraft"),
       displayName: s.displayName, discipline: s.discipline, headline: s.headline,
       location: s.location, timezone: s.timezone, bio: s.bio,
@@ -971,6 +1112,7 @@ class Component extends DCLogic {
             const rec = (p.ok && p.data) ? this.fromRow(p.data) : this.savedProfile();
             this.setState({ busy: false, screen: "edit", error: "", ...rec });
             this.refreshAvatar(rec.avatarPath);
+        this.loadMyProjects();
           });
         });
       },
@@ -1150,6 +1292,7 @@ class Component extends DCLogic {
 
       showreel: s.showreel,
       setShowreel: this.val("showreel"),
+      hasProjectRows: s.projects.length > 0,
       addProject: () => this.setState({
         projects: [...this.state.projects, { title: "", role: "", meta: "", blurb: "", url: "", image: "" }]
       }),
@@ -1162,7 +1305,14 @@ class Component extends DCLogic {
         return {
           title: p.title || "", role: p.role || "", meta: p.meta || "", blurb: p.blurb || "",
           url: p.url || "", image: p.image || "",
-          imageSrc: p.image && this.api() && this.api().avatarUrl ? this.api().avatarUrl(p.image) : "",
+          artEl: (p.image && this.api() && this.api().avatarUrl)
+            ? React.createElement("img", {
+                src: this.api().avatarUrl(p.image), alt: "",
+                onError: function (e) { e.target.style.display = "none"; },
+                style: { display: "block", width: "96px", aspectRatio: "16/9", objectFit: "cover",
+                         borderRadius: "6px", background: "var(--color-bg)" }
+              })
+            : null,
           hasImage: !!p.image,
           imageLabel: p.image ? "Replace art" : "Add key art",
           busy: !!p.uploading,

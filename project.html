@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta charset="utf-8">
+<title>Ready Up: project</title>
+<link rel="stylesheet" href="_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/styles.css">
+<script src="_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/_ds_bundle.js"></script>
+<style>
+body{margin:0;text-wrap:pretty}
+a{color:var(--color-accent)}
+a:hover{color:var(--color-accent-300)}
+</style>
+<style>
+:root{
+  --color-bg:#10141f; --color-surface:#1a2030; --color-text:#eaeef6;
+  --color-accent:#3b74f0;
+  --color-accent-100:#eff4ff; --color-accent-200:#d3e0ff; --color-accent-300:#a8c4ff;
+  --color-accent-400:#7aa2fb; --color-accent-500:#3b74f0; --color-accent-600:#2a58c4;
+  --color-accent-700:#1f4193; --color-accent-800:#172d63; --color-accent-900:#0f1c3c;
+  --color-accent-2-100:#fff9ee; --color-accent-2-200:#fdecc9; --color-accent-2-300:#f8dba0;
+  --color-accent-2-400:#f0c46b; --color-accent-2-500:#e0a83f; --color-accent-2-600:#b8862c;
+  --color-accent-2-800:#63481a;
+  --color-section:#17264d; --color-section-glow:#223766;
+  --color-mark:#e6bc6a; --color-ok:#6fcf97; --color-danger:#ff8a7a;
+}
+body{background:#080b12}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="readyup-api.js"></script>
+</helmet>
+
+<div aria-hidden="true" style="position:fixed;inset:0;z-index:0">
+  <div style="width:100%;height:100%;background:#05060c url('uploads/pasted-1788859460260-0.jpg') center / cover no-repeat"></div>
+</div>
+<div style="position:relative;z-index:1;margin:clamp(28px,6vw,120px) auto;max-width:min(1560px,calc(100% - 2 * clamp(28px,6vw,120px)));border-radius:22px;overflow:hidden;background:radial-gradient(1200px 720px at 82% -160px,color-mix(in srgb,var(--color-accent-900) 62%,transparent),transparent 60%),radial-gradient(1100px 800px at -10% 100%,color-mix(in srgb,black 32%,transparent),transparent 55%),var(--color-bg)">
+
+<nav style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;max-width:1140px;margin:0 auto;padding:24px clamp(20px,5vw,72px) 0">
+  <a href="index.html" style="display:flex;align-items:center;gap:11px;margin-right:auto;text-decoration:none;color:var(--color-text);font-family:var(--font-heading);font-weight:500;font-size:18px;letter-spacing:-0.01em">
+    <span aria-hidden="true" style="position:relative;display:block;width:23px;height:15px;flex:none">
+      <span style="position:absolute;left:0;top:0;width:15px;height:15px;border:1.5px solid var(--color-accent);border-radius:3px"></span>
+      <span style="position:absolute;left:8px;top:0;width:15px;height:15px;border:1.5px solid var(--color-accent-2-500);border-radius:3px"></span>
+    </span>Ready&nbsp;Up
+  </a>
+  <a href="index.html" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">Back to home</a>
+  <a href="faq.html" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">FAQ</a>
+  <sc-if value="{{ signedOut }}" hint-placeholder-val="{{ true }}">
+    <a class="btn btn-primary" href="join.html" style="font-size:14px;padding:9px 16px">Sign In</a>
+  </sc-if>
+  <sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
+    <a class="btn btn-primary" href="edit.html" style="font-size:14px;padding:9px 16px">My profile</a>
+  </sc-if>
+</nav>
+
+<main style="max-width:1140px;margin:0 auto;padding:0 clamp(20px,5vw,72px)">
+
+  <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ true }}">
+    <div style="padding:clamp(60px,10vw,140px) 0;display:flex;align-items:center;gap:14px">
+      <span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>
+      <p style="font-size:15px;line-height:24px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:0">Loading project…</p>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isMissing }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:clamp(50px,8vw,110px) 0;max-width:56ch">
+      <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 20px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Nothing here</span>
+      <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(30px,4.4vw,52px);line-height:1.04;letter-spacing:-0.024em;margin:0 0 0 -0.04em">No project at that address</h1>
+      <p style="font-size:16.5px;line-height:28px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:24px 0 0">{{ missingBody }}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 0">
+        <a class="btn btn-primary" href="index.html" style="font-size:15px;padding:12px 20px">Go to Ready Up</a>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isFound }}" hint-placeholder-val="{{ false }}">
+    <header style="padding:clamp(34px,5vw,56px) 0 clamp(28px,4vw,44px)">
+      <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center">
+        <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(32px,4.6vw,56px);line-height:1.03;letter-spacing:-0.026em;margin:0 0 0 -0.04em">{{ name }}</h1>
+        <span style="display:inline-flex;align-items:center;gap:8px;font-size:13px;line-height:1;padding:7px 12px;border-radius:999px;background:{{ badgeBg }};color:{{ badgeFg }}">
+          <span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:{{ badgeDot }}"></span>{{ badgeLabel }}
+        </span>
+      </div>
+      <sc-if value="{{ hasPitch }}" hint-placeholder-val="{{ true }}">
+        <p style="font-size:17px;line-height:28px;color:color-mix(in srgb,var(--color-text) 82%,transparent);margin:20px 0 0;max-width:60ch">{{ pitch }}</p>
+      </sc-if>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:18px 0 0">
+        <span style="font-size:14.5px;color:var(--color-accent-300);word-break:break-all">{{ urlShown }}</span>
+        <button class="btn btn-secondary" type="button" onClick="{{ copyLink }}" style="font-size:13.5px;padding:8px 14px">{{ copyLabel }}</button>
+      </div>
+    </header>
+
+    <sc-if value="{{ isInvited }}" hint-placeholder-val="{{ false }}">
+      <section class="elev-md" style="background:var(--color-section);border-radius:var(--radius-lg);padding:clamp(20px,3vw,28px);margin:0 0 24px;max-width:80ch">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(19px,2.2vw,24px);line-height:1.16;letter-spacing:-0.014em;margin:0">You've been invited to this project</h2>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 82%,transparent);margin:14px 0 0;max-width:56ch">Accepting adds it to your profile as a credit and unlocks the team's links. Declining leaves no trace.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 0">
+          <button class="btn btn-primary" type="button" onClick="{{ accept }}" style="font-size:15px;padding:11px 20px">Accept</button>
+          <button class="btn btn-secondary" type="button" onClick="{{ decline }}" style="font-size:15px;padding:11px 20px">Decline</button>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
+      <p role="alert" style="display:flex;gap:10px;font-size:14px;line-height:22px;color:var(--color-accent-2-200);background:color-mix(in srgb,var(--color-accent-2-800) 55%,transparent);border-radius:var(--radius-sm);padding:10px 12px;margin:0 0 20px;max-width:70ch"><span aria-hidden="true">⚠</span>{{ error }}</p>
+    </sc-if>
+
+    <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
+
+    <section style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,64px);padding:clamp(30px,4vw,48px) 0">
+      <h2 style="flex:0 1 200px;font-family:var(--font-heading);font-weight:500;font-size:13px;line-height:14px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:6px 0 0">The team</h2>
+      <div style="flex:1 1 460px;min-width:0">
+        <sc-if value="{{ hasTeam }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px">
+          <sc-for list="{{ team }}" as="m" hint-placeholder-count="0">
+            <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:14px;display:flex;gap:12px;align-items:center">
+              {{ m.avatarEl }}
+              <div style="min-width:0;flex:1">
+                <a href="{{ m.href }}" style="display:block;font-family:var(--font-heading);font-weight:500;font-size:15.5px;letter-spacing:-0.01em;text-decoration:none;color:var(--color-text)" style-hover="color:var(--color-accent-300)">{{ m.name }}</a>
+                <p style="font-size:12.5px;line-height:18px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:3px 0 0">{{ m.roleLine }}</p>
+              </div>
+              <sc-if value="{{ m.isOwner }}" hint-placeholder-val="{{ false }}">
+                <span class="tag tag-outline" style="flex:none">Director</span>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+        </sc-if>
+        <sc-if value="{{ hasPast }}" hint-placeholder-val="{{ false }}">
+          <p style="font-size:13.5px;line-height:22px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:16px 0 0">Previously: {{ pastLine }}</p>
+        </sc-if>
+      </div>
+    </section>
+
+    <sc-if value="{{ isMember }}" hint-placeholder-val="{{ false }}">
+      <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
+      <section style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,64px);padding:clamp(30px,4vw,48px) 0">
+        <div style="flex:0 1 200px">
+          <h2 style="font-family:var(--font-heading);font-weight:500;font-size:13px;line-height:14px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:6px 0 0">Where the work lives</h2>
+          <p style="font-size:12.5px;line-height:20px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:10px 0 0">Team only. Not shown to visitors.</p>
+        </div>
+        <div style="flex:1 1 460px;min-width:0">
+          <sc-if value="{{ hasResources }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:8px;margin:0 0 18px">
+              <sc-for list="{{ resources }}" as="res" hint-placeholder-count="2">
+                <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:12px 14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+                  <a href="{{ res.href }}" target="_blank" rel="noopener noreferrer" style="flex:1 1 200px;min-width:0;font-size:15px;text-decoration:none;color:var(--color-accent-300)" style-hover="color:var(--color-accent-200)">{{ res.label }}</a>
+                  <span style="font-size:12px;color:color-mix(in srgb,var(--color-text) 45%,transparent)">{{ res.host }}</span>
+                  <sc-if value="{{ res.canRemove }}" hint-placeholder-val="{{ false }}">
+                    <button class="btn btn-secondary" type="button" onClick="{{ res.remove }}" style="flex:none;font-size:12.5px;padding:6px 11px;color:var(--color-danger);border-color:color-mix(in srgb,var(--color-danger) 45%,transparent)">Remove</button>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ noResources }}" hint-placeholder-val="{{ false }}">
+            <p style="font-size:15px;line-height:26px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:0 0 18px;max-width:52ch">Nothing here yet. Add the board, the repo, the drive — whatever a new person would need on their first day.</p>
+          </sc-if>
+          <sc-if value="{{ canAdd }}" hint-placeholder-val="{{ false }}">
+            <form onSubmit="{{ submitResource }}" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr) auto;gap:8px;align-items:center;max-width:60ch">
+              <input class="input" type="text" placeholder="Label — Trello, repo, drive" value="{{ resLabel }}" onChange="{{ setResLabel }}">
+              <input class="input" type="url" placeholder="https://…" value="{{ resUrl }}" onChange="{{ setResUrl }}">
+              <button class="btn btn-primary" type="submit" style="font-size:14px;padding:9px 15px">Add</button>
+            </form>
+          </sc-if>
+          <p style="font-size:12.5px;line-height:20px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:16px 0 0;max-width:56ch">These links are shown to the team only, but Ready Up can't control the tools themselves. If someone leaves, remove them in Trello and GitHub too.</p>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ isOwner }}" hint-placeholder-val="{{ false }}">
+      <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
+      <section style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,64px);padding:clamp(30px,4vw,48px) 0">
+        <h2 style="flex:0 1 200px;font-family:var(--font-heading);font-weight:500;font-size:13px;line-height:14px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:6px 0 0">Run the project</h2>
+        <div style="flex:1 1 460px;min-width:0;display:flex;flex-direction:column;gap:18px">
+
+          <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0 0 14px">Details</h3>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <input class="input" type="text" placeholder="Project name" value="{{ editName }}" onChange="{{ setEditName }}">
+              <textarea class="input" rows="2" placeholder="One or two lines on what it is" value="{{ editPitch }}" onChange="{{ setEditPitch }}" style="resize:vertical;font-family:inherit"></textarea>
+              <select class="input" value="{{ editStatus }}" onChange="{{ setEditStatus }}" style="appearance:none;background-image:none">
+                <option value="forming">Forming — looking for people</option>
+                <option value="active">Active</option>
+                <option value="paused">Paused</option>
+                <option value="shipped">Shipped</option>
+                <option value="archived">Archived</option>
+              </select>
+              <button class="btn btn-primary" type="button" onClick="{{ saveDetails }}" style="font-size:14px;padding:9px 15px;align-self:flex-start">{{ saveLabel }}</button>
+            </div>
+          </div>
+
+          <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0 0 6px">Invite someone</h3>
+            <p style="font-size:13.5px;line-height:22px;color:color-mix(in srgb,var(--color-text) 66%,transparent);margin:0 0 14px">By their profile address. They'll see the invite on this page and choose whether to accept.</p>
+            <form onSubmit="{{ submitInvite }}" style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) auto;gap:8px;align-items:center">
+              <input class="input" type="text" placeholder="their-handle" value="{{ inviteHandle }}" onChange="{{ setInviteHandle }}" autoCapitalize="none" spellCheck="false">
+              <input class="input" type="text" placeholder="Their role" value="{{ inviteRole }}" onChange="{{ setInviteRole }}">
+              <button class="btn btn-primary" type="submit" style="font-size:14px;padding:9px 15px">Invite</button>
+            </form>
+            <sc-if value="{{ hasInviteMsg }}" hint-placeholder-val="{{ false }}">
+              <p role="status" style="font-size:13px;line-height:20px;color:{{ inviteMsgColor }};margin:12px 0 0">{{ inviteMsg }}</p>
+            </sc-if>
+          </div>
+
+          <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0 0 14px">Team permissions</h3>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <sc-for list="{{ manageable }}" as="mm" hint-placeholder-count="2">
+                <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:0 0 12px;background:linear-gradient(to right,transparent,var(--color-divider) 12px calc(100% - 12px),transparent) no-repeat bottom / 100% 1px">
+                  <span style="flex:1 1 160px;min-width:0;font-size:14.5px">{{ mm.name }}<span style="color:color-mix(in srgb,var(--color-text) 50%,transparent)"> · {{ mm.stateLabel }}</span></span>
+                  <label style="display:flex;gap:8px;align-items:center;font-size:13px;color:color-mix(in srgb,var(--color-text) 72%,transparent);cursor:pointer">
+                    <input type="checkbox" checked="{{ mm.canAdd }}" onChange="{{ mm.toggleCanAdd }}" style="width:15px;height:15px;accent-color:var(--color-accent)">Can add links
+                  </label>
+                  <button class="btn btn-secondary" type="button" onClick="{{ mm.remove }}" style="flex:none;font-size:12.5px;padding:6px 11px;color:var(--color-danger);border-color:color-mix(in srgb,var(--color-danger) 45%,transparent)">Remove</button>
+                </div>
+              </sc-for>
+            </div>
+            <sc-if value="{{ aloneOnTeam }}" hint-placeholder-val="{{ false }}">
+              <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:0">Just you so far. Invite someone above.</p>
+            </sc-if>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ canLeave }}" hint-placeholder-val="{{ false }}">
+      <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
+      <section style="padding:clamp(24px,3vw,36px) 0;display:flex;flex-wrap:wrap;gap:16px;align-items:center">
+        <p style="flex:1 1 320px;min-width:0;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 62%,transparent);margin:0;max-width:56ch">Leaving keeps your credit and the dates you were here. You'll lose the team's links.</p>
+        <button class="btn btn-secondary" type="button" onClick="{{ leave }}" style="flex:none;font-size:14px;padding:10px 16px;color:var(--color-danger);border-color:color-mix(in srgb,var(--color-danger) 45%,transparent)">Leave this project</button>
+      </section>
+    </sc-if>
+  </sc-if>
+</main>
+
+<footer style="max-width:1140px;margin:0 auto;padding:clamp(28px,4vw,44px) clamp(20px,5vw,72px) clamp(48px,6vw,72px);display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:space-between;align-items:center;font-size:13px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent);background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent) no-repeat top / 100% 1px">
+  <div>Ready&nbsp;Up · 2026</div>
+  <div style="display:flex;gap:18px;flex-wrap:wrap"><a href="index.html" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">Home</a><a href="faq.html" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">FAQ</a></div>
+  <div>Made by <a href="https://own.page/malonsor" style="color:var(--color-accent-300)">Miguel Alonso</a></div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    status: "loading", row: null, slug: "", uid: null, signedIn: false,
+    resources: [], error: "", copied: false,
+    resLabel: "", resUrl: "",
+    inviteHandle: "", inviteRole: "", inviteMsg: "", inviteOk: false,
+    editName: "", editPitch: "", editStatus: "forming", saved: false, busy: false
+  };
+
+  api() { return window.ReadyUpAPI; }
+
+  // /p/neon-harbour is rewritten to ?slug=neon-harbour; a bare path also works
+  readSlug() {
+    try {
+      const q = new URLSearchParams(window.location.search).get("slug");
+      if (q) return q.trim().toLowerCase();
+      const parts = window.location.pathname.split("/").filter(Boolean);
+      const last = parts[parts.length - 1] || "";
+      if (last && !/\.[a-z]+$/i.test(last)) return last.trim().toLowerCase();
+    } catch (e) {}
+    return "";
+  }
+
+  componentDidMount() {
+    const api = this.api();
+    const slug = this.readSlug();
+    this.setState({ slug });
+
+    if (!api || !api.configured()) return this.setState({ status: "missing" });
+
+    api.getSession().then((r) => {
+      const user = r && r.data;
+      this.setState({ signedIn: !!user, uid: (user && user.id) || null });
+      this.load(slug);
+    });
+  }
+
+  load(slug) {
+    const api = this.api();
+    if (!slug) return this.setState({ status: "missing" });
+    api.getProject(slug).then((r) => {
+      if (!r.ok || !r.data) return this.setState({ status: "missing" });
+      this.setState({
+        status: "found", row: r.data,
+        editName: r.data.name || "",
+        editPitch: r.data.pitch || "",
+        editStatus: r.data.status || "forming"
+      });
+      if (this.mine(r.data) === "active") {
+        api.listResources(r.data.id).then((rr) => {
+          if (rr.ok) this.setState({ resources: rr.data || [] });
+        });
+      }
+    });
+  }
+
+  members(row) { return (row && row.project_members) || []; }
+
+  mine(row) {
+    const uid = this.state.uid;
+    if (!uid) return null;
+    const m = this.members(row).find((x) => x.profile_id === uid);
+    return m ? m.state : null;
+  }
+
+  myRow(row) {
+    const uid = this.state.uid;
+    return uid ? this.members(row).find((x) => x.profile_id === uid) : null;
+  }
+
+  host(url) {
+    try {
+      return new URL(/^https?:\/\//i.test(url) ? url : "https://" + url).hostname.replace(/^www\./, "");
+    } catch (e) { return ""; }
+  }
+
+  reload() { this.load(this.state.slug); }
+
+  renderVals() {
+    const s = this.state;
+    const row = s.row || {};
+    const all = this.members(row);
+    const mine = this.myRow(row);
+    const isOwner = !!(mine && mine.is_owner && mine.state === "active");
+    const isMember = !!(mine && mine.state === "active");
+
+    // the badge softens on its own after 60 days without activity
+    const quiet = row.status === "active" && row.last_activity_at &&
+      (Date.now() - new Date(row.last_activity_at).getTime()) > 60 * 864e5;
+    const shown = quiet ? "quiet" : (row.status || "forming");
+    const look = {
+      forming: ["Forming", "var(--color-accent-400)", "color-mix(in srgb,var(--color-accent-900) 70%,transparent)", "var(--color-accent-200)"],
+      active:  ["Active", "var(--color-ok)", "color-mix(in srgb,var(--color-ok) 16%,transparent)", "var(--color-ok)"],
+      quiet:   ["Quiet", "color-mix(in srgb,var(--color-text) 40%,transparent)", "color-mix(in srgb,var(--color-text) 8%,transparent)", "color-mix(in srgb,var(--color-text) 65%,transparent)"],
+      paused:  ["Paused", "color-mix(in srgb,var(--color-text) 40%,transparent)", "color-mix(in srgb,var(--color-text) 8%,transparent)", "color-mix(in srgb,var(--color-text) 65%,transparent)"],
+      shipped: ["Shipped", "var(--color-accent-2-400)", "color-mix(in srgb,var(--color-accent-2-800) 45%,transparent)", "var(--color-accent-2-200)"],
+      archived:["Archived", "color-mix(in srgb,var(--color-text) 30%,transparent)", "color-mix(in srgb,var(--color-text) 6%,transparent)", "color-mix(in srgb,var(--color-text) 50%,transparent)"]
+    }[shown] || ["Forming", "var(--color-accent-400)", "color-mix(in srgb,var(--color-accent-900) 70%,transparent)", "var(--color-accent-200)"];
+
+    const api = this.api();
+    const person = (m) => {
+      const p = m.profiles || {};
+      return {
+        name: p.display_name || p.handle || "Someone",
+        href: p.handle ? "/" + p.handle : "#",
+        roleLine: m.role_label || p.discipline || "",
+        isOwner: !!m.is_owner,
+        // Built here, not in the template: a {{ }} hole in an <img src> inside an
+        // sc-for is emitted unresolved while streaming and fires a bogus request.
+        avatarEl: (p.avatar_path && api && api.avatarUrl)
+          ? React.createElement("img", {
+              src: api.avatarUrl(p.avatar_path), alt: "",
+              onError: function (e) { e.target.style.display = "none"; },
+              style: { flex: "none", display: "block", width: "40px", height: "40px",
+                       borderRadius: "8px", objectFit: "cover", background: "var(--color-bg)" }
+            })
+          : null
+      };
+    };
+
+    const active = all.filter((m) => m.state === "active");
+    const past = all.filter((m) => m.state === "past");
+    const url = "readyup.quest/p/" + (row.slug || s.slug);
+
+    return {
+      isLoading: s.status === "loading",
+      isFound: s.status === "found",
+      isMissing: s.status === "missing",
+      signedIn: s.signedIn,
+      signedOut: !s.signedIn,
+      missingBody: s.slug
+        ? "readyup.quest/p/" + s.slug + " doesn't lead anywhere. The address may have changed, or the project may have been removed."
+        : "This page shows a project, so it needs an address like readyup.quest/p/its-name.",
+
+      name: row.name || "",
+      pitch: row.pitch || "", hasPitch: !!(row.pitch || "").trim(),
+      badgeLabel: look[0], badgeDot: look[1], badgeBg: look[2], badgeFg: look[3],
+
+      urlShown: url,
+      copyLabel: s.copied ? "Link copied" : "Copy link",
+      copyLink: () => {
+        if (navigator.clipboard) navigator.clipboard.writeText("https://" + url).catch(() => {});
+        this.setState({ copied: true });
+        setTimeout(() => this.setState({ copied: false }), 2000);
+      },
+
+      team: active.map(person),
+      hasTeam: active.length > 0,
+      hasPast: past.length > 0,
+      pastLine: past.map((m) => (m.profiles && (m.profiles.display_name || m.profiles.handle)) || "someone").join(", "),
+
+      isInvited: !!(mine && mine.state === "invited"),
+      accept: () => this.api().respondToInvite(row.id, true).then((r) => {
+        if (!r.ok) return this.setState({ error: r.error });
+        this.reload();
+      }),
+      decline: () => this.api().respondToInvite(row.id, false).then((r) => {
+        if (!r.ok) return this.setState({ error: r.error });
+        this.reload();
+      }),
+
+      isMember, isOwner,
+      error: s.error, hasError: !!s.error,
+
+      resources: s.resources.map((res) => ({
+        label: res.label, href: /^https?:\/\//i.test(res.url) ? res.url : "https://" + res.url,
+        host: this.host(res.url),
+        canRemove: isOwner || res.added_by === s.uid,
+        remove: () => this.api().removeResource(res.id).then((r) => {
+          if (!r.ok) return this.setState({ error: r.error });
+          this.setState({ resources: this.state.resources.filter((x) => x.id !== res.id) });
+        })
+      })),
+      hasResources: s.resources.length > 0,
+      noResources: isMember && s.resources.length === 0,
+      canAdd: isOwner || !!(mine && mine.can_add_resources && mine.state === "active"),
+      resLabel: s.resLabel, resUrl: s.resUrl,
+      setResLabel: (e) => this.setState({ resLabel: e.target.value }),
+      setResUrl: (e) => this.setState({ resUrl: e.target.value }),
+      submitResource: (e) => {
+        e.preventDefault();
+        const label = s.resLabel.trim(), u = s.resUrl.trim();
+        if (!label || !u) return this.setState({ error: "A link needs both a label and an address." });
+        this.api().addResource(row.id, label, u).then((r) => {
+          if (!r.ok) return this.setState({ error: r.error });
+          this.setState({ resLabel: "", resUrl: "", error: "" });
+          this.api().listResources(row.id).then((rr) => { if (rr.ok) this.setState({ resources: rr.data || [] }); });
+        });
+      },
+
+      editName: s.editName, editPitch: s.editPitch, editStatus: s.editStatus,
+      setEditName: (e) => this.setState({ editName: e.target.value }),
+      setEditPitch: (e) => this.setState({ editPitch: e.target.value }),
+      setEditStatus: (e) => this.setState({ editStatus: e.target.value }),
+      saveLabel: s.saved ? "Saved" : "Save details",
+      saveDetails: () => {
+        if (!s.editName.trim()) return this.setState({ error: "A project needs a name." });
+        this.api().updateProject(row.id, {
+          name: s.editName.trim(), pitch: s.editPitch.trim() || null, status: s.editStatus
+        }).then((r) => {
+          if (!r.ok) return this.setState({ error: r.error });
+          this.setState({ saved: true, error: "" });
+          setTimeout(() => this.setState({ saved: false }), 2000);
+          this.reload();
+        });
+      },
+
+      inviteHandle: s.inviteHandle, inviteRole: s.inviteRole,
+      setInviteHandle: (e) => this.setState({ inviteHandle: e.target.value }),
+      setInviteRole: (e) => this.setState({ inviteRole: e.target.value }),
+      inviteMsg: s.inviteMsg, hasInviteMsg: !!s.inviteMsg,
+      inviteMsgColor: s.inviteOk ? "var(--color-ok)" : "var(--color-accent-2-200)",
+      submitInvite: (e) => {
+        e.preventDefault();
+        const h = s.inviteHandle.trim().replace(/^.*\//, "").toLowerCase();
+        if (!h) return this.setState({ inviteMsg: "Enter their profile address.", inviteOk: false });
+        this.api().inviteByHandle(row.id, h, s.inviteRole.trim()).then((r) => {
+          if (!r.ok) return this.setState({ inviteMsg: r.error, inviteOk: false });
+          this.setState({ inviteMsg: "Invite sent to " + h + ".", inviteOk: true, inviteHandle: "", inviteRole: "" });
+          this.reload();
+        });
+      },
+
+      manageable: all.filter((m) => !m.is_owner && m.state !== "past").map((m) => {
+        const p = m.profiles || {};
+        return {
+          name: p.display_name || p.handle || "Someone",
+          stateLabel: m.state === "invited" ? "invite pending" : "on the team",
+          canAdd: !!m.can_add_resources,
+          toggleCanAdd: (e) => {
+            const v = e.target.checked;
+            this.api().setMember(row.id, m.profile_id, { can_add_resources: v }).then((r) => {
+              if (!r.ok) return this.setState({ error: r.error });
+              this.reload();
+            });
+          },
+          remove: () => this.api().setMember(row.id, m.profile_id, {
+            state: "past", left_at: new Date().toISOString()
+          }).then((r) => {
+            if (!r.ok) return this.setState({ error: r.error });
+            this.reload();
+          })
+        };
+      }),
+      aloneOnTeam: all.filter((m) => !m.is_owner && m.state !== "past").length === 0,
+
+      canLeave: isMember && !isOwner,
+      leave: () => this.api().leaveProject(row.id).then((r) => {
+        if (!r.ok) return this.setState({ error: r.error });
+        this.reload();
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

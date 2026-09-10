@@ -55,6 +55,9 @@ window.READYUP_CONFIG = {
     if (/failed to fetch|networkerror/i.test(raw)) return { ok: false, error: "Can't reach the server. Check your connection and try again." };
 
     // Storage. These are the ones that actually happen, and each has a fix.
+    if (/owned_active_count|members_can_create|violates row-level security policy for table "projects"/i.test(raw)) return { ok: false, error: "You already have three live projects. Ship, pause or archive one first." };
+    if (/projects_slug_shape/i.test(raw)) return { ok: false, error: "Project addresses use lowercase letters, numbers and hyphens." };
+    if (/projects_slug_key/i.test(raw)) return { ok: false, error: "That project address is taken. Try another." };
     if (/bucket not found/i.test(raw)) return { ok: false, error: "That storage bucket doesn't exist yet. Create 'avatars' and 'cvs' in Supabase → Storage." };
     if (/mime type|not supported/i.test(raw)) return { ok: false, error: "That file type isn't allowed for this bucket. Check the bucket's allowed MIME types in Supabase." };
     if (/payload too large|maximum allowed size|entity too large/i.test(raw)) return { ok: false, error: "That file is larger than the bucket allows. Try a smaller one, or raise the bucket's file size limit." };
@@ -246,6 +249,147 @@ window.READYUP_CONFIG = {
       if (!configured()) return demo();
       return db().storage.from(bucket).remove([path])
         .then(function (r) { return r.error ? fail(r.error) : { ok: true }; });
+    },
+
+    /* ---- projects ----------------------------------------------------- */
+
+    // Everything I'm on, in any state, with my membership row attached.
+    myProjects: function () {
+      if (!configured()) return demo([]);
+      return db().auth.getUser().then(function (u) {
+        var uid = u.data && u.data.user && u.data.user.id;
+        if (!uid) return { ok: true, data: [] };
+        return db().from("project_members")
+          .select("role_label,is_owner,state,can_add_resources,joined_at,projects(*)")
+          .eq("profile_id", uid)
+          .then(function (r) {
+            if (r.error) return fail(r.error);
+            var rows = (r.data || []).filter(function (m) { return m.projects; });
+            return { ok: true, data: rows };
+          });
+      });
+    },
+
+    createProject: function (fields) {
+      if (!configured()) return demo({ slug: fields.slug });
+      return db().auth.getUser().then(function (u) {
+        var uid = u.data && u.data.user && u.data.user.id;
+        if (!uid) return { ok: false, error: "Not signed in." };
+        return db().from("projects").insert({
+          slug: fields.slug, name: fields.name,
+          pitch: fields.pitch || null, status: fields.status || "forming",
+          created_by: uid
+        }).select().maybeSingle()
+          .then(function (r) { return r.error ? fail(r.error) : { ok: true, data: r.data }; });
+      });
+    },
+
+    updateProject: function (id, fields) {
+      if (!configured()) return demo();
+      return db().from("projects").update(fields).eq("id", id)
+        .then(function (r) { return r.error ? fail(r.error) : { ok: true }; });
+    },
+
+    deleteProject: function (id) {
+      if (!configured()) return demo();
+      return db().from("projects").delete().eq("id", id)
+        .then(function (r) { return r.error ? fail(r.error) : { ok: true }; });
+    },
+
+    // Public: the project and its team. RLS hides pending invites from
+    // everyone but the invitee and the owner.
+    getProject: function (slug) {
+      if (!configured()) return demo(null);
+      return db().from("projects")
+        .select("*,project_members(profile_id,role_label,is_owner,state,joined_at,left_at,can_add_resources,profiles(handle,display_name,discipline,avatar_path))")
+        .ilike("slug", slug).maybeSingle()
+        .then(function (r) {
+          if (r.error) return fail(r.error);
+          return { ok: true, data: r.data || null };
+        });
+    },
+
+    inviteByHandle: function (projectId, handle, role) {
+      if (!configured()) return demo({ result: "ok" });
+      return db().rpc("invite_by_handle", { p_project: projectId, p_handle: handle, p_role: role || null })
+        .then(function (r) {
+          if (r.error) return fail(r.error);
+          var code = r.data;
+          if (code === "ok") return { ok: true };
+          if (code === "no_such_member") return { ok: false, error: "No member with that profile address." };
+          if (code === "already_invited") return { ok: false, error: "They're already on this project." };
+          if (code === "not_owner") return { ok: false, error: "Only the project's owner can invite people." };
+          return { ok: false, error: "Couldn't send that invite." };
+        });
+    },
+
+    // An invite only becomes a credit when the invitee accepts.
+    respondToInvite: function (projectId, accept) {
+      if (!configured()) return demo();
+      return db().auth.getUser().then(function (u) {
+        var uid = u.data && u.data.user && u.data.user.id;
+        if (!uid) return { ok: false, error: "Not signed in." };
+        var patch = accept
+          ? { state: "active", joined_at: new Date().toISOString() }
+          : { state: "past", left_at: new Date().toISOString() };
+        return db().from("project_members").update(patch)
+          .eq("project_id", projectId).eq("profile_id", uid)
+          .then(function (r) { return r.error ? fail(r.error) : { ok: true }; });
+      });
+    },
+
+    leaveProject: function (projectId) {
+      if (!configured()) return demo();
+      return db().auth.getUser().then(function (u) {
+        var uid = u.data && u.data.user && u.data.user.id;
+        if (!uid) return { ok: false, error: "Not signed in." };
+        return db().from("project_members")
+          .update({ state: "past", left_at: new Date().toISOString() })
+          .eq("project_id", projectId).eq("profile_id", uid)
+          .then(function (r) { return r.error ? fail(r.error) : { ok: true }; });
+      });
+    },
+
+    setMember: function (projectId, profileId, fields) {
+      if (!configured()) return demo();
+      return db().from("project_members").update(fields)
+        .eq("project_id", projectId).eq("profile_id", profileId)
+        .then(function (r) { return r.error ? fail(r.error) : { ok: true }; });
+    },
+
+    // Team-only. A non-member gets an empty list rather than an error.
+    listResources: function (projectId) {
+      if (!configured()) return demo([]);
+      return db().from("project_resources")
+        .select("*").eq("project_id", projectId).order("created_at", { ascending: true })
+        .then(function (r) {
+          if (r.error) return fail(r.error);
+          return { ok: true, data: r.data || [] };
+        });
+    },
+
+    addResource: function (projectId, label, url) {
+      if (!configured()) return demo();
+      return db().auth.getUser().then(function (u) {
+        var uid = u.data && u.data.user && u.data.user.id;
+        if (!uid) return { ok: false, error: "Not signed in." };
+        return db().from("project_resources")
+          .insert({ project_id: projectId, label: label, url: url, added_by: uid })
+          .then(function (r) { return r.error ? fail(r.error) : { ok: true }; });
+      });
+    },
+
+    removeResource: function (id) {
+      if (!configured()) return demo();
+      return db().from("project_resources").delete().eq("id", id)
+        .then(function (r) { return r.error ? fail(r.error) : { ok: true }; });
+    },
+
+    // Is this slug free? Used before creating, so the error is inline.
+    slugFree: function (slug) {
+      if (!configured()) return demo({ free: true });
+      return db().from("projects").select("id").ilike("slug", slug).maybeSingle()
+        .then(function (r) { return { ok: true, data: { free: !r.data } }; });
     },
 
     /* ---- danger ------------------------------------------------------ */

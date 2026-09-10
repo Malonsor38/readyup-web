@@ -8,6 +8,10 @@
 # Clean URLs (/faq -> faq.html) come from html_handling, not from rules here.
 # Do not add page rewrites: combined with html_handling they cause a loop.
 
+# Project spaces: /p/<slug> is served by project.html, which reads the slug.
+# Specific, not a catch-all, so it can't swallow assets.
+/p/*             /project.html?slug=:splat   200
+
 /signup          /join         301
 /sign-up         /join         301
 /register        /join         301

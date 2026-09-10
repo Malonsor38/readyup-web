@@ -155,11 +155,9 @@ body{background:#080b12}
         <div style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,64px)">
           <h2 style="flex:0 1 200px;font-family:var(--font-heading);font-weight:500;font-size:13px;line-height:14px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:6px 0 0">Projects &amp; credits</h2>
           <div style="flex:1 1 460px;min-width:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">
-            <sc-for list="{{ projects }}" as="proj" hint-placeholder-count="2">
+            <sc-for list="{{ projects }}" as="proj" hint-placeholder-count="0">
               <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);overflow:hidden;display:flex;flex-direction:column">
-                <sc-if value="{{ proj.hasImage }}" hint-placeholder-val="{{ false }}">
-                  <img src="{{ proj.imageSrc }}" alt="" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--color-bg)">
-                </sc-if>
+                {{ proj.artEl }}
                 <div style="padding:16px 16px 18px;flex:1;display:flex;flex-direction:column">
                 <h3 style="font-family:var(--font-heading);font-weight:500;font-size:17px;line-height:1.2;margin:0">{{ proj.title }}</h3>
                 <sc-if value="{{ proj.hasRole }}" hint-placeholder-val="{{ true }}">
@@ -375,8 +373,14 @@ class Component extends DCLogic {
       projects: (r.projects || []).map(function (p) {
         return {
           title: p.title || "", role: p.role || "", meta: p.meta || "", blurb: p.blurb || "",
-          hasImage: !!p.image,
-          imageSrc: p.image && api && api.avatarUrl ? api.avatarUrl(p.image) : "",
+          artEl: (p.image && api && api.avatarUrl)
+            ? React.createElement("img", {
+                src: api.avatarUrl(p.image), alt: "",
+                onError: function (e) { e.target.style.display = "none"; },
+                style: { display: "block", width: "100%", aspectRatio: "16/9",
+                         objectFit: "cover", background: "var(--color-bg)" }
+              })
+            : null,
           hasUrl: !!(p.url || "").trim(),
           url: /^https?:\/\//i.test(p.url || "") ? p.url : "https://" + (p.url || ""),
           hasRole: !!(p.role || "").trim(),
