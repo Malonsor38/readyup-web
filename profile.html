@@ -111,9 +111,11 @@ body{background:#080b12}
           <span style="font-size:14.5px;color:var(--color-accent-300);word-break:break-all">{{ profileUrlShown }}</span>
           <button class="btn btn-secondary" type="button" onClick="{{ copyLink }}" style="font-size:13.5px;padding:8px 14px">{{ copyLabel }}</button>
         </div>
-        <sc-if value="{{ hasDiscipline }}" hint-placeholder-val="{{ true }}">
+        <sc-if value="{{ hasDiscipline }}" hint-placeholder-val="{{ false }}">
           <div style="display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 0">
-            <span class="tag tag-accent">{{ discipline }}</span>
+            <sc-for list="{{ disciplines }}" as="d" hint-placeholder-count="0">
+              <span class="tag {{ d.cls }}">{{ d.label }}</span>
+            </sc-for>
           </div>
         </sc-if>
         <div style="display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 0">
@@ -384,7 +386,11 @@ class Component extends DCLogic {
 
       displayName: name || (r.handle || ""),
       headline: (r.headline || "").trim(), hasHeadline: !!(r.headline || "").trim(),
-      discipline: r.discipline || "", hasDiscipline: !!r.discipline,
+      disciplines: (r.discipline || "").split(",")
+        .map(function (d) { return d.trim(); })
+        .filter(Boolean)
+        .map(function (d, i) { return { label: d, cls: i === 0 ? "tag-accent" : "tag-neutral" }; }),
+      hasDiscipline: !!(r.discipline || "").trim(),
       availabilityLabel: availability, hasAvailability: !!availability,
       placeLabel: place, hasPlace: !!place,
       bio: (r.bio || "").trim(), hasBio: !!(r.bio || "").trim(),

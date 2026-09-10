@@ -368,7 +368,7 @@ class Component extends DCLogic {
       return {
         name: p.display_name || p.handle || "Someone",
         href: p.handle ? "/" + p.handle : "#",
-        roleLine: m.role_label || p.discipline || "",
+        roleLine: m.role_label || (p.discipline || "").split(",")[0].trim() || "",
         isOwner: !!m.is_owner,
         // Built here, not in the template: a {{ }} hole in an <img src> inside an
         // sc-for is emitted unresolved while streaming and fires a bogus request.

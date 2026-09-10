@@ -175,7 +175,7 @@ body{background:#080b12}
     <div style="max-width:62ch">
       <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 20px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Verified</span>
       <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(32px,4.4vw,54px);line-height:1.04;letter-spacing:-0.024em;margin:0 0 0 -0.04em">You're in.</h1>
-      <p style="font-size:17px;line-height:28px;color:var(--color-text);margin:24px 0 0"><strong style="font-weight:600;color:var(--color-accent-300)">{{ emailShown }}</strong> is confirmed. One short step left: four quick fields to start your profile, and the Discord invite is yours.</p>
+      <p style="font-size:17px;line-height:28px;color:var(--color-text);margin:24px 0 0"><strong style="font-weight:600;color:var(--color-accent-300)">{{ emailShown }}</strong> is confirmed. One short step left: four quick fields to kickstart your profile!</p>
       <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:16px 0 0">We ask for the profile first on purpose: Ready Up only works if the people in the Discord are people you can actually team up with.</p>
       <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-lg);padding:20px;margin:28px 0 0;display:flex;flex-wrap:wrap;gap:16px;align-items:center">
         <span aria-hidden="true" style="flex:none;width:2px;align-self:stretch;min-height:44px;border-radius:2px;background:var(--color-accent-700)"></span>
@@ -276,13 +276,13 @@ body{background:#080b12}
           <select class="input" id="p1-disc" value="{{ discipline }}" onChange="{{ setDiscipline }}" style="appearance:none;background-image:none">
             <option value="">Pick the one you'd be hired for</option>
             <option value="Programming">Programming</option>
-            <option value="Art &amp; animation">Art &amp; animation</option>
-            <option value="Game &amp; level design">Game &amp; level design</option>
-            <option value="Audio &amp; music">Audio &amp; music</option>
-            <option value="QA &amp; testing">QA &amp; testing</option>
-            <option value="Production">Production</option>
+            <option value="Art &amp; Animation">Art &amp; Animation</option>
+            <option value="Game &amp; Level Design">Game &amp; Level Design</option>
+            <option value="Audio &amp; Music">Audio &amp; Music</option>
+            <option value="QA &amp; Testing">QA &amp; Testing</option>
+            <option value="Production &amp; Management">Production &amp; Management</option>
             <option value="Narrative">Narrative</option>
-            <option value="Tools &amp; tech">Tools &amp; tech</option>
+            <option value="Tools &amp; Tech">Tools &amp; Tech</option>
           </select>
         </div>
         <div class="field">
@@ -301,7 +301,7 @@ body{background:#080b12}
   <sc-if value="{{ isProfile2 }}" hint-placeholder-val="{{ false }}">
     <div>
       <sc-if value="{{ isNewMember }}" hint-placeholder-val="{{ true }}">
-      <div style="display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,56px);align-items:flex-end;max-width:66ch">
+      <div style="display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,56px);align-items:flex-end;max-width:66ch;margin-left:auto;margin-right:auto">
         <div style="flex:1 1 340px;min-width:0">
           <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 20px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Profile created</span>
           <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(30px,4.2vw,50px);line-height:1.05;letter-spacing:-0.024em;margin:0 0 0 -0.04em">Welcome, {{ firstNameShown }}.</h1>
@@ -310,7 +310,7 @@ body{background:#080b12}
       </div>
       </sc-if>
       <sc-if value="{{ deletionPending }}" hint-placeholder-val="{{ false }}">
-        <div role="status" class="elev-sm" style="max-width:80ch;margin:0 0 28px;background:var(--color-surface);border-radius:var(--radius-lg);padding:18px 20px;display:flex;flex-wrap:wrap;gap:16px;align-items:center">
+        <div role="status" class="elev-sm" style="max-width:80ch;margin:0 auto 28px;background:var(--color-surface);border-radius:var(--radius-lg);padding:18px 20px;display:flex;flex-wrap:wrap;gap:16px;align-items:center">
           <span aria-hidden="true" style="flex:none;width:2px;align-self:stretch;min-height:40px;border-radius:2px;background:var(--color-danger)"></span>
           <span style="flex:1 1 280px;min-width:0">
             <span style="display:block;font-family:var(--font-heading);font-weight:500;font-size:16px;line-height:1.3;color:var(--color-text)">Deletion scheduled for {{ deletionWhen }}</span>
@@ -321,7 +321,7 @@ body{background:#080b12}
       </sc-if>
 
       <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
-      <div style="display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,56px);align-items:flex-end;max-width:70ch">
+      <div style="display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,56px);align-items:flex-end;max-width:70ch;margin-left:auto;margin-right:auto">
         <div style="flex:1 1 340px;min-width:0">
           <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 20px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Your profile</span>
           <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(30px,4.2vw,50px);line-height:1.05;letter-spacing:-0.024em;margin:0 0 0 -0.04em">Welcome back, {{ firstNameShown }}. What's the plan today?</h1>
@@ -331,7 +331,7 @@ body{background:#080b12}
       </sc-if>
 
       <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
-      <section class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-lg);padding:clamp(20px,3vw,24px);margin:32px 0 0;max-width:80ch">
+      <section class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-lg);padding:clamp(20px,3vw,24px);margin:32px 0 0;max-width:80ch;margin-left:auto;margin-right:auto">
         <p style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:0 0 16px">Who you are</p>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
           <div class="field">
@@ -351,14 +351,43 @@ body{background:#080b12}
             <select class="input" id="e-disc" value="{{ discipline }}" onChange="{{ setDiscipline }}" style="appearance:none;background-image:none">
               <option value="">Pick the one you'd be hired for</option>
               <option value="Programming">Programming</option>
-              <option value="Art &amp; animation">Art &amp; animation</option>
-              <option value="Game &amp; level design">Game &amp; level design</option>
-              <option value="Audio &amp; music">Audio &amp; music</option>
-              <option value="QA &amp; testing">QA &amp; testing</option>
-              <option value="Production">Production</option>
+              <option value="Art &amp; Animation">Art &amp; Animation</option>
+              <option value="Game &amp; Level Design">Game &amp; Level Design</option>
+              <option value="Audio &amp; Music">Audio &amp; Music</option>
+              <option value="QA &amp; Testing">QA &amp; Testing</option>
+              <option value="Production &amp; Management">Production &amp; Management</option>
               <option value="Narrative">Narrative</option>
-              <option value="Tools &amp; tech">Tools &amp; tech</option>
+              <option value="Tools &amp; Tech">Tools &amp; Tech</option>
             </select>
+          </div>
+          <div class="field">
+            <label for="e-disc2">Also (optional)</label>
+            <select class="input" id="e-disc2" value="{{ discipline2 }}" onChange="{{ setDiscipline2 }}" style="appearance:none;background-image:none">
+              <option value="">None</option>
+              <option value="Programming">Programming</option>
+              <option value="Art &amp; Animation">Art &amp; Animation</option>
+              <option value="Game &amp; Level Design">Game &amp; Level Design</option>
+              <option value="Audio &amp; Music">Audio &amp; Music</option>
+              <option value="QA &amp; Testing">QA &amp; Testing</option>
+              <option value="Production &amp; Management">Production &amp; Management</option>
+              <option value="Narrative">Narrative</option>
+              <option value="Tools &amp; Tech">Tools &amp; Tech</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="e-disc3">And (optional)</label>
+            <select class="input" id="e-disc3" value="{{ discipline3 }}" onChange="{{ setDiscipline3 }}" style="appearance:none;background-image:none">
+              <option value="">None</option>
+              <option value="Programming">Programming</option>
+              <option value="Art &amp; Animation">Art &amp; Animation</option>
+              <option value="Game &amp; Level Design">Game &amp; Level Design</option>
+              <option value="Audio &amp; Music">Audio &amp; Music</option>
+              <option value="QA &amp; Testing">QA &amp; Testing</option>
+              <option value="Production &amp; Management">Production &amp; Management</option>
+              <option value="Narrative">Narrative</option>
+              <option value="Tools &amp; Tech">Tools &amp; Tech</option>
+            </select>
+            <p style="font-size:12.5px;line-height:20px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:8px 0 0">Up to three, for anyone who moves between roles. The first is the one teams see first.</p>
           </div>
           <div class="field">
             <label for="e-head">Headline</label>
@@ -369,7 +398,7 @@ body{background:#080b12}
       </section>
       </sc-if>
 
-      <section class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-lg);padding:20px;margin:20px 0 0;max-width:80ch">
+      <section class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-lg);padding:20px;margin:20px 0 0;max-width:80ch;margin-left:auto;margin-right:auto">
         <p style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:0 0 12px">Your profile address</p>
         <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
           <span style="font-family:var(--font-heading);font-weight:500;font-size:clamp(16px,1.8vw,19px);letter-spacing:-0.01em;color:var(--color-accent-300);word-break:break-all">readyup.quest/{{ handleDisplay }}</span>
@@ -380,7 +409,7 @@ body{background:#080b12}
       </section>
 
       <sc-if value="{{ isNewMember }}" hint-placeholder-val="{{ true }}">
-      <section class="elev-md" style="background:var(--color-section);border-radius:var(--radius-lg);padding:clamp(20px,3vw,30px);margin:20px 0 0;display:flex;flex-wrap:wrap;gap:24px;align-items:center;max-width:80ch">
+      <section class="elev-md" style="background:var(--color-section);border-radius:var(--radius-lg);padding:clamp(20px,3vw,30px);margin:20px 0 0;display:flex;flex-wrap:wrap;gap:24px;align-items:center;max-width:80ch;margin-left:auto;margin-right:auto">
         <div style="flex:1 1 300px;min-width:0">
           <span class="tag tag-accent" style="margin-bottom:14px;display:inline-flex">Unlocked</span>
           <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.6vw,30px);line-height:1.14;letter-spacing:-0.016em;margin:0">Come and meet everyone</h2>
@@ -390,14 +419,14 @@ body{background:#080b12}
       </section>
       </sc-if>
       <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
-      <section class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-lg);padding:18px 20px;margin:20px 0 0;display:flex;flex-wrap:wrap;gap:16px;align-items:center;max-width:80ch">
+      <section class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-lg);padding:18px 20px;margin:20px 0 0;display:flex;flex-wrap:wrap;gap:16px;align-items:center;max-width:80ch;margin-left:auto;margin-right:auto">
         <span style="flex:1 1 260px;min-width:0;font-size:14.5px;line-height:24px;color:color-mix(in srgb,var(--color-text) 72%,transparent)">You have joined the Discord server!</span>
         <a class="btn btn-secondary" href="https://discord.gg/zZHKW8BMCS" style="font-size:14px;padding:9px 15px;flex:none">Open Discord</a>
       </section>
       </sc-if>
 
       <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
-      <section style="margin:44px 0 0;max-width:80ch">
+      <section style="margin:44px 0 0;max-width:80ch;margin-left:auto;margin-right:auto">
         <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;margin:0 0 18px">
           <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.6vw,30px);line-height:1.14;letter-spacing:-0.016em;margin:0">Your projects</h2>
           <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:0">{{ ownedCountLine }}</p>
@@ -459,7 +488,7 @@ body{background:#080b12}
       </section>
       </sc-if>
 
-      <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;margin:44px 0 18px;max-width:80ch">
+      <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;margin:44px 0 18px;max-width:80ch;margin-left:auto;margin-right:auto">
         <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.6vw,30px);line-height:1.14;letter-spacing:-0.016em;margin:0">{{ hubHeading }}</h2>
         <sc-if value="{{ isNewMember }}" hint-placeholder-val="{{ true }}">
           <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:0">{{ doneCount }} of 10 added. All optional, all editable later</p>
@@ -474,7 +503,7 @@ body{background:#080b12}
       </div>
       </sc-if>
 
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:22px 0 0;max-width:80ch">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:22px 0 0;max-width:80ch;margin-left:auto;margin-right:auto">
         <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
           <div style="display:flex;gap:10px;align-items:baseline;justify-content:space-between">
             <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">Avatar</h3>
@@ -628,7 +657,7 @@ body{background:#080b12}
       </div>
 
       <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
-        <div style="max-width:80ch;margin:44px 0 0;padding:20px 0 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;display:flex;flex-wrap:wrap;gap:16px;align-items:center">
+        <div style="max-width:80ch;margin:44px auto 0;padding:20px 0 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;display:flex;flex-wrap:wrap;gap:16px;align-items:center">
           <div style="flex:1 1 320px;min-width:0">
             <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">Delete account</h3>
             <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 66%,transparent);margin:8px 0 0;max-width:56ch">Hides your profile now and removes it, your CV and your links from the server 24 hours later. Credits on projects you worked on stay with the team.</p>
@@ -680,7 +709,7 @@ body{background:#080b12}
         </div>
       </sc-if>
 
-      <div style="display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;margin:32px 0 0;max-width:80ch">
+      <div style="display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;margin:32px 0 0;max-width:80ch;margin-left:auto;margin-right:auto">
         <a class="btn btn-primary" href="{{ myProfileHref }}" style="font-size:15px;padding:12px 20px">View my profile</a>
         <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
           <button class="btn btn-secondary" type="button" onClick="{{ saveEdits }}" style="font-size:15px;padding:12px 20px">{{ saveLabel }}</button>
@@ -707,7 +736,7 @@ class Component extends DCLogic {
   state = {
     screen: null, email: "", password: "", password2: "", agreed: false,
     error: "", resent: 0,
-    displayName: "", discipline: "", headline: "",
+    displayName: "", discipline: "", discipline2: "", discipline3: "", headline: "",
     location: "", timezone: "", avail: "", bio: "",
     skills: [], skillDraft: "", cv: false, avatar: false,
     handle: "", handleEdited: false, copied: false, avatarPath: "", avatarSrc: "",
@@ -741,7 +770,10 @@ class Component extends DCLogic {
     return {
       handle: this.handleState().shown,
       display_name: s.displayName.trim(),
-      discipline: s.discipline,
+      discipline: [s.discipline, s.discipline2, s.discipline3]
+        .map(function (d) { return (d || "").trim(); })
+        .filter(function (d, i, all) { return d && all.indexOf(d) === i; })
+        .join(", "),
       headline: s.headline.trim(),
       location: s.location.trim(),
       timezone: s.timezone.trim(),
@@ -799,6 +831,25 @@ class Component extends DCLogic {
     api.myProjects().then((r) => { if (r.ok) this.setState({ myProjects: r.data || [] }); });
   }
 
+  // Existing rows hold the old lowercase names; map them so the dropdowns
+  // don't come up blank for anyone who signed up before the rename.
+  canonDiscipline(d) {
+    var s = (d || "").trim();
+    if (!s) return "";
+    var map = {
+      "art & animation": "Art & Animation",
+      "game & level design": "Game & Level Design",
+      "audio & music": "Audio & Music",
+      "qa & testing": "QA & Testing",
+      "tools & tech": "Tools & Tech",
+      "production": "Production & Management",
+      "production & management": "Production & Management",
+      "programming": "Programming",
+      "narrative": "Narrative"
+    };
+    return map[s.toLowerCase()] || s;
+  }
+
   patchProject(i, fields) {
     const next = this.state.projects.map((p, j) => j === i ? { ...p, ...fields } : p);
     this.setState({ projects: next });
@@ -808,7 +859,9 @@ class Component extends DCLogic {
     const links = r.links || [];
     return {
       handle: r.handle || "", handleEdited: true,
-      displayName: r.display_name || "", discipline: r.discipline || "",
+      displayName: r.display_name || "", discipline: this.canonDiscipline((r.discipline || "").split(",")[0]),
+      discipline2: this.canonDiscipline((r.discipline || "").split(",")[1]),
+      discipline3: this.canonDiscipline((r.discipline || "").split(",")[2]),
       headline: r.headline || "", location: r.location || "", timezone: r.timezone || "",
       avail: r.availability || "", bio: r.bio || "", skills: r.skills || [],
       linkList: links.map((e) => this.parseLink(e)).filter(function (e) { return e.url; }),
@@ -824,7 +877,7 @@ class Component extends DCLogic {
   savedProfile() {
     return {
       displayName: "Jae Rivera", handle: "jae-rivera", handleEdited: true,
-      discipline: "Game & level design", headline: "Systems & Narrative Designer",
+      discipline: "Game & Level Design", headline: "Systems & Narrative Designer",
       location: "Lisbon", timezone: "GMT+0", avail: "between",
       bio: "I like turning messy mechanics into something that feels inevitable, and I'm happiest on a small team with one sharp idea.",
       skills: ["Systems design", "Narrative design", "Unity", "Ink"],
@@ -973,6 +1026,8 @@ class Component extends DCLogic {
       setEmail: this.val("email"), setPassword: this.val("password"), setPassword2: this.val("password2"),
       setAgreed: (e) => this.setState({ agreed: e.target.checked }),
       setDisplayName: this.val("displayName"), setDiscipline: this.val("discipline"), setHeadline: this.val("headline"),
+      setDiscipline2: this.val("discipline2"), setDiscipline3: this.val("discipline3"),
+      discipline2: s.discipline2, discipline3: s.discipline3,
       setLocation: this.val("location"), setTimezone: this.val("timezone"), setBio: this.val("bio"),
       links: s.linkList.map((entry, i) => {
         const patch = (k) => (ev) => {
