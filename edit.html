@@ -506,10 +506,15 @@ body{background:#080b12}
           </div>
           <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:10px 0 14px">A portfolio, a web page, a channel. Wherever your work already lives.</p>
           <div style="display:flex;flex-direction:column;gap:8px">
-            <input class="input" type="url" placeholder="own.page/you" value="{{ link1 }}" onChange="{{ setLink1 }}">
-            <p style="font-size:12px;line-height:18px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:0">Full web addresses only — anything that isn't a link is hidden from your profile.</p>
-            <input class="input" type="url" placeholder="mobygames.com/person/…" value="{{ link2 }}" onChange="{{ setLink2 }}">
-            <input class="input" type="url" placeholder="your web page" value="{{ link3 }}" onChange="{{ setLink3 }}">
+            <sc-for list="{{ links }}" as="lnk" hint-placeholder-count="1">
+              <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr) auto;gap:8px;align-items:center">
+                <input class="input" type="text" placeholder="Label" value="{{ lnk.label }}" onChange="{{ lnk.setLabel }}">
+                <input class="input" type="url" placeholder="linkedin.com/in/you" value="{{ lnk.url }}" onChange="{{ lnk.setUrl }}">
+                <button class="btn btn-secondary" type="button" onClick="{{ lnk.remove }}" style="font-size:13px;padding:8px 12px;color:var(--color-danger);border-color:color-mix(in srgb,var(--color-danger) 50%,transparent)">Remove</button>
+              </div>
+            </sc-for>
+            <button class="btn btn-secondary" type="button" onClick="{{ addLink }}" style="font-size:14px;padding:9px 15px;align-self:flex-start">Add a link</button>
+            <p style="font-size:12px;line-height:18px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:0">Leave the label blank and we'll name it from the site — linkedin.com becomes LinkedIn. Full web addresses only; anything that isn't a link stays hidden.</p>
           </div>
         </div>
         <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
@@ -644,7 +649,7 @@ class Component extends DCLogic {
     deletionAt: null, showreel: "", projects: [],
     handleFree: true,
     code: "", codeError: "", codeTries: 0, saved: false, confirmCv: false, confirmDelete: false, busy: false, deleteStep: 1, deletePass: "", deletePassError: "",
-    link1: "", link2: "", link3: "", vis: "members"
+    linkList: [], vis: "members"
   };
 
   // the email's verify link and the reset link land here as ?screen=verified / ?screen=reset
@@ -679,7 +684,9 @@ class Component extends DCLogic {
       availability: s.avail,
       bio: s.bio.trim(),
       skills: s.skills,
-      links: [s.link1, s.link2, s.link3].map((x) => x.trim()).filter(Boolean),
+      links: s.linkList
+        .map(function (e) { return { label: (e.label || "").trim(), url: (e.url || "").trim() }; })
+        .filter(function (e) { return e.url; }),
       visibility: s.vis,
       showreel_url: s.showreel.trim(),
       projects: s.projects
@@ -712,7 +719,9 @@ class Component extends DCLogic {
       displayName: r.display_name || "", discipline: r.discipline || "",
       headline: r.headline || "", location: r.location || "", timezone: r.timezone || "",
       avail: r.availability || "", bio: r.bio || "", skills: r.skills || [],
-      link1: links[0] || "", link2: links[1] || "", link3: links[2] || "",
+      linkList: links.map(function (e) {
+        return (e && typeof e === "object") ? { label: e.label || "", url: e.url || "" } : { label: "", url: e || "" };
+      }),
       vis: r.visibility || "members",
       avatar: !!r.avatar_path, avatarPath: r.avatar_path || "",
       cv: !!r.cv_path, cvPath: r.cv_path || "",
@@ -729,7 +738,7 @@ class Component extends DCLogic {
       location: "Lisbon", timezone: "GMT+0", avail: "between",
       bio: "I like turning messy mechanics into something that feels inevitable, and I'm happiest on a small team with one sharp idea.",
       skills: ["Systems design", "Narrative design", "Unity", "Ink"],
-      cv: true, avatar: true, link1: "own.page/jae", link2: "", link3: "", vis: "public"
+      cv: true, avatar: true, linkList: [{ label: "", url: "own.page/jae" }], vis: "public"
     };
   }
 
@@ -816,7 +825,7 @@ class Component extends DCLogic {
     const avatarSrc = s.avatarSrc;
     const filled = [
       s.avatar, s.location.trim() || s.timezone.trim(), s.avail, s.bio.trim(),
-      s.skills.length, s.cv, s.link1.trim() || s.link2.trim() || s.link3.trim(), true,
+      s.skills.length, s.cv, s.linkList.some(function (e) { return (e.url || "").trim(); }), true,
       s.showreel.trim(), s.projects.some(function (p) { return (p.title || "").trim(); })
     ].filter(Boolean).length;
 
@@ -875,11 +884,22 @@ class Component extends DCLogic {
       setAgreed: (e) => this.setState({ agreed: e.target.checked }),
       setDisplayName: this.val("displayName"), setDiscipline: this.val("discipline"), setHeadline: this.val("headline"),
       setLocation: this.val("location"), setTimezone: this.val("timezone"), setBio: this.val("bio"),
-      setLink1: this.val("link1"), setLink2: this.val("link2"), setLink3: this.val("link3"),
+      links: s.linkList.map((entry, i) => {
+        const patch = (k) => (ev) => {
+          const v = ev.target.value;
+          this.setState({ linkList: this.state.linkList.map((x, j) => j === i ? { ...x, [k]: v } : x) });
+        };
+        return {
+          label: entry.label || "", url: entry.url || "",
+          setLabel: patch("label"), setUrl: patch("url"),
+          remove: () => this.setState({ linkList: this.state.linkList.filter((_, j) => j !== i) })
+        };
+      }),
+      addLink: () => this.setState({ linkList: [...this.state.linkList, { label: "", url: "" }] }),
       setSkillDraft: this.val("skillDraft"),
       displayName: s.displayName, discipline: s.discipline, headline: s.headline,
       location: s.location, timezone: s.timezone, bio: s.bio,
-      link1: s.link1, link2: s.link2, link3: s.link3, skillDraft: s.skillDraft,
+      skillDraft: s.skillDraft,
 
       showCodeEntry: this.props.showCodeEntry ?? true,
       code: s.code,

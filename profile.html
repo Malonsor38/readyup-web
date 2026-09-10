@@ -275,6 +275,31 @@ class Component extends DCLogic {
     return !!s && !/\s/.test(s) && /^[^.]*\.[^.]/.test(s.replace(/^https?:\/\//i, ""));
   }
 
+  // Known hosts get a proper name; everything else falls back to the domain.
+  prettyLink(url) {
+    var host = "";
+    try {
+      host = new URL(/^https?:\/\//i.test(url) ? url : "https://" + url).hostname.replace(/^www\./, "").toLowerCase();
+    } catch (e) {
+      host = String(url).replace(/^https?:\/\//i, "").split("/")[0].toLowerCase();
+    }
+    var known = {
+      "linkedin.com": "LinkedIn", "github.com": "GitHub", "gitlab.com": "GitLab",
+      "itch.io": "itch.io", "artstation.com": "ArtStation", "behance.net": "Behance",
+      "mobygames.com": "MobyGames", "own.page": "own.page", "youtube.com": "YouTube",
+      "youtu.be": "YouTube", "vimeo.com": "Vimeo", "twitch.tv": "Twitch",
+      "soundcloud.com": "SoundCloud", "bandcamp.com": "Bandcamp", "dribbble.com": "Dribbble",
+      "notion.site": "Notion", "substack.com": "Substack", "medium.com": "Medium",
+      "bsky.app": "Bluesky", "mastodon.social": "Mastodon", "x.com": "X",
+      "instagram.com": "Instagram", "sketchfab.com": "Sketchfab", "unrealengine.com": "Unreal",
+      "steampowered.com": "Steam", "gamejolt.com": "Game Jolt"
+    };
+    if (known[host]) return known[host];
+    var base = host.split(".").slice(-2).join(".");
+    if (known[base]) return known[base];
+    return host;
+  }
+
   linkLabel(url) {
     try {
       var host = new URL(/^https?:\/\//i.test(url) ? url : "https://" + url).hostname;
@@ -345,10 +370,13 @@ class Component extends DCLogic {
       skills: (r.skills || []).map(function (label) { return { label: label }; }),
       hasSkills: !!(r.skills && r.skills.length),
 
-      links: (r.links || []).filter((u) => this.looksLikeUrl(u)).map((u) => ({
-        href: /^https?:\/\//i.test(u) ? u : "https://" + u,
-        label: this.linkLabel(u)
-      })),
+      links: (r.links || [])
+        .map(function (e) { return (e && typeof e === "object") ? e : { label: "", url: e }; })
+        .filter((e) => this.looksLikeUrl(e.url))
+        .map((e) => ({
+          href: /^https?:\/\//i.test(e.url) ? e.url : "https://" + e.url,
+          label: (e.label || "").trim() || this.prettyLink(e.url)
+        })),
 
       profileUrlShown: url,
       copyLabel: s.copied ? "Link copied" : "Copy link",
