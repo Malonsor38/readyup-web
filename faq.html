@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
+<script src="/support.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
 <meta charset="utf-8">
 <title>Ready Up: Questions &amp; answers</title>
-<link rel="stylesheet" href="_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/styles.css">
-<script src="_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/_ds_bundle.js"></script>
+<link rel="stylesheet" href="/_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/styles.css">
+<script src="/_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/_ds_bundle.js"></script>
 <style>
 body{margin:0;background:radial-gradient(1100px 640px at 86% -180px,color-mix(in srgb,var(--color-accent-900) 70%,transparent),transparent 60%),radial-gradient(1000px 760px at -10% 100%,color-mix(in srgb,black 28%,transparent),transparent 55%),var(--color-bg);text-wrap:pretty}
 a{color:var(--color-accent)}
@@ -33,28 +33,28 @@ a:hover{color:var(--color-accent-300)}
 body{background:#080b12}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="readyup-api.js"></script>
-<script src="image-slot.js"></script>
+<script src="/readyup-api.js"></script>
+<script src="/image-slot.js"></script>
 </helmet>
 
 <div aria-hidden="true" style="position:fixed;inset:0;z-index:0">
-  <div style="width:100%;height:100%;background:#05060c url('uploads/pasted-1788859460260-0.jpg') center / cover no-repeat"></div>
+  <div style="width:100%;height:100%;background:#05060c url('/uploads/pasted-1788859460260-0.jpg') center / cover no-repeat"></div>
 </div>
 <div style="position:relative;z-index:1;margin:clamp(28px,6vw,120px) auto;max-width:min(1560px,calc(100% - 2 * clamp(28px,6vw,120px)));border-radius:22px;overflow:hidden;background:radial-gradient(1100px 660px at 86% -180px,color-mix(in srgb,var(--color-accent-900) 62%,transparent),transparent 60%),radial-gradient(1000px 760px at -10% 100%,color-mix(in srgb,black 30%,transparent),transparent 55%),var(--color-bg)">
 
 <nav style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;max-width:1140px;margin:0 auto;padding:24px clamp(20px,5vw,72px) 0">
-  <a href="index.html" style="display:flex;align-items:center;gap:11px;margin-right:auto;text-decoration:none;color:var(--color-text);font-family:var(--font-heading);font-weight:500;font-size:18px;letter-spacing:-0.01em">
+  <a href="/" style="display:flex;align-items:center;gap:11px;margin-right:auto;text-decoration:none;color:var(--color-text);font-family:var(--font-heading);font-weight:500;font-size:18px;letter-spacing:-0.01em">
     <span aria-hidden="true" style="position:relative;display:block;width:23px;height:15px;flex:none">
       <span style="position:absolute;left:0;top:0;width:15px;height:15px;border:1.5px solid var(--color-accent);border-radius:3px"></span>
       <span style="position:absolute;left:8px;top:0;width:15px;height:15px;border:1.5px solid var(--color-accent-2-600);border-radius:3px"></span>
     </span>Ready&nbsp;Up
   </a>
-  <a href="index.html" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">Back to home</a>
+  <a href="/" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">Back to home</a>
   <sc-if value="{{ signedOut }}" hint-placeholder-val="{{ true }}">
-    <a class="btn btn-primary" href="join.html" style="font-size:14px;padding:9px 16px">Sign In</a>
+    <a class="btn btn-primary" href="/join" style="font-size:14px;padding:9px 16px">Sign In</a>
   </sc-if>
   <sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
-    <a class="btn btn-primary" href="edit.html" style="font-size:14px;padding:9px 16px">My profile</a>
+    <a class="btn btn-primary" href="/edit" style="font-size:14px;padding:9px 16px">My profile</a>
   </sc-if>
 </nav>
 
@@ -154,7 +154,7 @@ body{background:#080b12}
     <p style="font-family:var(--font-heading);font-weight:500;font-size:15px;line-height:28px;color:var(--color-mark);font-feature-settings:'tnum' 1;margin:0">10</p>
     <div style="max-width:66ch">
       <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(20px,2.2vw,25px);line-height:1.2;letter-spacing:-0.014em;margin:0 0 12px">What's not allowed here?</h2>
-      <p style="font-size:16px;line-height:28px;color:color-mix(in srgb,var(--color-text) 78%,transparent);margin:0">Be decent, be legal, and only share work that's yours. No hate speech, harassment, or shock content; nothing that endangers minors; no stolen or NDA-bound material; no malware or spam. Mature themes in the things you <strong style="color:var(--color-text);font-weight:600">build</strong> are fine. Being harmful to real people isn't. The full details are in our <a href="guidelines.html" style="color:var(--color-accent-300)">Community Guidelines</a>.</p>
+      <p style="font-size:16px;line-height:28px;color:color-mix(in srgb,var(--color-text) 78%,transparent);margin:0">Be decent, be legal, and only share work that's yours. No hate speech, harassment, or shock content; nothing that endangers minors; no stolen or NDA-bound material; no malware or spam. Mature themes in the things you <strong style="color:var(--color-text);font-weight:600">build</strong> are fine. Being harmful to real people isn't. The full details are in our <a href="/guidelines" style="color:var(--color-accent-300)">Community Guidelines</a>.</p>
     </div>
   </div>
   <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
@@ -167,13 +167,13 @@ body{background:#080b12}
       <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(26px,3.4vw,40px);line-height:1.1;letter-spacing:-0.02em;margin:0;max-width:20ch">Didn't find your answer?</h2>
       <p style="font-size:16px;line-height:28px;color:color-mix(in srgb,var(--color-text) 82%,transparent);margin:20px 0 0;max-width:48ch">Join today and come ask in the Discord. Someone will be glad to help, and you'll meet the people building here.</p>
     </div>
-    <a class="btn" href="join.html" style="font-size:15px;padding:12px 20px;color:var(--color-accent-200);border-color:var(--color-accent-300)">Sign up</a>
+    <a class="btn" href="/join" style="font-size:15px;padding:12px 20px;color:var(--color-accent-200);border-color:var(--color-accent-300)">Sign up</a>
   </div>
 </section>
 
 <footer style="max-width:1140px;margin:0 auto;padding:clamp(28px,4vw,48px) clamp(20px,5vw,72px) clamp(48px,6vw,72px);display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:space-between;align-items:center;font-size:13px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">
   <div>Ready&nbsp;Up · 2026</div>
-  <div style="display:flex;gap:18px;flex-wrap:wrap"><a href="index.html" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">Home</a><a href="guidelines.html" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">Community Guidelines</a></div>
+  <div style="display:flex;gap:18px;flex-wrap:wrap"><a href="/" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">Home</a><a href="/guidelines" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">Community Guidelines</a></div>
   <div>Made by <a href="https://own.page/malonsor" style="color:var(--color-accent-300)">Miguel Alonso</a></div>
 </footer>
 </div>

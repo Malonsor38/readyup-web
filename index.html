@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
+<script src="/support.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
 <meta charset="utf-8">
 <title>Ready Up: keep building while you're between roles</title>
-<link rel="stylesheet" href="_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/styles.css">
-<script src="_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/_ds_bundle.js"></script>
+<link rel="stylesheet" href="/_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/styles.css">
+<script src="/_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/_ds_bundle.js"></script>
 <style>
 @keyframes pu-rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 body{margin:0;background:radial-gradient(1200px 720px at 82% -160px,color-mix(in srgb,var(--color-accent-900) 75%,transparent),transparent 60%),radial-gradient(1100px 800px at -10% 100%,color-mix(in srgb,black 30%,transparent),transparent 55%),var(--color-bg);text-wrap:pretty}
@@ -52,17 +52,17 @@ a:hover{color:var(--color-accent-300)}
 body{background:#080b12}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="readyup-api.js"></script>
-<script src="image-slot.js"></script>
+<script src="/readyup-api.js"></script>
+<script src="/image-slot.js"></script>
 </helmet>
 
 <div aria-hidden="true" style="position:fixed;inset:0;z-index:0">
-  <div style="width:100%;height:100%;background:#05060c url('uploads/pasted-1788859460260-0.jpg') center / cover no-repeat"></div>
+  <div style="width:100%;height:100%;background:#05060c url('/uploads/pasted-1788859460260-0.jpg') center / cover no-repeat"></div>
 </div>
 <div style="position:relative;z-index:1;margin:clamp(28px,6vw,120px) auto;max-width:min(1560px,calc(100% - 2 * clamp(28px,6vw,120px)));border-radius:22px;overflow:hidden;background:radial-gradient(1200px 720px at 82% -160px,color-mix(in srgb,var(--color-accent-900) 62%,transparent),transparent 60%),radial-gradient(1100px 800px at -10% 100%,color-mix(in srgb,black 32%,transparent),transparent 55%),var(--color-bg)">
 
 <nav style="display:flex;align-items:center;gap:clamp(14px,2.6vw,30px);flex-wrap:wrap;max-width:1240px;margin:0 auto;padding:24px clamp(20px,5vw,72px) 0">
-  <a href="index.html" style="display:flex;align-items:center;gap:11px;margin-right:auto;text-decoration:none;color:var(--color-text);font-family:var(--font-heading);font-weight:500;font-size:18px;letter-spacing:-0.01em">
+  <a href="/" style="display:flex;align-items:center;gap:11px;margin-right:auto;text-decoration:none;color:var(--color-text);font-family:var(--font-heading);font-weight:500;font-size:18px;letter-spacing:-0.01em">
     <span aria-hidden="true" style="position:relative;display:block;width:23px;height:15px;flex:none">
       <span style="position:absolute;left:0;top:0;width:15px;height:15px;border:1.5px solid var(--color-accent);border-radius:3px"></span>
       <span style="position:absolute;left:8px;top:0;width:15px;height:15px;border:1.5px solid var(--color-accent-2-600);border-radius:3px"></span>
@@ -71,15 +71,15 @@ body{background:#080b12}
   <sc-if value="{{ showNavLinks }}" hint-placeholder-val="{{ true }}">
     <span style="display:flex;align-items:center;gap:clamp(14px,2.4vw,26px);flex-wrap:wrap">
       <a href="#how" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">How it works</a>
-      <a href="faq.html" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">FAQ</a>
+      <a href="/faq" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">FAQ</a>
       
     </span>
   </sc-if>
   <sc-if value="{{ signedOut }}" hint-placeholder-val="{{ true }}">
-    <a class="btn btn-primary" href="join.html" style="font-size:14px;padding:9px 16px">Sign In</a>
+    <a class="btn btn-primary" href="/join" style="font-size:14px;padding:9px 16px">Sign In</a>
   </sc-if>
   <sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
-    <a class="btn btn-primary" href="edit.html" style="font-size:14px;padding:9px 16px">My profile</a>
+    <a class="btn btn-primary" href="/edit" style="font-size:14px;padding:9px 16px">My profile</a>
   </sc-if>
 </nav>
 
@@ -93,14 +93,14 @@ body{background:#080b12}
       </p>
       <p style="font-size:17px;line-height:28px;color:color-mix(in srgb,var(--color-text) 78%,transparent);max-width:48ch;margin:22px 0 0;animation:pu-rise .7s cubic-bezier(.2,.7,.2,1) .16s both">For people between roles: join a project in progress or start something new, and come away with <strong style="color: var(--color-text); font-weight: 600;">real, credited work you can show</strong>. Bring what you're great at.</p>
       <div style="display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 0;animation:pu-rise .7s cubic-bezier(.2,.7,.2,1) .24s both">
-        <a class="btn btn-primary" href="join.html?screen=signup" style="font-size:15px;padding:12px 20px">Create Account</a>
-        <a class="btn btn-secondary" href="join.html" style="font-size:15px;padding:12px 20px">Sign In</a>
+        <a class="btn btn-primary" href="/join?screen=signup" style="font-size:15px;padding:12px 20px">Create Account</a>
+        <a class="btn btn-secondary" href="/join" style="font-size:15px;padding:12px 20px">Sign In</a>
       </div>
       
     </div>
     <sc-if value="{{ showImagery }}" hint-placeholder-val="{{ true }}">
       <figure class="hero-shot" style="flex:1 1 440px;min-width:260px;margin:0 -2% 0 0;position:relative;animation:pu-rise .9s cubic-bezier(.2,.7,.2,1) .2s both">
-        <img src="uploads/hero-desk.webp" width="1400" height="933" decoding="async" alt="A late-night desk: rain on the window, a cat asleep beside the keyboard, a build loading on screen" style="display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;filter:saturate(1.06) contrast(1.04) brightness(0.94) hue-rotate(-5deg)">
+        <img src="/uploads/hero-desk.webp" width="1400" height="933" decoding="async" alt="A late-night desk: rain on the window, a cat asleep beside the keyboard, a build loading on screen" style="display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;filter:saturate(1.06) contrast(1.04) brightness(0.94) hue-rotate(-5deg)">
         <span aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background:var(--color-accent-900);mix-blend-mode:soft-light;opacity:.55"></span>
       </figure>
     </sc-if>
@@ -117,7 +117,7 @@ body{background:#080b12}
       <div style="flex:1 1 480px;min-width:0;max-width:62ch">
         <p style="font-size:16.5px;line-height:28px;color:color-mix(in srgb,var(--color-text) 78%,transparent);margin:0 0 16px">There are plenty of reasons you might be here. A layoff, a contract that ended, a break, the itch to build something of your own. They come down to one thing: you want to put your skills to use. Trouble is, so much of your best work stays invisible, locked under an NDA or lost when a project got cancelled.</p>
         <p style="font-size:16.5px;line-height:28px;color:var(--color-text);margin:0 0 16px"><strong style="font-weight:600">So this is somewhere to use that talent, together, and walk away with something visible to point to.</strong> <span style="color:color-mix(in srgb,var(--color-text) 78%,transparent)">It fits around a job hunt or a day job. Dip in when you have the time.</span></p>
-        <p style="font-size:14px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:0">Curious how it fits around a job search, or who owns what you make? It's all in the <a href="faq.html" style="color:var(--color-accent-300)">FAQ</a>.</p>
+        <p style="font-size:14px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:0">Curious how it fits around a job search, or who owns what you make? It's all in the <a href="/faq" style="color:var(--color-accent-300)">FAQ</a>.</p>
       </div>
     </section>
 
@@ -150,13 +150,13 @@ body{background:#080b12}
         <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(28px,3.4vw,40px);line-height:1.12;letter-spacing:-0.018em;margin:0;max-width:22ch">A profile that shows what you can actually do.</h2>
         <p style="font-size:15.5px;line-height:28px;color:color-mix(in srgb,var(--color-text) 78%,transparent);margin:24px 0 0;max-width:46ch">Everything lands on a profile that's yours to keep: a downloadable CV, the places your work already lives, and the projects you ship here.</p>
         <p style="font-size:15.5px;line-height:28px;color:var(--color-text);margin:16px 0 0;max-width:46ch"><strong style="font-weight:600">It's your CV, plus all the proof a CV can't hold.</strong> <span style="color:color-mix(in srgb,var(--color-text) 78%,transparent)">One page to point a recruiter straight at.</span></p>
-        <p style="font-size:14px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:18px 0 0">Curious what that looks like? <a href="sample" style="color:var(--color-accent-300)">See a full example profile</a>.</p>
+        <p style="font-size:14px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:18px 0 0">Curious what that looks like? <a href="/sample" style="color:var(--color-accent-300)">See a full example profile</a>.</p>
       </div>
-      <a href="sample" class="elev-sm" style="flex:1 1 440px;min-width:280px;display:block;text-decoration:none;color:var(--color-text);background:var(--color-surface);border-radius:var(--radius-lg);padding:20px" style-hover="box-shadow:var(--shadow-md)">
+      <a href="/sample" class="elev-sm" style="flex:1 1 440px;min-width:280px;display:block;text-decoration:none;color:var(--color-text);background:var(--color-surface);border-radius:var(--radius-lg);padding:20px" style-hover="box-shadow:var(--shadow-md)">
         <div style="display:flex;align-items:center;gap:14px">
           <sc-if value="{{ showImagery }}" hint-placeholder-val="{{ true }}">
             <span style="display:block;flex:none;width:54px;height:54px">
-              <image-slot id="la-avatar" shape="rounded" radius="12" src="uploads/you.jpg" placeholder="" style="width:54px;height:54px"></image-slot>
+              <image-slot id="la-avatar" shape="rounded" radius="12" src="/uploads/you.jpg" placeholder="" style="width:54px;height:54px"></image-slot>
             </span>
           </sc-if>
           <span style="display:block;min-width:0">
@@ -224,8 +224,8 @@ body{background:#080b12}
         <p style="font-size:16.5px;line-height:28px;color:color-mix(in srgb,var(--color-text) 82%,transparent);margin:24px 0 0;max-width:54ch">The first small projects are still ahead, and there's room for you on them. All it takes to start is to sign up!</p>
       </div>
       <div style="display:flex;flex-wrap:wrap;gap:10px;flex:0 1 auto">
-        <a class="btn" href="join.html?screen=signup" style="font-size:15px;padding:12px 20px;color:var(--color-accent-200);border-color:var(--color-accent-300)">Sign up</a>
-        <a class="btn" href="join.html" style="font-size:15px;padding:12px 20px;color:var(--color-text);border-color:color-mix(in srgb,var(--color-text) 40%,transparent)">Sign in</a>
+        <a class="btn" href="/join?screen=signup" style="font-size:15px;padding:12px 20px;color:var(--color-accent-200);border-color:var(--color-accent-300)">Sign up</a>
+        <a class="btn" href="/join" style="font-size:15px;padding:12px 20px;color:var(--color-text);border-color:color-mix(in srgb,var(--color-text) 40%,transparent)">Sign in</a>
       </div>
     </div>
   </section>
@@ -233,7 +233,7 @@ body{background:#080b12}
 
 <footer style="max-width:1240px;margin:0 auto;padding:clamp(32px,5vw,56px) clamp(20px,5vw,72px) clamp(48px,6vw,72px);display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:space-between;align-items:center;font-size:13px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">
   <div>Ready&nbsp;Up · 2026</div>
-  <div style="display:flex;gap:18px;flex-wrap:wrap"><a href="faq.html" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">FAQ</a><a href="guidelines.html" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">Community Guidelines</a></div>
+  <div style="display:flex;gap:18px;flex-wrap:wrap"><a href="/faq" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">FAQ</a><a href="/guidelines" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">Community Guidelines</a></div>
   <div>Made by <a href="https://own.page/malonsor" style="color:var(--color-accent-300)">Miguel Alonso</a></div>
 </footer>
 </div>
