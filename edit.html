@@ -9,7 +9,7 @@
 <x-dc>
 <helmet>
 <meta charset="utf-8">
-<title>Ready Up: Edit your profile</title>
+<title>Ready Up: Edit Profile</title>
 <link rel="stylesheet" href="/_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/styles.css">
 <script src="/_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/_ds_bundle.js"></script>
 <style>
@@ -59,7 +59,7 @@ body{background:#080b12}
       <div style="flex:1 1 340px;min-width:0;max-width:44ch">
         <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 20px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Welcome back</span>
         <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(32px,4.4vw,54px);line-height:1.04;letter-spacing:-0.024em;margin:0 0 0 -0.04em">Sign in</h1>
-        <p style="font-size:16px;line-height:28px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:22px 0 0">Pick up where you left off: your projects, your credits, your profile.</p>
+        <p style="font-size:16px;line-height:28px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:22px 0 0">Pick up where you left off: your projects, your credits, your profile...</p>
         <p style="font-size:14px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:16px 0 0">New here? <a href="{{ noop }}" onClick="{{ goSignup }}" style="color:var(--color-accent-300)">Create an account</a>. It takes a minute.</p>
       </div>
       <form onSubmit="{{ submitSignin }}" class="elev-sm" style="flex:1 1 380px;min-width:280px;background:var(--color-surface);border-radius:var(--radius-lg);padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:16px">
@@ -87,11 +87,11 @@ body{background:#080b12}
       <div style="flex:1 1 340px;min-width:0;max-width:44ch">
         <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 20px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Step 1 of 3</span>
         <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(32px,4.4vw,54px);line-height:1.04;letter-spacing:-0.024em;margin:0 0 0 -0.04em">Create your account</h1>
-        <p style="font-size:16px;line-height:28px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:22px 0 0">Email, password, done. We'll verify your address, then you'll set up a profile and get the Discord invite.</p>
+        <p style="font-size:16px;line-height:28px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:22px 0 0">Email, password, done. We'll verify your address, then you can set up your profile and engage with the community.</p>
         <div style="display:flex;flex-direction:column;gap:12px;margin:26px 0 0">
           <p style="display:flex;gap:12px;font-size:14.5px;line-height:24px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:0"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:12px"></span>Free, and always free for the people making things.</p>
-          <p style="display:flex;gap:12px;font-size:14.5px;line-height:24px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:0"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:12px"></span>Your profile is yours to keep, and you choose who sees it.</p>
-          <p style="display:flex;gap:12px;font-size:14.5px;line-height:24px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:0"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:12px"></span>Verification keeps the community real: one person, one account.</p>
+          <p style="display:flex;gap:12px;font-size:14.5px;line-height:24px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:0"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:12px"></span>Your profile is yours to keep, share it however you want.</p>
+          <p style="display:flex;gap:12px;font-size:14.5px;line-height:24px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:0"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-mark);margin-top:12px"></span>Verification keeps ownership safe and clear.</p>
         </div>
         <p style="font-size:14px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:22px 0 0">Already have an account? <a href="{{ noop }}" onClick="{{ goSignin }}" style="color:var(--color-accent-300)">Sign in</a>.</p>
       </div>
@@ -629,14 +629,13 @@ body{background:#080b12}
             <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0">AI use</h3>
             <span class="tag tag-neutral">Optional</span>
           </div>
-          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:10px 0 14px">How you work with AI, as a rule. This is about your practice, not any one project.</p>
+          <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:10px 0 14px">How you work with AI and generative tools.</p>
           <div style="display:flex;flex-direction:column;gap:11px">
-            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="ai" checked="{{ aiNone }}" onChange="{{ pickAiNone }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span><strong style="font-weight:600;color:var(--color-text)">I don't work with AI</strong> — not in the making, not around it.</span></label>
-            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="ai" checked="{{ aiAround }}" onChange="{{ pickAiAround }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span><strong style="font-weight:600;color:var(--color-text)">I use AI around the work, not in it</strong> — planning, research, notes, admin. Nothing it produces ends up in what I make.</span></label>
-            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="ai" checked="{{ aiMild }}" onChange="{{ pickAiMild }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span><strong style="font-weight:600;color:var(--color-text)">I use AI while making, and author the result</strong> — drafts, autocomplete, iterations, always reworked and reviewed by me.</span></label>
-            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="ai" checked="{{ aiFull }}" onChange="{{ pickAiFull }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span><strong style="font-weight:600;color:var(--color-text)">I work generatively with AI</strong> — AI produces material that ships, and I direct and curate it.</span></label>
+            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="ai" checked="{{ aiNone }}" onChange="{{ pickAiNone }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span><strong style="font-weight:600;color:var(--color-text)">No AI, at any stage</strong> — nothing I make involves it, and I don't use it to get there either.</span></label>
+            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="ai" checked="{{ aiAround }}" onChange="{{ pickAiAround }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span><strong style="font-weight:600;color:var(--color-text)">AI as a support tool only</strong> — research, reference, notes, working things out. Nothing it generates ends up in the work itself.</span></label>
+            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="ai" checked="{{ aiMild }}" onChange="{{ pickAiMild }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span><strong style="font-weight:600;color:var(--color-text)">AI generation for specific tasks, verified by me</strong> — I use it on defined parts of the work, then check, correct and take responsibility for what ships.</span></label>
+            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="ai" checked="{{ aiFull }}" onChange="{{ pickAiFull }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span><strong style="font-weight:600;color:var(--color-text)">AI generates the bulk of the output</strong> — I direct and select, and most of what ships was produced by it.</span></label>
             <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 82%,transparent);cursor:pointer"><input type="radio" name="ai" checked="{{ aiOther }}" onChange="{{ pickAiOther }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span><strong style="font-weight:600;color:var(--color-text)">Something else</strong> — describe it below.</span></label>
-            <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 55%,transparent);cursor:pointer"><input type="radio" name="ai" checked="{{ aiUnset }}" onChange="{{ pickAiUnset }}" style="flex:none;margin-top:3px;accent-color:var(--color-accent)"><span>Rather not say — nothing is shown on your profile</span></label>
           </div>
           <sc-if value="{{ aiNoteVisible }}" hint-placeholder-val="{{ false }}">
             <textarea class="input" rows="2" placeholder="{{ aiNotePlaceholder }}" value="{{ aiNote }}" onChange="{{ setAiNote }}" style="resize:vertical;font-family:inherit;margin-top:12px"></textarea>
@@ -746,7 +745,7 @@ body{background:#080b12}
 <footer style="max-width:1140px;margin:0 auto;padding:clamp(24px,4vw,40px) clamp(20px,5vw,56px) clamp(40px,5vw,64px);display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:space-between;align-items:center;font-size:13px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">
   <div>Ready&nbsp;Up · 2026</div>
   <div style="display:flex;gap:18px;flex-wrap:wrap"><a href="/faq" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">FAQ</a><a href="/guidelines" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">Community Guidelines</a></div>
-  <div>Made by <a href="https://own.page/malonsor" style="color:var(--color-accent-300)">Miguel Alonso</a></div>
+  <div>Made by <a href="/malonsor" style="color:var(--color-accent-300)">Miguel Alonso</a></div>
 </footer>
 </div>
 </x-dc>
@@ -1459,12 +1458,12 @@ class Component extends DCLogic {
         : "Only teams you join can open this. Anyone else with the link sees a page saying the profile is private.",
 
       aiNone: s.ai === "none", aiAround: s.ai === "around", aiMild: s.ai === "mild",
-      aiFull: s.ai === "full", aiOther: s.ai === "other", aiUnset: !s.ai,
+      aiFull: s.ai === "full", aiOther: s.ai === "other",
       aiNotePlaceholder: {
         none: "Anything you want to add (optional)",
-        around: "e.g. I use it for research notes and planning, never for assets",
-        mild: "e.g. autocomplete and first drafts, rewritten by hand",
-        full: "e.g. I direct image generation, then paint over the results",
+        around: "e.g. what you use it for, away from the work itself",
+        mild: "e.g. which tasks, and how you verify them",
+        full: "e.g. which parts it produces, and how you direct it",
         other: "How you work with AI, in your own words"
       }[s.ai] || "",
       pickAiNone: () => this.setState({ ai: "none" }),
@@ -1472,7 +1471,6 @@ class Component extends DCLogic {
       pickAiMild: () => this.setState({ ai: "mild" }),
       pickAiFull: () => this.setState({ ai: "full" }),
       pickAiOther: () => this.setState({ ai: "other" }),
-      pickAiUnset: () => this.setState({ ai: "" }),
       aiNoteVisible: !!s.ai,
       aiNote: s.aiNote,
       setAiNote: (e) => this.setState({ aiNote: e.target.value }),
