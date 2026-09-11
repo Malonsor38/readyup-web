@@ -1301,7 +1301,7 @@ class Component extends DCLogic {
             return this.setState({ avatarStatus: "That image is over 5MB. Try a smaller one.", avatarStatusOk: false });
           }
           this.setState({ busy: true, avatarStatus: "Uploading…", avatarStatusOk: false });
-          this.api().uploadFile("avatars", file).then((r) => {
+          this.api().uploadFile("media", file, { scope: "user" }).then((r) => {
             if (!r.ok) return this.setState({ busy: false, avatarStatus: r.error || "Upload failed.", avatarStatusOk: false, error: r.error });
             const p = (r.data && r.data.path) || "";
             this.setState({ avatar: true, avatarPath: p }, () => {
@@ -1410,7 +1410,7 @@ class Component extends DCLogic {
           pickImage: () => this.pickFile("image/*", (file) => {
             if (file.size > 5 * 1024 * 1024) return this.setState({ error: "That image is over 5MB. Try a smaller one." });
             this.patchProject(i, { uploading: true });
-            this.api().uploadFile("avatars", file).then((r) => {
+            this.api().uploadFile("media", file, { scope: "user" }).then((r) => {
               if (!r.ok) return this.patchProject(i, { uploading: false }) || this.setState({ error: r.error });
               this.patchProject(i, { uploading: false, image: (r.data && r.data.path) || "" });
             });

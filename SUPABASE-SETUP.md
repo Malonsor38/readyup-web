@@ -172,6 +172,16 @@ create policy "own file update" on storage.objects
   with check (bucket_id in ('avatars','cvs') and (storage.foldername(name))[1] = auth.uid()::text);
 ```
 
+## 4c. The media bucket
+
+Public imagery — profile art and project art — lives in a `media` bucket split
+into `u/<user-id>/` and `p/<project-id>/` folders. The SQL is in its own file,
+**MEDIA-BUCKET-SQL.md**; run it after this section.
+
+The older `avatars` bucket stays in place. Files uploaded before the split have
+paths without a `u/` or `p/` prefix, and the site resolves those from
+`avatars`, so nothing needs migrating. Don't delete that bucket.
+
 ## 5. Email
 
 **Custom SMTP first — Supabase will not let you edit templates without it.** The

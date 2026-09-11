@@ -58,6 +58,7 @@ window.READYUP_CONFIG = {
     if (/owned_active_count|members_can_create|violates row-level security policy for table "projects"/i.test(raw)) return { ok: false, error: "You already have three live projects. Ship, pause or archive one first." };
     if (/projects_slug_shape/i.test(raw)) return { ok: false, error: "Project addresses use lowercase letters, numbers and hyphens." };
     if (/projects_slug_key/i.test(raw)) return { ok: false, error: "That project address is taken. Try another." };
+    if (/violates row-level security policy/i.test(raw) && /storage|object/i.test(raw)) return { ok: false, error: "You don't have permission to add art to this project." };
     if (/bucket not found/i.test(raw)) return { ok: false, error: "That storage bucket doesn't exist yet. Create 'avatars' and 'cvs' in Supabase → Storage." };
     if (/mime type|not supported/i.test(raw)) return { ok: false, error: "That file type isn't allowed for this bucket. Check the bucket's allowed MIME types in Supabase." };
     if (/payload too large|maximum allowed size|entity too large/i.test(raw)) return { ok: false, error: "That file is larger than the bucket allows. Try a smaller one, or raise the bucket's file size limit." };
@@ -173,7 +174,7 @@ window.READYUP_CONFIG = {
     avatarSignedUrl: function (path) {
       var self = this;
       if (!path || !configured()) return Promise.resolve("");
-      return db().storage.from("avatars").createSignedUrl(path, 3600)
+      return db().storage.from(this.bucketFor(path)).createSignedUrl(path, 3600)
         .then(function (r) {
           var u = r && r.data && r.data.signedUrl;
           return u || self.avatarUrl(path);
@@ -181,10 +182,18 @@ window.READYUP_CONFIG = {
         .catch(function () { return self.avatarUrl(path); });
     },
 
-    // Public URL for an avatar. Cheap, synchronous, no signing needed.
+    // Which bucket a stored path lives in. New uploads carry a "u/" or "p/"
+    // prefix and live in `media`; anything older is from `avatars`, so old
+    // rows keep resolving with no migration.
+    bucketFor: function (path) {
+      return /^[up]\//.test(path || "") ? "media" : "avatars";
+    },
+
+    // Public URL for a stored image. Cheap, synchronous, no signing needed.
+    // Named avatarUrl for history; it resolves any public image path.
     avatarUrl: function (path) {
       if (!path || !configured()) return "";
-      var r = db().storage.from("avatars").getPublicUrl(path);
+      var r = db().storage.from(this.bucketFor(path)).getPublicUrl(path);
       return (r && r.data && r.data.publicUrl) || "";
     },
 
@@ -233,20 +242,38 @@ window.READYUP_CONFIG = {
 
     /* ---- files ------------------------------------------------------- */
 
-    // bucket: "avatars" (public) or "cvs" (private). See SUPABASE-SETUP.md.
-    uploadFile: function (bucket, file) {
+    // bucket: "media" (public images), "cvs" (private), or "avatars" (legacy).
+    // For "media", pass opts: {scope:"user"} or {scope:"project", id:<uuid>} —
+    // the scope decides the folder, and the folder decides who may write there.
+    // See MEDIA-BUCKET-SQL.md.
+    uploadFile: function (bucket, file, opts) {
       if (!configured()) return demo({ path: file && file.name });
       return db().auth.getUser().then(function (u) {
         var id = u.data && u.data.user && u.data.user.id;
         if (!id) return { ok: false, error: "Not signed in." };
-        var path = id + "/" + Date.now() + "-" + file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
+        var safe = Date.now() + "-" + file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
+        var folder;
+        if (bucket === "media") {
+          var o = opts || {};
+          if (o.scope === "project") {
+            if (!o.id) return { ok: false, error: "That project isn't saved yet." };
+            folder = "p/" + o.id;
+          } else {
+            folder = "u/" + id;
+          }
+        } else {
+          folder = id; // cvs, and the legacy avatars layout
+        }
+        var path = folder + "/" + safe;
         return db().storage.from(bucket).upload(path, file, { upsert: false, contentType: file.type || undefined })
           .then(function (r) { return r.error ? fail(r.error) : { ok: true, data: { path: path } }; });
       });
     },
 
+    // bucket is optional: omit it and the path decides.
     removeFile: function (bucket, path) {
       if (!configured()) return demo();
+      if (arguments.length === 1) { path = bucket; bucket = this.bucketFor(path); }
       return db().storage.from(bucket).remove([path])
         .then(function (r) { return r.error ? fail(r.error) : { ok: true }; });
     },
