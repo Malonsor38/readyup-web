@@ -150,6 +150,9 @@ body{background:#080b12}
               <span aria-hidden="true" style="flex:none;width:7px;height:7px;border-radius:50%;background:{{ aiDot }};margin-top:7px"></span><span><span style="color:var(--color-text)">{{ aiLabel }}</span>{{ aiNoteInline }}<span style="color:color-mix(in srgb,var(--color-text) 45%,transparent)"> · self-declared</span></span>
             </p>
           </sc-if>
+        </div>
+      </section>
+    </sc-if>
 
     <sc-if value="{{ hasShowreel }}" hint-placeholder-val="{{ false }}">
       <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent)"></div>
@@ -182,10 +185,6 @@ body{background:#080b12}
               <span style="display:block;font-size:11.5px;line-height:18px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin-top:10px">{{ cr.meta }}</span>
             </a>
           </sc-for>
-        </div>
-      </section>
-    </sc-if>
-
         </div>
       </section>
     </sc-if>

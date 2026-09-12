@@ -275,14 +275,16 @@ body{background:#080b12}
           <label for="p1-disc">Main discipline</label>
           <select class="input" id="p1-disc" value="{{ discipline }}" onChange="{{ setDiscipline }}" style="appearance:none;background-image:none">
             <option value="">Pick the one you'd be hired for</option>
-            <option value="Programming">Programming</option>
             <option value="Art &amp; Animation">Art &amp; Animation</option>
+            <option value="Audio &amp; SFX">Audio &amp; SFX</option>
+            <option value="Engineering">Engineering</option>
             <option value="Game &amp; Level Design">Game &amp; Level Design</option>
-            <option value="Audio &amp; Music">Audio &amp; Music</option>
-            <option value="QA &amp; Testing">QA &amp; Testing</option>
+            <option value="Narrative &amp; Story">Narrative &amp; Story</option>
             <option value="Production &amp; Management">Production &amp; Management</option>
-            <option value="Narrative">Narrative</option>
+            <option value="QA &amp; Testing">QA &amp; Testing</option>
             <option value="Tools &amp; Tech">Tools &amp; Tech</option>
+            <option value="UI / UX">UI / UX</option>
+            <option value="VFX">VFX</option>
           </select>
         </div>
         <div class="field">
@@ -350,42 +352,48 @@ body{background:#080b12}
             <label for="e-disc">Main discipline</label>
             <select class="input" id="e-disc" value="{{ discipline }}" onChange="{{ setDiscipline }}" style="appearance:none;background-image:none">
               <option value="">Pick the one you'd be hired for</option>
-              <option value="Programming">Programming</option>
               <option value="Art &amp; Animation">Art &amp; Animation</option>
+              <option value="Audio &amp; SFX">Audio &amp; SFX</option>
+              <option value="Engineering">Engineering</option>
               <option value="Game &amp; Level Design">Game &amp; Level Design</option>
-              <option value="Audio &amp; Music">Audio &amp; Music</option>
-              <option value="QA &amp; Testing">QA &amp; Testing</option>
+              <option value="Narrative &amp; Story">Narrative &amp; Story</option>
               <option value="Production &amp; Management">Production &amp; Management</option>
-              <option value="Narrative">Narrative</option>
+              <option value="QA &amp; Testing">QA &amp; Testing</option>
               <option value="Tools &amp; Tech">Tools &amp; Tech</option>
+              <option value="UI / UX">UI / UX</option>
+              <option value="VFX">VFX</option>
             </select>
           </div>
           <div class="field">
             <label for="e-disc2">Also (optional)</label>
             <select class="input" id="e-disc2" value="{{ discipline2 }}" onChange="{{ setDiscipline2 }}" style="appearance:none;background-image:none">
               <option value="">None</option>
-              <option value="Programming">Programming</option>
               <option value="Art &amp; Animation">Art &amp; Animation</option>
+              <option value="Audio &amp; SFX">Audio &amp; SFX</option>
+              <option value="Engineering">Engineering</option>
               <option value="Game &amp; Level Design">Game &amp; Level Design</option>
-              <option value="Audio &amp; Music">Audio &amp; Music</option>
-              <option value="QA &amp; Testing">QA &amp; Testing</option>
+              <option value="Narrative &amp; Story">Narrative &amp; Story</option>
               <option value="Production &amp; Management">Production &amp; Management</option>
-              <option value="Narrative">Narrative</option>
+              <option value="QA &amp; Testing">QA &amp; Testing</option>
               <option value="Tools &amp; Tech">Tools &amp; Tech</option>
+              <option value="UI / UX">UI / UX</option>
+              <option value="VFX">VFX</option>
             </select>
           </div>
           <div class="field">
             <label for="e-disc3">And (optional)</label>
             <select class="input" id="e-disc3" value="{{ discipline3 }}" onChange="{{ setDiscipline3 }}" style="appearance:none;background-image:none">
               <option value="">None</option>
-              <option value="Programming">Programming</option>
               <option value="Art &amp; Animation">Art &amp; Animation</option>
+              <option value="Audio &amp; SFX">Audio &amp; SFX</option>
+              <option value="Engineering">Engineering</option>
               <option value="Game &amp; Level Design">Game &amp; Level Design</option>
-              <option value="Audio &amp; Music">Audio &amp; Music</option>
-              <option value="QA &amp; Testing">QA &amp; Testing</option>
+              <option value="Narrative &amp; Story">Narrative &amp; Story</option>
               <option value="Production &amp; Management">Production &amp; Management</option>
-              <option value="Narrative">Narrative</option>
+              <option value="QA &amp; Testing">QA &amp; Testing</option>
               <option value="Tools &amp; Tech">Tools &amp; Tech</option>
+              <option value="UI / UX">UI / UX</option>
+              <option value="VFX">VFX</option>
             </select>
             <p style="font-size:12.5px;line-height:20px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:8px 0 0">Up to three, for anyone who moves between roles. The first is the one teams see first.</p>
           </div>
@@ -859,13 +867,19 @@ class Component extends DCLogic {
     var map = {
       "art & animation": "Art & Animation",
       "game & level design": "Game & Level Design",
-      "audio & music": "Audio & Music",
+      "audio & music": "Audio & SFX",
+      "audio & sfx": "Audio & SFX",
+      "vfx": "VFX",
+      "ui / ux": "UI / UX",
+      "ui/ux": "UI / UX",
       "qa & testing": "QA & Testing",
       "tools & tech": "Tools & Tech",
       "production": "Production & Management",
       "production & management": "Production & Management",
-      "programming": "Programming",
-      "narrative": "Narrative"
+      "programming": "Engineering",
+      "engineering": "Engineering",
+      "narrative": "Narrative & Story",
+      "narrative & story": "Narrative & Story"
     };
     return map[s.toLowerCase()] || s;
   }
