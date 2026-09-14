@@ -8,7 +8,7 @@ You may:
 
 - read the code, and learn from it
 - link to the site, quote it with attribution, and write about it
-- report bugs or security issues (malonsor038@gmail.com — please do)
+- report bugs or security issues (hello@readyup.quest — please do)
 
 You may not, without written permission:
 
