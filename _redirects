@@ -24,6 +24,9 @@
 /p/*             /project.html?slug=:splat   200
 
 # --- convenience redirects
+/robots.txt      /robots.txt   200
+/sitemap.xml     /sitemap.xml  200
+
 /signup          /join         301
 /sign-up         /join         301
 /register        /join         301

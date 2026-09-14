@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Member profiles and the editor are not for indexing — profiles are
+# client-rendered anyway, and visibility is the member's choice.
+Disallow: /edit
+Disallow: /join
+
+Sitemap: https://readyup.quest/sitemap.xml
