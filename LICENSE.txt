@@ -1,0 +1,23 @@
+Copyright © 2026 Miguel Alonso Requena. All rights reserved.
+
+This repository contains the source of the Ready Up website (readyup.quest).
+It is published so the site can be deployed and so its workings are open to
+inspection. It is **not** open source, and no licence to reuse it is granted.
+
+You may:
+
+- read the code, and learn from it
+- link to the site, quote it with attribution, and write about it
+- report bugs or security issues (malonsor038@gmail.com — please do)
+
+You may not, without written permission:
+
+- copy, republish or redistribute this code or its written content
+- run your own copy of this site, publicly or commercially
+- use the Ready Up name, wordmark or visual identity
+- present a derivative as being Ready Up, or as endorsed by it
+
+The design system used here (Nocturne) and any third-party libraries carry
+their own terms, which continue to apply to them.
+
+If you want to use something in here, ask. The answer may well be yes.

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta charset="utf-8">
+<meta name="description" content="The agreement between you and Ready Up: your account, who owns what you make, and what we each promise.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ready Up">
+<meta property="og:url" content="https://readyup.quest/terms">
+<meta property="og:title" content="Ready Up — terms of service">
+<meta property="og:description" content="The agreement between you and Ready Up: your account, who owns what you make, and what we each promise.">
+<meta property="og:image" content="https://readyup.quest/uploads/share-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Ready Up — keep making games between roles">
+<meta name="theme-color" content="#10141f">
+<title>Ready Up: Terms of Service</title>
+<link rel="stylesheet" href="/_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/styles.css">
+<script src="/_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/_ds_bundle.js"></script>
+<style>
+html{scroll-behavior:smooth}
+body{margin:0;text-wrap:pretty}
+a{color:var(--color-accent)}
+a:hover{color:var(--color-accent-300)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+<style>
+:root{
+  --color-bg:#0e1220; --color-surface:#181d2c; --color-text:#eaeef6;
+  --color-accent:#3b74f0;
+  --color-accent-100:#eff4ff; --color-accent-200:#d3e0ff; --color-accent-300:#a8c4ff;
+  --color-accent-400:#7aa2fb; --color-accent-500:#3b74f0; --color-accent-600:#2a58c4;
+  --color-accent-700:#1f4193; --color-accent-800:#172d63; --color-accent-900:#0f1c3c;
+  --color-accent-2-100:#fff8ea; --color-accent-2-200:#fdecc9; --color-accent-2-300:#f8dba0;
+  --color-accent-2-400:#f0c46b; --color-accent-2-500:#e0a83f; --color-accent-2-600:#b8862c;
+  --color-accent-2-800:#63481a;
+  --color-section:#17264d; --color-section-glow:#223766;
+  --color-mark:#e6bc6a;
+}
+body{background:#080b12}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="/readyup-api.js"></script>
+</helmet>
+
+<div aria-hidden="true" style="position:fixed;inset:0;z-index:0">
+  <div style="width:100%;height:100%;background:#05060c url('/uploads/pasted-1788859460260-0.jpg') center / cover no-repeat"></div>
+</div>
+<div style="position:relative;z-index:1;margin:clamp(28px,6vw,120px) auto;max-width:min(1560px,calc(100% - 2 * clamp(28px,6vw,120px)));border-radius:22px;overflow:hidden;background:radial-gradient(1100px 660px at 86% -180px,color-mix(in srgb,var(--color-accent-900) 62%,transparent),transparent 60%),radial-gradient(1000px 760px at -10% 100%,color-mix(in srgb,black 30%,transparent),transparent 55%),var(--color-bg)">
+
+<nav style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;max-width:1160px;margin:0 auto;padding:24px clamp(20px,5vw,72px) 0">
+  <a href="/" style="display:flex;align-items:center;gap:11px;margin-right:auto;text-decoration:none;color:var(--color-text);font-family:var(--font-heading);font-weight:500;font-size:18px;letter-spacing:-0.01em">
+    <span aria-hidden="true" style="position:relative;display:block;width:23px;height:15px;flex:none">
+      <span style="position:absolute;left:0;top:0;width:15px;height:15px;border:1.5px solid var(--color-accent);border-radius:3px"></span>
+      <span style="position:absolute;left:8px;top:0;width:15px;height:15px;border:1.5px solid var(--color-accent-2-600);border-radius:3px"></span>
+    </span>Ready&nbsp;Up
+  </a>
+  <a href="/guidelines" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">Guidelines</a>
+  <a href="/faq" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">FAQ</a>
+  <a href="/" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">Back to home</a>
+  <sc-if value="{{ signedOut }}" hint-placeholder-val="{{ true }}">
+    <a class="btn btn-primary" href="/join" style="font-size:14px;padding:9px 16px;white-space:nowrap">Sign In</a>
+  </sc-if>
+  <sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
+    <a class="btn btn-primary" href="/edit" style="font-size:14px;padding:9px 16px;white-space:nowrap">My profile</a>
+    <button type="button" onClick="{{ navSignOut }}" style="background:none;border:0;padding:0;cursor:pointer;font-family:inherit;font-size:14px;white-space:nowrap;color:color-mix(in srgb,var(--color-text) 62%,transparent)" style-hover="color:var(--color-accent)">Sign out</button>
+  </sc-if>
+</nav>
+
+<main style="max-width:1160px;margin:0 auto;padding:0 clamp(20px,5vw,72px)">
+  <header style="padding:clamp(40px,6vw,88px) 0 clamp(28px,4vw,48px);max-width:62ch">
+    <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 20px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Last updated 14 September 2026</span>
+    <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(34px,5.4vw,68px);line-height:1.03;letter-spacing:-0.026em;margin:0 0 0 -0.05em">Terms of Service</h1>
+    <p style="font-size:17px;line-height:28px;color:var(--color-text);margin:26px 0 0">This is the agreement between you and Ready Up. It is written to be read, not to be impenetrable — but it is still the thing that applies if something goes wrong, so it is worth ten minutes.</p>
+    <p style="font-size:16px;line-height:28px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:16px 0 0">The short version: <strong style="color:var(--color-text);font-weight:600">you own what you make, we host it, and neither of us should be a problem for the other.</strong> The <a href="/guidelines" style="color:var(--color-accent-300)">Community Guidelines</a> cover behaviour, and they form part of these terms.</p>
+  </header>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0 clamp(24px,5vw,72px)">
+    <nav aria-label="Contents" style="grid-column:span 1;align-self:start;position:sticky;top:24px;padding:0 0 32px;max-width:260px">
+      <p style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:0 0 14px">Contents</p>
+      <a href="#who" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">Who you're agreeing with</a>
+      <a href="#eligibility" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">Who can join</a>
+      <a href="#account" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">Your account</a>
+      <a href="#yourwork" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">Your work stays yours</a>
+      <a href="#projects" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">Projects and teams</a>
+      <a href="#ai" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">AI disclosure</a>
+      <a href="#conduct" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">How to behave</a>
+      <a href="#ours" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">What belongs to us</a>
+      <a href="#free" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">Free, and early</a>
+      <a href="#thirdparty" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">Other services</a>
+      <a href="#data" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">Your data</a>
+      <a href="#ending" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">Ending things</a>
+      <a href="#liability" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">Limits of liability</a>
+      <a href="#changes" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">Changes to these terms</a>
+      <a href="#law" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">Law and disputes</a>
+      <a href="#contact" style="display:block;font-size:14px;line-height:32px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">Getting in touch</a>
+    </nav>
+
+    <div style="grid-column:span 2;min-width:0;max-width:70ch">
+      <section id="who" style="padding-top:clamp(28px,4vw,44px);padding-bottom:clamp(28px,4vw,44px);background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">Who you're agreeing with</h2>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 14px">Ready Up is run by <strong style="color:var(--color-text);font-weight:600">Miguel Alonso Requena</strong>, an individual based in <strong style="color:var(--color-text);font-weight:600">Spain</strong>, reachable at <a href="mailto:malonsor038@gmail.com" style="color:var(--color-accent-300);font-weight:600">malonsor038@gmail.com</a>. There is no company behind it yet. If that changes, this section changes with it.</p>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0">By creating an account or using the site, you accept these terms and the <a href="/guidelines" style="color:var(--color-accent-300)">Community Guidelines</a>. If you don't accept them, don't use Ready Up — that is the only consequence.</p>
+      </section>
+
+      <section id="eligibility" style="padding:clamp(28px,4vw,44px) 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">Who can join</h2>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px">
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-accent);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">You must be at least 16.</strong> Ready Up handles personal data, and 16 is the age at which you can consent to that yourself across the EU without a guardian. If you are younger, this is not the place for you yet.</span></li>
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-accent);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">One person, one account.</strong> Real identity, no duplicates, no accounts on someone else's behalf.</span></li>
+          <li style="display:flex;gap:14px;font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent)"><span aria-hidden="true" style="flex:none;width:14px;height:1px;background:var(--color-accent);margin-top:13px"></span><span><strong style="color:var(--color-text);font-weight:600">You must be allowed to be here.</strong> If your employment contract, NDA, or local law prevents you from doing collaborative creative work, that's between you and them — but don't bring the problem here.</span></li>
+        </ul>
+      </section>
+
+      <section id="account" style="padding:clamp(28px,4vw,44px) 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">Your account</h2>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 16px">You need a verified email address to join. Keep your password to yourself; you're responsible for what happens under your account, and you should tell us if you think someone else has got into it.</p>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 16px"><strong style="color:var(--color-text);font-weight:600">Your profile address</strong> — the <code style="font-size:14px">readyup.quest/your-handle</code> part — is yours while you hold it, not a permanent grant. Some handles are reserved, impersonation is not allowed, and we may reclaim an address that infringes someone else's name or is clearly being squatted. If you change your handle, the old one stops working immediately.</p>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0"><strong style="color:var(--color-text);font-weight:600">You choose who sees your profile</strong> — public, members only, or hidden. Nothing you write is published beyond that setting, and you can change it whenever you like.</p>
+      </section>
+
+      <section id="yourwork" style="padding:clamp(28px,4vw,44px) 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">Your work stays yours</h2>
+        <div class="elev-sm" style="display:flex;gap:14px;background:var(--color-surface);border-radius:var(--radius-md);padding:16px 18px;margin:0 0 20px">
+          <span aria-hidden="true" style="flex:none;width:2px;border-radius:2px;background:var(--color-accent)"></span>
+          <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 84%,transparent);margin:0"><strong style="color:var(--color-text);font-weight:600">We do not take ownership of anything you make.</strong> Not your projects, not your ideas, not your CV, not a single asset. It is yours before, during and after.</p>
+        </div>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 16px">What we do need is narrow permission to actually run the thing. By uploading or posting content, you give us a <strong style="color:var(--color-text);font-weight:600">non-exclusive, worldwide, royalty-free licence to store, copy and display it</strong> — but only for the purpose of operating Ready Up and only as far as your own visibility setting allows. A hidden profile is not displayed to anyone. We do not sell your work, licence it onward, or use it to advertise without asking you first.</p>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 16px">That licence ends when you delete the content or your account, apart from two ordinary exceptions: backups take a while to cycle out, and anything a teammate has legitimately already seen or downloaded is out of our hands.</p>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0">You also promise the obvious: that what you upload is <strong style="color:var(--color-text);font-weight:600">yours to upload</strong>. No NDA material, no assets you don't hold rights to, nothing lifted from a past employer.</p>
+      </section>
+
+      <section id="projects" style="padding:clamp(28px,4vw,44px) 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">Projects and teams</h2>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 16px"><strong style="color:var(--color-text);font-weight:600">A project belongs to its team</strong> — everyone who worked on it — and not to Ready Up. We provide the space, the credits and the links; we are not a party to whatever you agree between yourselves.</p>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 16px"><strong style="color:var(--color-text);font-weight:600">Sort out ownership early, in writing, between you.</strong> This matters more than anything else on this page. Ready Up records who was on a team and what they did; it does not decide who owns the code, who can ship it, or who gets paid. If a project gains real traction — a commercial release, funding, actual money — stop and agree fair terms together before going further. We will not arbitrate that, and we cannot.</p>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 16px"><strong style="color:var(--color-text);font-weight:600">You keep your credit.</strong> If you leave a project or it winds down, your contribution stays on your profile, with the dates you were there, and you keep the right to show your own work.</p>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0"><strong style="color:var(--color-text);font-weight:600">Team links are a convenience, not a security boundary.</strong> A project space holds links to tools we don't run — boards, repositories, drives. Removing someone from a team here does not remove them from those tools. That is the team's job, and it is worth doing promptly.</p>
+      </section>
+
+      <section id="ai" style="padding:clamp(28px,4vw,44px) 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">AI disclosure</h2>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 16px">If any part of what you contribute is AI-generated, <strong style="color:var(--color-text);font-weight:600">you must disclose it</strong> — to your team, and on your profile where it applies. Your team has to approve its use before it goes into shared work. If a team would rather have no AI in their project, that is their call to respect.</p>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0">The AI-use statement on your profile is <strong style="color:var(--color-text);font-weight:600">self-declared</strong>. We don't verify it and we don't present it as verified. Declaring it falsely is a straightforward breach of these terms.</p>
+      </section>
+
+      <section id="conduct" style="padding:clamp(28px,4vw,44px) 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">How to behave</h2>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 16px">The <a href="/guidelines" style="color:var(--color-accent-300)">Community Guidelines</a> are the full answer, and they form part of these terms. In summary: be decent, be legal, only share work that's yours.</p>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0">Additionally, and specific to the site itself: don't try to break it, scrape it, overload it, probe it for weaknesses, or get at data that isn't yours. Don't automate account creation. If you find a security hole, tell us rather than using it — we will be grateful rather than difficult.</p>
+      </section>
+
+      <section id="ours" style="padding:clamp(28px,4vw,44px) 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">What belongs to us</h2>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0">The Ready Up name, the site's design, its code and its written content are ours. You are welcome to link to us, write about us, screenshot us, and criticise us. You are not welcome to clone the site and present it as Ready Up, or use the name in a way that suggests we are involved with something we aren't.</p>
+      </section>
+
+      <section id="free" style="padding:clamp(28px,4vw,44px) 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">Free, and early</h2>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 16px">Ready Up is free for the people making things, and there is no plan to charge them. If it ever needs funding, that will come from partners and referrals rather than from members. If that ever changes, you will hear about it before it affects you.</p>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 16px">It is also <strong style="color:var(--color-text);font-weight:600">early, and run by one person</strong>. Be realistic about what that means: features will change, things will occasionally break, and there is no support team behind a ticketing system. The service is provided as it is, without warranties of any kind.</p>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0"><strong style="color:var(--color-text);font-weight:600">Keep your own copies of anything that matters.</strong> Your CV, your artwork, your files. Ready Up is somewhere to show your work, not the only place it should exist.</p>
+      </section>
+
+      <section id="thirdparty" style="padding:clamp(28px,4vw,44px) 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">Other services</h2>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 16px">Ready Up runs on services we don't own, and links out to many more. Our Discord is subject to Discord's own terms as well as ours. Links you add to your profile or a project space point at platforms with their own rules and their own privacy practices.</p>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0">We are not responsible for those services, what happens on them, or what they do with your data. The <a href="#data" style="color:var(--color-accent-300)">Privacy Policy</a> names the ones that process your data on our behalf.</p>
+      </section>
+
+      <section id="data" style="padding:clamp(28px,4vw,44px) 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">Your data</h2>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 16px">What we collect, why, who processes it and what rights you have are set out in the <strong style="color:var(--color-text);font-weight:600">Privacy Policy</strong>. It is part of this agreement.</p>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0">Two things worth stating here as well: <strong style="color:var(--color-text);font-weight:600">you can delete your account at any time</strong>, from your profile page, and doing so removes your profile, files and links from our systems after a short grace period in which you can change your mind. Credits on projects you worked on remain with those teams.</p>
+      </section>
+
+      <section id="ending" style="padding:clamp(28px,4vw,44px) 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">Ending things</h2>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 16px"><strong style="color:var(--color-text);font-weight:600">You can leave whenever you like</strong>, with no notice and no reason given. Delete your account from your profile page.</p>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 16px"><strong style="color:var(--color-text);font-weight:600">We can suspend or remove an account</strong> that breaks these terms or the Community Guidelines. We aim to be fair and to weigh context: usually that means a warning, or removing the content, before anything heavier. Serious harm — child endangerment, credible threats, malware — skips straight to permanent removal and, where the law requires it, a report to the authorities.</p>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0">If we ever have to shut Ready Up down, we will give reasonable notice and a way to export what is yours.</p>
+      </section>
+
+      <section id="liability" style="padding:clamp(28px,4vw,44px) 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">Limits of liability</h2>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 16px">Ready Up is provided as it is, free of charge, with no warranty that it will be available, error-free, or fit for any particular purpose. To the fullest extent the law allows, we are not liable for lost work, lost opportunities, lost income, or disputes between members or teams.</p>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 16px">Nothing here limits liability that cannot lawfully be limited — including for death or personal injury caused by negligence, or for fraud. <strong style="color:var(--color-text);font-weight:600">If you are a consumer, your statutory rights are unaffected.</strong></p>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0">You are responsible for what you post, and for the consequences if it infringes someone else's rights.</p>
+      </section>
+
+      <section id="changes" style="padding:clamp(28px,4vw,44px) 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">Changes to these terms</h2>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0">Ready Up is early and built in the open, so these terms will change as it grows. Small corrections we will simply make, with the date at the top updated. Anything that materially affects you we will tell you about — by email or in the Discord — before it takes effect, and continuing to use Ready Up after that means you accept it. If you don't, you can delete your account.</p>
+      </section>
+
+      <section id="law" style="padding:clamp(28px,4vw,44px) 0;background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">Law and disputes</h2>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 16px">These terms are governed by the law of <strong style="color:var(--color-text);font-weight:600">Spain</strong>, and disputes go to the courts of <strong style="color:var(--color-text);font-weight:600">Spain</strong>. If you are a consumer resident elsewhere in the EU, you keep the right to bring a claim in your own country's courts and to the protections of your own country's consumer law.</p>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0">Before any of that, please just email us. Most things are a misunderstanding and take one message to sort out.</p>
+      </section>
+
+      <section id="contact" style="padding:clamp(28px,4vw,44px) 0 clamp(32px,5vw,56px);background:linear-gradient(to right,transparent,var(--color-divider) 24px calc(100% - 24px),transparent) no-repeat top / 100% 1px;scroll-margin-top:24px">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.16;letter-spacing:-0.016em;margin:0 0 20px">Getting in touch</h2>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0 0 16px">For anything at all — a complaint, a rights issue, a data request, a security report — email <a href="mailto:malonsor038@gmail.com" style="color:var(--color-accent-300);font-weight:600">malonsor038@gmail.com</a>.</p>
+        <p style="font-size:15.5px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0">If you believe something on Ready Up infringes your copyright or trademark, tell us what and where, with enough detail to find it and a statement that you hold the right. We will look at it promptly.</p>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer style="max-width:1160px;margin:0 auto;padding:clamp(24px,4vw,40px) clamp(20px,5vw,72px) clamp(48px,6vw,72px);display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:space-between;align-items:center;font-size:13px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent);background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent) no-repeat top / 100% 1px">
+  <div>© 2026 Miguel Alonso Requena · Ready&nbsp;Up</div>
+  <div style="display:flex;gap:18px;flex-wrap:wrap"><a href="/" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">Home</a><a href="/faq" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">FAQ</a><a href="/guidelines" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">Community Guidelines</a></div>
+  <div>Made by <a href="https://www.linkedin.com/in/malonsor38" style="color:var(--color-accent-300)">Miguel Alonso</a></div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { signedIn: false };
+  componentDidMount() {
+    let v = false;
+    try { v = localStorage.getItem("readyup.signedIn") === "1"; } catch (e) {}
+    if (v) this.setState({ signedIn: true });
+  }
+  renderVals() {
+    return {
+      navSignOut: () => {
+        try { localStorage.removeItem("readyup.signedIn"); } catch (e) {}
+        const api = window.ReadyUpAPI;
+        const go = () => { window.location.href = "/"; };
+        if (api && api.signOut) api.signOut().then(go, go); else go();
+      },
+      signedIn: this.state.signedIn,
+      signedOut: !this.state.signedIn
+    };
+  }
+}
+</script>
+</body>
+</html>

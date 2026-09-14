@@ -73,11 +73,11 @@ body{background:#080b12}
   <a href="/" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">Back to home</a>
   <a href="/faq" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">FAQ</a>
   <sc-if value="{{ signedOut }}" hint-placeholder-val="{{ true }}">
-    <a class="btn btn-primary" href="/join" style="font-size:14px;padding:9px 16px">Sign In</a>
+    <a class="btn btn-primary" href="/join" style="font-size:14px;padding:9px 16px;white-space:nowrap">Sign In</a>
   </sc-if>
   <sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
-    <a class="btn btn-primary" href="/edit" style="font-size:14px;padding:9px 16px">My profile</a>
-    <button type="button" onClick="{{ navSignOut }}" style="background:none;border:0;padding:0;cursor:pointer;font-family:inherit;font-size:14px;color:color-mix(in srgb,var(--color-text) 62%,transparent)" style-hover="color:var(--color-accent)">Sign out</button>
+    <a class="btn btn-primary" href="/edit" style="font-size:14px;padding:9px 16px;white-space:nowrap">My profile</a>
+    <button type="button" onClick="{{ navSignOut }}" style="background:none;border:0;padding:0;cursor:pointer;font-family:inherit;font-size:14px;white-space:nowrap;color:color-mix(in srgb,var(--color-text) 62%,transparent)" style-hover="color:var(--color-accent)">Sign out</button>
   </sc-if>
 </nav>
 
@@ -251,8 +251,8 @@ body{background:#080b12}
 </main>
 
 <footer style="max-width:1140px;margin:0 auto;padding:clamp(28px,4vw,44px) clamp(20px,5vw,72px) clamp(48px,6vw,72px);display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:space-between;align-items:center;font-size:13px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent);background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent) no-repeat top / 100% 1px">
-  <div>Ready&nbsp;Up · 2026</div>
-  <div style="display:flex;gap:18px;flex-wrap:wrap"><a href="/" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">Home</a><a href="/faq" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">FAQ</a></div>
+  <div>© 2026 Miguel Alonso Requena · Ready&nbsp;Up</div>
+  <div style="display:flex;gap:18px;flex-wrap:wrap"><a href="/" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">Home</a><a href="/faq" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">FAQ</a><a href="/terms" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">Terms</a></div>
   <div>Made by <a href="/malonsor" style="color:var(--color-accent-300)">Miguel Alonso</a></div>
 </footer>
 </div>
