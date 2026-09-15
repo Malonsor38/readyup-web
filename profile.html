@@ -279,6 +279,14 @@ class Component extends DCLogic {
   }
 
   componentDidMount() {
+    // This page doubles as the site's 404 fallback, so it receives every
+    // unmatched path — including /p/<slug>. Hand those to the project page
+    // rather than relying on a host rewrite rule being read.
+    try {
+      var m = window.location.pathname.match(/^\/p\/([^\/?#]+)/i);
+      if (m) return window.location.replace("/project?slug=" + encodeURIComponent(m[1]));
+    } catch (e) {}
+
     var api = this.api();
     var handle = this.readHandle();
     this.setState({ handle: handle });

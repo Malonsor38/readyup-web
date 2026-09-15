@@ -19,6 +19,7 @@
 /join            /join.html                  200
 /edit            /edit.html                  200
 /profile         /profile.html               200
+/terms           /terms.html                 200
 
 # --- project spaces: /p/<slug> keeps its pretty URL, project.html reads ?slug
 /p/*             /project.html?slug=:splat   200
