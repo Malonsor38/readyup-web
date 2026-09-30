@@ -506,6 +506,20 @@ window.READYUP_CONFIG = {
       });
     },
 
+    // For the "Your projects" list: how many requests are waiting on each project
+    // this person directs. RLS only returns rows for projects they own.
+    pendingRequestCounts: function (projectIds) {
+      if (!configured() || !projectIds || !projectIds.length) return demo({});
+      return db().from("project_requests").select("project_id")
+        .in("project_id", projectIds).eq("state", "pending")
+        .then(function (r) {
+          if (r.error) return fail(r.error);
+          var counts = {};
+          (r.data || []).forEach(function (x) { counts[x.project_id] = (counts[x.project_id] || 0) + 1; });
+          return { ok: true, data: counts };
+        });
+    },
+
     withdrawJoinRequest: function (requestId) {
       if (!configured()) return demo();
       return db().from("project_requests").update({ state: "withdrawn" }).eq("id", requestId)

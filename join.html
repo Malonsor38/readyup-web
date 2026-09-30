@@ -483,6 +483,11 @@ body{background:#080b12}
                   <span style="display:block;font-family:var(--font-heading);font-weight:500;font-size:16.5px;letter-spacing:-0.01em">{{ pr.name }}</span>
                   <span style="display:block;font-size:12.5px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin-top:3px">{{ pr.roleLine }}</span>
                 </span>
+                <sc-if value="{{ pr.hasUpdates }}" hint-placeholder-val="{{ false }}">
+                  <span style="display:inline-flex;align-items:center;gap:7px;flex:none;font-size:12.5px;line-height:1;padding:5px 10px;border-radius:999px;background:color-mix(in srgb,var(--color-ok) 16%,transparent);color:var(--color-ok)">
+                    <span aria-hidden="true" style="width:7px;height:7px;border-radius:50%;background:var(--color-ok);box-shadow:0 0 0 3px color-mix(in srgb,var(--color-ok) 22%,transparent)"></span>{{ pr.updatesLabel }}
+                  </span>
+                </sc-if>
                 <span style="display:inline-flex;align-items:center;gap:7px;flex:none;font-size:12.5px;color:color-mix(in srgb,var(--color-text) 65%,transparent)">
                   <span aria-hidden="true" style="width:7px;height:7px;border-radius:50%;background:{{ pr.dot }}"></span>{{ pr.statusLabel }}
                 </span>
@@ -892,7 +897,15 @@ class Component extends DCLogic {
   loadMyProjects() {
     const api = this.api();
     if (!api || !api.myProjects) return;
-    api.myProjects().then((r) => { if (r.ok) this.setState({ myProjects: r.data || [] }); });
+    api.myProjects().then((r) => {
+      if (!r.ok) return;
+      const rows = r.data || [];
+      this.setState({ myProjects: rows });
+      const owned = rows.filter((m) => m.is_owner && m.state === "active").map((m) => m.projects.id);
+      if (owned.length && api.pendingRequestCounts) {
+        api.pendingRequestCounts(owned).then((c) => { if (c.ok) this.setState({ pendingCounts: c.data || {} }); });
+      }
+    });
   }
 
   // Existing rows hold the old lowercase names; map them so the dropdowns
@@ -1137,6 +1150,8 @@ class Component extends DCLogic {
         const labels = { forming: "Forming", active: "Active", quiet: "Quiet", paused: "Paused", shipped: "Shipped", archived: "Archived" };
         return {
           name: p.name, href: "/p/" + p.slug,
+          hasUpdates: !!(m.is_owner && (s.pendingCounts || {})[p.id]),
+          updatesLabel: ((s.pendingCounts || {})[p.id] || 0) === 1 ? "1 request" : ((s.pendingCounts || {})[p.id] || 0) + " requests",
           roleLine: (m.is_owner ? "Director" : (m.role_label || "On the team")),
           dot: dots[st] || dots.forming, statusLabel: labels[st] || "Forming"
         };
