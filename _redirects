@@ -20,6 +20,8 @@
 /edit            /edit.html                  200
 /profile         /profile.html               200
 /terms           /terms.html                 200
+/members         /members.html               200
+/projects        /projects.html              200
 
 # --- project spaces: /p/<slug> keeps its pretty URL, project.html reads ?slug
 /p/*             /project.html?slug=:splat   200
@@ -44,4 +46,3 @@
 /code-of-conduct /guidelines   301
 /help            /faq          301
 /questions       /faq          301
-/projects        /edit         301

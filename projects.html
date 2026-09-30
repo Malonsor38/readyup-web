@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta charset="utf-8">
+<meta name="description" content="Projects being built on Ready Up: which are forming and looking for people, which are underway, which are resting.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ready Up">
+<meta property="og:url" content="https://readyup.quest/projects">
+<meta property="og:title" content="Ready Up — projects">
+<meta property="og:description" content="Projects being built on Ready Up: which are forming and looking for people, which are underway, which are resting.">
+<meta property="og:image" content="https://readyup.quest/uploads/share-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="theme-color" content="#10141f">
+<title>Ready Up: Projects</title>
+<link rel="stylesheet" href="/_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/styles.css">
+<script src="/_ds/nocturne-a34bf35f-7df4-4851-864d-0cd4d11753e1/_ds_bundle.js"></script>
+<style>
+body{margin:0;background:#080b12;text-wrap:pretty}
+a{color:var(--color-accent)}
+a:hover{color:var(--color-accent-300)}
+</style>
+<style>
+:root{
+  --color-bg:#10141f; --color-surface:#1a2030; --color-text:#eaeef6;
+  --color-accent:#3b74f0;
+  --color-accent-100:#eff4ff; --color-accent-200:#d3e0ff; --color-accent-300:#a8c4ff;
+  --color-accent-400:#7aa2fb; --color-accent-500:#3b74f0; --color-accent-600:#2a58c4;
+  --color-accent-700:#1f4193; --color-accent-800:#172d63; --color-accent-900:#0f1c3c;
+  --color-accent-2-100:#fff8ea; --color-accent-2-200:#fdecc9; --color-accent-2-300:#f8dba0;
+  --color-accent-2-400:#f0c46b; --color-accent-2-500:#e0a83f; --color-accent-2-600:#b8862c;
+  --color-accent-2-800:#63481a;
+  --color-section:#17264d; --color-section-glow:#223766;
+  --color-mark:#e6bc6a; --color-ok:#6fcf97; --color-danger:#ff8a7a;
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="/readyup-api.js"></script>
+</helmet>
+
+<div aria-hidden="true" style="position:fixed;inset:0;z-index:0">
+  <div style="width:100%;height:100%;background:#05060c url('/uploads/pasted-1788859460260-0.jpg') center / cover no-repeat"></div>
+</div>
+<div style="position:relative;z-index:1;margin:clamp(28px,6vw,120px) auto;max-width:min(1560px,calc(100% - 2 * clamp(28px,6vw,120px)));border-radius:22px;overflow:hidden;background:radial-gradient(1200px 720px at 82% -160px,color-mix(in srgb,var(--color-accent-900) 62%,transparent),transparent 60%),radial-gradient(1100px 800px at -10% 100%,color-mix(in srgb,black 32%,transparent),transparent 55%),var(--color-bg)">
+
+<nav style="display:flex;align-items:center;gap:clamp(14px,2.4vw,26px);flex-wrap:wrap;max-width:1140px;margin:0 auto;padding:24px clamp(20px,5vw,72px) 0">
+  <a href="/" style="display:flex;align-items:center;gap:11px;margin-right:auto;text-decoration:none;color:var(--color-text);font-family:var(--font-heading);font-weight:500;font-size:18px;letter-spacing:-0.01em">
+    <span aria-hidden="true" style="position:relative;display:block;width:23px;height:15px;flex:none">
+      <span style="position:absolute;left:0;top:0;width:15px;height:15px;border:1.5px solid var(--color-accent);border-radius:3px"></span>
+      <span style="position:absolute;left:8px;top:0;width:15px;height:15px;border:1.5px solid var(--color-accent-2-500);border-radius:3px"></span>
+    </span>Ready&nbsp;Up
+  </a>
+  <a href="/members" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">Members</a>
+  <a href="/projects" aria-current="page" style="font-size:14px;text-decoration:none;color:var(--color-text)">Projects</a>
+  <a href="/faq" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">FAQ</a>
+  <sc-if value="{{ signedOut }}" hint-placeholder-val="{{ true }}">
+    <a class="btn btn-primary" href="/join" style="font-size:14px;padding:9px 16px;white-space:nowrap">Sign In</a>
+  </sc-if>
+  <sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
+    <a class="btn btn-primary" href="/edit" style="font-size:14px;padding:9px 16px;white-space:nowrap">My profile</a>
+    <button type="button" onClick="{{ navSignOut }}" style="background:none;border:0;padding:0;cursor:pointer;font-family:inherit;font-size:14px;white-space:nowrap;color:color-mix(in srgb,var(--color-text) 62%,transparent)" style-hover="color:var(--color-accent)">Sign out</button>
+  </sc-if>
+</nav>
+
+<main style="max-width:1140px;margin:0 auto;padding:0 clamp(20px,5vw,72px)">
+  <header style="display:flex;flex-wrap:wrap;gap:20px 40px;align-items:flex-end;justify-content:space-between;padding:clamp(34px,5vw,64px) 0 clamp(20px,3vw,32px)">
+    <div style="flex:1 1 420px;min-width:0;max-width:60ch">
+      <span style="display:flex;align-items:center;gap:12px;font-size:13px;line-height:14px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-mark);margin:0 0 18px"><span aria-hidden="true" style="width:44px;height:1px;background:var(--color-mark);flex:none"></span>Projects</span>
+      <h1 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(32px,4.6vw,56px);line-height:1.03;letter-spacing:-0.026em;margin:0 0 0 -0.04em">What's being built</h1>
+      <sc-if value="{{ signedOut }}" hint-placeholder-val="{{ true }}">
+        <p style="font-size:16.5px;line-height:28px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:18px 0 0">Every project being built on Ready Up. Sign up to ask to join one, or to start your own.</p>
+      </sc-if>
+      <sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
+        <p style="font-size:16.5px;line-height:28px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:18px 0 0">Forming projects are looking for people. Open one to see the team, and ask to join if it's your kind of thing.</p>
+      </sc-if>
+    </div>
+    <sc-if value="{{ signedOut }}" hint-placeholder-val="{{ true }}">
+      <a class="btn btn-primary" href="/join" style="font-size:14.5px;padding:10px 17px;flex:none;white-space:nowrap">Create an account</a>
+    </sc-if>
+    <sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
+      <a class="btn btn-secondary" href="/edit#new-project" style="font-size:14.5px;padding:10px 17px;flex:none;white-space:nowrap">Start a project</a>
+    </sc-if>
+  </header>
+
+  <div role="tablist" aria-label="Project status" style="display:flex;flex-wrap:wrap;gap:6px;padding:0 0 clamp(18px,3vw,26px)">
+    <button role="tab" aria-selected="{{ tabFormingOn }}" class="btn {{ tabFormingCls }}" type="button" onClick="{{ tabForming }}" style="font-size:14px;padding:8px 15px;opacity:{{ tabFormingOpacity }}">Forming</button>
+    <button role="tab" aria-selected="{{ tabActiveOn }}" class="btn {{ tabActiveCls }}" type="button" onClick="{{ tabActive }}" style="font-size:14px;padding:8px 15px;opacity:{{ tabActiveOpacity }}">Active</button>
+    <button role="tab" aria-selected="{{ tabInactiveOn }}" class="btn {{ tabInactiveCls }}" type="button" onClick="{{ tabInactive }}" style="font-size:14px;padding:8px 15px;opacity:{{ tabInactiveOpacity }}">Inactive</button>
+  </div>
+
+  <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ true }}">
+    <p style="font-size:15px;line-height:24px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:0;padding:24px 0 48px">Loading projects…</p>
+  </sc-if>
+
+  <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:20px 0 56px;max-width:56ch">
+      <p style="font-size:16px;line-height:26px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:0">{{ emptyLine }}</p>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ hasCards }}" hint-placeholder-val="{{ false }}">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;padding:0 0 clamp(36px,5vw,64px)">
+      <sc-for list="{{ cards }}" as="c" hint-placeholder-count="0">
+        <a href="{{ c.href }}" class="elev-sm" style="display:flex;flex-direction:column;background:var(--color-surface);border-radius:var(--radius-md);padding:18px 18px 16px;text-decoration:none;color:var(--color-text)" style-hover="box-shadow:var(--shadow-md)">
+          <span style="display:flex;align-items:center;gap:8px;font-size:12.5px;line-height:1;color:{{ c.fg }}"><span aria-hidden="true" style="width:7px;height:7px;border-radius:50%;background:{{ c.dot }}"></span>{{ c.statusLabel }}</span>
+          <span style="display:block;font-family:var(--font-heading);font-weight:500;font-size:19px;line-height:1.2;letter-spacing:-0.012em;margin:12px 0 0">{{ c.name }}</span>
+          <sc-if value="{{ c.hasDirector }}" hint-placeholder-val="{{ false }}">
+            <span style="display:block;font-size:12.5px;line-height:19px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:4px 0 0">Started by {{ c.director }}</span>
+          </sc-if>
+          <span style="display:block;flex:1;font-size:14.5px;line-height:23px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:8px 0 0">{{ c.pitch }}</span>
+          <sc-if value="{{ c.hasLooking }}" hint-placeholder-val="{{ false }}">
+            <span style="display:block;font-size:13px;line-height:20px;color:var(--color-accent-200);margin:12px 0 0">Looking for: {{ c.looking }}</span>
+          </sc-if>
+          <span style="display:flex;justify-content:space-between;gap:10px;font-size:12.5px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:16px 0 0">
+            <span>{{ c.teamLine }}</span>
+            <span style="color:var(--color-accent-300)">Open →</span>
+          </span>
+        </a>
+      </sc-for>
+    </div>
+  </sc-if>
+</main>
+
+<footer style="max-width:1140px;margin:0 auto;padding:clamp(28px,4vw,44px) clamp(20px,5vw,72px) clamp(48px,6vw,72px);display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:space-between;align-items:center;font-size:13px;line-height:24px;color:color-mix(in srgb,var(--color-text) 55%,transparent);background:linear-gradient(to right,transparent,var(--color-divider) 48px calc(100% - 48px),transparent) no-repeat top / 100% 1px">
+  <div>© 2026 Miguel Alonso Requena · Ready&nbsp;Up · <a href="/terms#ours" style="color:color-mix(in srgb,var(--color-text) 62%,transparent);text-decoration:none" style-hover="color:var(--color-accent)">Registered</a></div>
+  <div style="display:flex;gap:18px;flex-wrap:wrap"><a href="/faq" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">FAQ</a><a href="/guidelines" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">Community Guidelines</a><a href="/terms" style="color:color-mix(in srgb,var(--color-text) 70%,transparent);text-decoration:none">Terms</a></div>
+  <div>Made by <a href="/malonsor" style="color:var(--color-accent-300)">Miguel Alonso</a></div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { status: "loading", rows: [], tab: null, signedIn: false };
+
+  componentDidMount() {
+    const api = window.ReadyUpAPI;
+    if (!api) return this.setState({ status: "ready" });
+    api.getSession().then((r) => this.setState({ signedIn: !!(r && r.data) }));
+    api.listProjectsBoard().then((d) => this.setState({ status: "ready", rows: (d.ok && d.data) || [] }));
+  }
+
+  // "Active" softens to Quiet after 60 days without team or link changes
+  bucketOf(p) {
+    if (p.status === "forming") return "forming";
+    const quiet = p.status === "active" && p.last_activity_at &&
+      (Date.now() - new Date(p.last_activity_at).getTime()) > 60 * 864e5;
+    if (p.status === "active" && !quiet) return "active";
+    return "inactive";
+  }
+
+  renderVals() {
+    const s = this.state;
+    const by = { forming: [], active: [], inactive: [] };
+    s.rows.forEach((p) => by[this.bucketOf(p)].push(p));
+
+    // land on the first tab that has something in it, forming first
+    const tab = s.tab || (by.forming.length ? "forming" : by.active.length ? "active" : by.inactive.length ? "inactive" : "forming");
+
+    const look = (p) => {
+      const b = this.bucketOf(p);
+      if (b === "forming") return ["Forming · looking for people", "var(--color-accent-400)", "var(--color-accent-200)"];
+      if (b === "active") return ["Active", "var(--color-ok)", "var(--color-ok)"];
+      if (p.status === "shipped") return ["Shipped", "var(--color-accent-2-400)", "var(--color-accent-2-200)"];
+      if (p.status === "paused") return ["Paused", "color-mix(in srgb,var(--color-text) 40%,transparent)", "color-mix(in srgb,var(--color-text) 65%,transparent)"];
+      return ["Quiet", "color-mix(in srgb,var(--color-text) 40%,transparent)", "color-mix(in srgb,var(--color-text) 65%,transparent)"];
+    };
+
+    const cards = by[tab].map((p) => {
+      const n = (p.project_members || []).filter((m) => m.state === "active").length;
+      const l = look(p);
+      return {
+        href: "/p/" + p.slug,
+        name: p.name,
+        pitch: p.pitch || "No description yet.",
+        statusLabel: l[0], dot: l[1], fg: l[2],
+        teamLine: n === 1 ? "1 person on the team" : n + " people on the team",
+        director: (p.creator && (p.creator.display_name || p.creator.handle)) || "",
+        hasDirector: !!(p.creator && (p.creator.display_name || p.creator.handle)),
+        looking: (p.looking_for || []).join(" · "),
+        hasLooking: this.bucketOf(p) === "forming" && (p.looking_for || []).length > 0
+      };
+    });
+
+    const empty = {
+      forming: "Nothing is forming right now. Got an idea? Start a project and see who joins you.",
+      active: "No projects are underway at the moment.",
+      inactive: "Nothing resting or shipped yet."
+    }[tab];
+
+    const tabBtn = (v) => (tab === v ? "btn-primary" : "btn-ghost");
+    const go = (v) => () => this.setState({ tab: v });
+
+    return {
+      signedIn: s.signedIn, signedOut: !s.signedIn,
+      navSignOut: () => {
+        try { localStorage.removeItem("readyup.signedIn"); } catch (e) {}
+        const api = window.ReadyUpAPI;
+        const home = () => { window.location.href = "/"; };
+        if (api && api.signOut) api.signOut().then(home, home); else home();
+      },
+
+      tabFormingCls: tabBtn("forming"), tabActiveCls: tabBtn("active"), tabInactiveCls: tabBtn("inactive"),
+      tabFormingOn: tab === "forming" ? "true" : "false",
+      tabActiveOn: tab === "active" ? "true" : "false",
+      tabInactiveOn: tab === "inactive" ? "true" : "false",
+      tabForming: go("forming"), tabActive: go("active"), tabInactive: go("inactive"),
+      // empty tabs stay clickable but read as empty, since there are no counts
+      tabFormingOpacity: (s.status === "ready" && !by.forming.length && tab !== "forming") ? "0.45" : "1",
+      tabActiveOpacity: (s.status === "ready" && !by.active.length && tab !== "active") ? "0.45" : "1",
+      tabInactiveOpacity: (s.status === "ready" && !by.inactive.length && tab !== "inactive") ? "0.45" : "1",
+
+      isLoading: s.status === "loading",
+      hasCards: s.status === "ready" && cards.length > 0,
+      isEmpty: s.status === "ready" && cards.length === 0,
+      cards,
+      emptyLine: empty
+    };
+  }
+}
+</script>
+</body>
+</html>

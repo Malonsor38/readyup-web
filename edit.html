@@ -69,6 +69,8 @@ body{background:#080b12}
       <span style="position:absolute;left:8px;top:0;width:15px;height:15px;border:1.5px solid var(--color-accent-2-600);border-radius:3px"></span>
     </span>Ready&nbsp;Up
   </a>
+  <a href="/members" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">Members</a>
+  <a href="/projects" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">Projects</a>
   <a href="/faq" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">FAQ</a>
   <a href="/" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">Back to home</a>
   <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
@@ -497,7 +499,7 @@ body{background:#080b12}
         </sc-if>
 
         <sc-if value="{{ canCreate }}" hint-placeholder-val="{{ true }}">
-          <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
+          <div id="new-project" class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
             <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0 0 6px">Ready up a project</h3>
             <p style="font-size:13.5px;line-height:22px;color:color-mix(in srgb,var(--color-text) 66%,transparent);margin:0 0 14px">You'll be its director. Invite people and add the team's links once it exists.</p>
             <form onSubmit="{{ submitProject }}" style="display:flex;flex-direction:column;gap:10px">
@@ -810,6 +812,7 @@ class Component extends DCLogic {
         this.setState(rec);
         this.refreshAvatar(rec.avatarPath);
         this.loadMyProjects();
+        this.jumpToHash();
       });
     });
   }
@@ -880,6 +883,18 @@ class Component extends DCLogic {
     var bar = s.indexOf("|");
     if (bar > -1) return { label: s.slice(0, bar).trim(), url: s.slice(bar + 1).trim() };
     return { label: "", url: s };
+  }
+
+  jumpToHash() {
+    const id = (window.location.hash || "").slice(1);
+    if (!id) return;
+    let tries = 0;
+    const tick = () => {
+      const el = document.getElementById(id);
+      if (el) return window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 24, behavior: "smooth" });
+      if (++tries < 20) setTimeout(tick, 100);
+    };
+    setTimeout(tick, 50);
   }
 
   loadMyProjects() {
@@ -1231,6 +1246,7 @@ class Component extends DCLogic {
             this.setState({ busy: false, screen: "edit", error: "", ...rec });
             this.refreshAvatar(rec.avatarPath);
         this.loadMyProjects();
+        this.jumpToHash();
           });
         });
       },

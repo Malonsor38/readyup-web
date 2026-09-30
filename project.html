@@ -71,6 +71,8 @@ body{background:#080b12}
     </span>Ready&nbsp;Up
   </a>
   <a href="/" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">Back to home</a>
+  <a href="/members" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">Members</a>
+  <a href="/projects" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">Projects</a>
   <a href="/faq" style="font-size:14px;text-decoration:none;color:color-mix(in srgb,var(--color-text) 78%,transparent)" style-hover="color:var(--color-accent)">FAQ</a>
   <sc-if value="{{ signedOut }}" hint-placeholder-val="{{ true }}">
     <a class="btn btn-primary" href="/join" style="font-size:14px;padding:9px 16px;white-space:nowrap">Sign In</a>
@@ -112,6 +114,11 @@ body{background:#080b12}
       <sc-if value="{{ hasPitch }}" hint-placeholder-val="{{ true }}">
         <p style="font-size:17px;line-height:28px;color:color-mix(in srgb,var(--color-text) 82%,transparent);margin:20px 0 0;max-width:60ch">{{ pitch }}</p>
       </sc-if>
+      <sc-if value="{{ showLooking }}" hint-placeholder-val="{{ false }}">
+        <p style="display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 66%,transparent);margin:16px 0 0">Looking for
+          <sc-for list="{{ lookingTags }}" as="lt" hint-placeholder-count="0"><span class="tag tag-accent">{{ lt.label }}</span></sc-for>
+        </p>
+      </sc-if>
       <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:18px 0 0">
         <span style="font-size:14.5px;color:var(--color-accent-300);word-break:break-all">{{ urlShown }}</span>
         <button class="btn btn-secondary" type="button" onClick="{{ copyLink }}" style="font-size:13.5px;padding:8px 14px">{{ copyLabel }}</button>
@@ -127,6 +134,29 @@ body{background:#080b12}
           <button class="btn btn-secondary" type="button" onClick="{{ decline }}" style="font-size:15px;padding:11px 20px">Decline</button>
         </div>
       </section>
+    </sc-if>
+
+    <sc-if value="{{ canAsk }}" hint-placeholder-val="{{ false }}">
+      <section class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-lg);padding:clamp(20px,3vw,26px);margin:0 0 24px;max-width:80ch">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:clamp(19px,2.2vw,23px);line-height:1.16;letter-spacing:-0.014em;margin:0">Want in?</h2>
+        <p style="font-size:15px;line-height:25px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:10px 0 16px;max-width:58ch">Ask the director to add you. They'll get an email with a link to your profile, so make sure it shows what you'd bring.</p>
+        <form onSubmit="{{ submitAsk }}" style="display:flex;flex-direction:column;gap:10px">
+          <input class="input" type="text" maxLength="60" placeholder="What you'd bring — e.g. 3D environment art" value="{{ askRole }}" onChange="{{ setAskRole }}">
+          <textarea class="input" rows="3" maxLength="600" placeholder="A line or two for the director (optional)" value="{{ askMsg }}" onChange="{{ setAskMsg }}" style="resize:vertical;font-family:inherit"></textarea>
+          <button class="btn btn-primary" type="submit" style="font-size:14.5px;padding:10px 17px;align-self:flex-start">{{ askLabel }}</button>
+        </form>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ askPending }}" hint-placeholder-val="{{ false }}">
+      <section class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-lg);padding:clamp(18px,3vw,22px);margin:0 0 24px;max-width:80ch;display:flex;flex-wrap:wrap;gap:14px;align-items:center">
+        <p style="flex:1 1 320px;min-width:0;font-size:15px;line-height:24px;color:color-mix(in srgb,var(--color-text) 80%,transparent);margin:0"><strong style="color:var(--color-text);font-weight:600">Request sent.</strong> The director has been emailed. If they add you, this project appears on your profile.</p>
+        <button class="btn btn-secondary" type="button" onClick="{{ withdrawAsk }}" style="flex:none;font-size:13.5px;padding:8px 14px">Withdraw</button>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ askSignedOut }}" hint-placeholder-val="{{ false }}">
+      <p style="font-size:14.5px;line-height:23px;color:color-mix(in srgb,var(--color-text) 66%,transparent);margin:0 0 24px"><a href="/join" style="color:var(--color-accent-300)">Sign in</a> to ask to join this project.</p>
     </sc-if>
 
     <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
@@ -226,9 +256,40 @@ body{background:#080b12}
                 <option value="shipped">Shipped</option>
                 <option value="archived">Archived</option>
               </select>
+              <div>
+                <p style="font-size:13.5px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:4px 0 8px">Looking for <span style="color:color-mix(in srgb,var(--color-text) 50%,transparent)">— shown on the board while the project is forming</span></p>
+                <sc-if value="{{ hasLookingPicker }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;flex-wrap:wrap;gap:6px">
+                    <sc-for list="{{ lookingPicker }}" as="lp" hint-placeholder-count="0">
+                      <button type="button" class="tag {{ lp.cls }}" onClick="{{ lp.toggle }}" aria-pressed="{{ lp.pressed }}" style="border:0;cursor:pointer;font-family:inherit">{{ lp.label }}</button>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
               <button class="btn btn-primary" type="button" onClick="{{ saveDetails }}" style="font-size:14px;padding:9px 15px;align-self:flex-start">{{ saveLabel }}</button>
             </div>
           </div>
+
+          <sc-if value="{{ hasRequests }}" hint-placeholder-val="{{ false }}">
+          <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px;box-shadow:inset 0 0 0 1px var(--color-accent-800)">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0 0 14px">Asking to join</h3>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <sc-for list="{{ requests }}" as="rq" hint-placeholder-count="0">
+                <div style="display:flex;flex-wrap:wrap;gap:10px 14px;align-items:flex-start;padding:0 0 12px;background:linear-gradient(to right,transparent,var(--color-divider) 12px calc(100% - 12px),transparent) no-repeat bottom / 100% 1px">
+                  <div style="flex:1 1 260px;min-width:0">
+                    <a href="{{ rq.href }}" style="font-size:15px;font-weight:500;color:var(--color-text);text-decoration:none" style-hover="color:var(--color-accent-300)">{{ rq.name }}</a>
+                    <p style="font-size:12.5px;line-height:19px;color:color-mix(in srgb,var(--color-text) 58%,transparent);margin:3px 0 0">{{ rq.sub }}</p>
+                    <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:6px 0 0;white-space:pre-line">{{ rq.message }}</p>
+                  </div>
+                  <div style="display:flex;gap:8px;flex:none">
+                    <button class="btn btn-primary" type="button" onClick="{{ rq.accept }}" style="font-size:13.5px;padding:8px 14px">Add to team</button>
+                    <button class="btn btn-secondary" type="button" onClick="{{ rq.decline }}" style="font-size:13.5px;padding:8px 14px">Decline</button>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          </sc-if>
 
           <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
             <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0 0 6px">Invite someone</h3>
@@ -282,13 +343,20 @@ body{background:#080b12}
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
+const DISCIPLINES = [
+  "Art & Animation", "Audio & SFX", "Engineering", "Game & Level Design",
+  "Narrative & Story", "Production & Management", "QA & Testing",
+  "Tools & Tech", "UI / UX", "VFX"
+];
+
 class Component extends DCLogic {
   state = {
+    requests: [], myRequest: null, askRole: "", askMsg: "", asking: false,
     status: "loading", row: null, slug: "", uid: null, signedIn: false,
     resources: [], error: "", copied: false,
     drafts: [{ label: "", url: "" }],
     inviteHandle: "", inviteRole: "", inviteMsg: "", inviteOk: false,
-    editName: "", editPitch: "", editStatus: "forming", saved: false, busy: false
+    editName: "", editPitch: "", editStatus: "forming", editLooking: [], saved: false, busy: false
   };
 
   api() { return window.ReadyUpAPI; }
@@ -331,12 +399,19 @@ class Component extends DCLogic {
         status: "found", row: r.data,
         editName: r.data.name || "",
         editPitch: r.data.pitch || "",
-        editStatus: r.data.status || "forming"
+        editStatus: r.data.status || "forming",
+        editLooking: r.data.looking_for || []
       });
       if (this.mine(r.data) === "active") {
         api.listResources(r.data.id).then((rr) => {
           if (rr.ok) this.setState({ resources: rr.data || [] });
         });
+      }
+      const me = this.myRow(r.data);
+      if (me && me.is_owner && me.state === "active" && api.listJoinRequests) {
+        api.listJoinRequests(r.data.id).then((q) => { if (q.ok) this.setState({ requests: q.data || [] }); });
+      } else if (this.state.uid && (!me || me.state === "past") && api.myJoinRequest) {
+        api.myJoinRequest(r.data.id).then((q) => { if (q.ok) this.setState({ myRequest: q.data }); });
       }
     });
   }
@@ -427,6 +502,19 @@ class Component extends DCLogic {
 
       name: row.name || "",
       pitch: row.pitch || "", hasPitch: !!(row.pitch || "").trim(),
+      showLooking: row.status === "forming" && (row.looking_for || []).length > 0,
+      lookingTags: (row.looking_for || []).map((label) => ({ label })),
+      hasLookingPicker: true,
+      lookingPicker: DISCIPLINES.map((label) => {
+        const on = s.editLooking.indexOf(label) > -1;
+        return {
+          label, cls: on ? "tag-accent" : "tag-neutral", pressed: on ? "true" : "false",
+          toggle: () => this.setState({
+            editLooking: on ? this.state.editLooking.filter((x) => x !== label)
+                            : [...this.state.editLooking, label].sort((x, y) => x.localeCompare(y))
+          })
+        };
+      }),
       badgeLabel: look[0], badgeDot: look[1], badgeBg: look[2], badgeFg: look[3],
 
       urlShown: url,
@@ -450,6 +538,51 @@ class Component extends DCLogic {
       decline: () => this.api().respondToInvite(row.id, false).then((r) => {
         if (!r.ok) return this.setState({ error: r.error });
         this.reload();
+      }),
+
+      canAsk: !!s.uid && (!mine || mine.state === "past") && !isOwner && !s.myRequest && ["forming","active"].indexOf(row.status) > -1,
+      askPending: !!s.myRequest && (!mine || mine.state === "past"),
+      askSignedOut: !s.uid && ["forming","active"].indexOf(row.status) > -1,
+      askRole: s.askRole || "", askMsg: s.askMsg || "",
+      setAskRole: (e) => this.setState({ askRole: e.target.value }),
+      setAskMsg: (e) => this.setState({ askMsg: e.target.value }),
+      askLabel: s.asking ? "Sending…" : "Ask to join",
+      submitAsk: (e) => {
+        e.preventDefault();
+        if (this.state.asking) return;
+        this.setState({ asking: true, error: "" });
+        this.api().requestToJoin(row.id, (this.state.askRole || "").trim(), (this.state.askMsg || "").trim()).then((r) => {
+          if (!r.ok) return this.setState({ asking: false, error: r.error });
+          this.setState({ asking: false, myRequest: r.data || { id: null }, askRole: "", askMsg: "" });
+        });
+      },
+      withdrawAsk: () => {
+        const id = s.myRequest && s.myRequest.id;
+        if (!id) return this.setState({ myRequest: null });
+        this.api().withdrawJoinRequest(id).then((r) => {
+          if (!r.ok) return this.setState({ error: r.error });
+          this.setState({ myRequest: null });
+        });
+      },
+
+      hasRequests: isOwner && (s.requests || []).length > 0,
+      requests: (s.requests || []).map((q) => {
+        const p = q.profiles;
+        return {
+          name: p ? (p.display_name || p.handle) : "A member with a hidden profile",
+          href: p && p.handle ? "/" + p.handle : "#",
+          sub: [q.role_label, p && p.discipline ? String(p.discipline).split(",")[0].trim() : ""].filter(Boolean).join(" · ") || "No role given",
+          message: q.message || "",
+          accept: () => this.api().acceptJoinRequest(q.id).then((r) => {
+            if (!r.ok) return this.setState({ error: r.error });
+            this.setState({ requests: this.state.requests.filter((x) => x.id !== q.id) });
+            this.reload();
+          }),
+          decline: () => this.api().declineJoinRequest(q.id).then((r) => {
+            if (!r.ok) return this.setState({ error: r.error });
+            this.setState({ requests: this.state.requests.filter((x) => x.id !== q.id) });
+          })
+        };
       }),
 
       isMember, isOwner,
@@ -508,7 +641,8 @@ class Component extends DCLogic {
       saveDetails: () => {
         if (!s.editName.trim()) return this.setState({ error: "A project needs a name." });
         this.api().updateProject(row.id, {
-          name: s.editName.trim(), pitch: s.editPitch.trim() || null, status: s.editStatus
+          name: s.editName.trim(), pitch: s.editPitch.trim() || null, status: s.editStatus,
+          looking_for: s.editLooking
         }).then((r) => {
           if (!r.ok) return this.setState({ error: r.error });
           this.setState({ saved: true, error: "" });

@@ -14,6 +14,7 @@ window.READYUP_CONFIG = {
 /* ───────────────────────────────────────────────────────────────────────── */
 
 (function () {
+  var DEMO_HANDLES = ["sample"];
   var cfg = window.READYUP_CONFIG;
   var client = null;
 
@@ -59,6 +60,8 @@ window.READYUP_CONFIG = {
     if (/projects_slug_shape/i.test(raw)) return { ok: false, error: "Project addresses use lowercase letters, numbers and hyphens." };
     if (/projects_slug_key/i.test(raw)) return { ok: false, error: "That project address is taken. Try another." };
     if (/violates row-level security policy/i.test(raw) && /storage|object/i.test(raw)) return { ok: false, error: "You don't have permission to add art to this project." };
+    if (/project_requests_one_pending/i.test(raw)) return { ok: false, error: "You've already asked to join this project." };
+    if (/row-level security policy for table "project_requests"/i.test(raw)) return { ok: false, error: "This project isn't taking requests right now." };
     if (/bucket not found/i.test(raw)) return { ok: false, error: "That storage bucket doesn't exist yet. Create 'avatars' and 'cvs' in Supabase → Storage." };
     if (/mime type|not supported/i.test(raw)) return { ok: false, error: "That file type isn't allowed for this bucket. Check the bucket's allowed MIME types in Supabase." };
     if (/payload too large|maximum allowed size|entity too large/i.test(raw)) return { ok: false, error: "That file is larger than the bucket allows. Try a smaller one, or raise the bucket's file size limit." };
@@ -425,6 +428,118 @@ window.READYUP_CONFIG = {
     removeResource: function (id) {
       if (!configured()) return demo();
       return db().from("project_resources").delete().eq("id", id)
+        .then(function (r) { return r.error ? fail(r.error) : { ok: true }; });
+    },
+
+    /* ---- discovery ---------------------------------------------------- */
+
+    // Example accounts. Their profiles still work at their own address (the
+    // landing page links to one), but they are never listed as real members.
+
+    // Members directory. Deliberately few columns: name, handle, disciplines,
+    // status. RLS decides who is listed — Public for everyone, Members-only when
+    // signed in. Your own row comes back even if Hidden, so it is filtered here.
+    listDirectory: function (limit) {
+      if (!configured()) return demo([]);
+      var q = db().from("profiles")
+        .select("id,handle,display_name,discipline,availability,visibility")
+        .neq("visibility", "hidden").not("handle", "is", null)
+        .not("handle", "in", "(" + DEMO_HANDLES.join(",") + ")")
+        .order("display_name", { ascending: true });
+      if (limit) q = q.limit(limit);
+      return q.then(function (r) {
+        if (r.error) return fail(r.error);
+        return { ok: true, data: r.data || [] };
+      });
+    },
+
+    // Projects board. Archived projects are left out; active member rows come
+    // back publicly, which is how the team size is counted.
+    listProjectsBoard: function (limit) {
+      if (!configured()) return demo([]);
+      var q = db().from("projects")
+        .select("id,slug,name,pitch,status,looking_for,last_activity_at,created_at,project_members(state),creator:profiles!created_by(handle,display_name)")
+        .neq("status", "archived")
+        .order("last_activity_at", { ascending: false });
+      if (limit) q = q.limit(limit);
+      return q.then(function (r) {
+        if (r.error) return fail(r.error);
+        // the demo account's projects are examples, not real teams
+        var rows = (r.data || []).filter(function (p) {
+          return !(p.creator && DEMO_HANDLES.indexOf((p.creator.handle || "").toLowerCase()) > -1);
+        });
+        return { ok: true, data: rows };
+      });
+    },
+
+    /* ---- asking to join ------------------------------------------------ */
+
+    myJoinRequest: function (projectId) {
+      if (!configured()) return demo(null);
+      return db().auth.getUser().then(function (u) {
+        var uid = u.data && u.data.user && u.data.user.id;
+        if (!uid) return { ok: true, data: null };
+        return db().from("project_requests").select("*")
+          .eq("project_id", projectId).eq("profile_id", uid).eq("state", "pending")
+          .maybeSingle()
+          .then(function (r) { return r.error ? fail(r.error) : { ok: true, data: r.data || null }; });
+      });
+    },
+
+    // Saves the request, then asks the server to email the director. The email
+    // is best-effort: if it fails, the director still sees it on the page.
+    requestToJoin: function (projectId, role, message) {
+      if (!configured()) return demo();
+      return db().auth.getUser().then(function (u) {
+        var uid = u.data && u.data.user && u.data.user.id;
+        if (!uid) return { ok: false, error: "Sign in to ask to join." };
+        return db().from("project_requests")
+          .insert({ project_id: projectId, profile_id: uid, role_label: role || null, message: message || null })
+          .select().maybeSingle()
+          .then(function (r) {
+            if (r.error) return fail(r.error);
+            var row = r.data;
+            db().functions.invoke("notify-join-request", { body: { request_id: row.id } })
+              .catch(function (e) { console.warn("[ReadyUp] notify failed", e); });
+            return { ok: true, data: row };
+          });
+      });
+    },
+
+    withdrawJoinRequest: function (requestId) {
+      if (!configured()) return demo();
+      return db().from("project_requests").update({ state: "withdrawn" }).eq("id", requestId)
+        .then(function (r) { return r.error ? fail(r.error) : { ok: true }; });
+    },
+
+    // Director only. A requester with a Hidden profile comes back without a
+    // name — RLS won't join it — and the page says so.
+    listJoinRequests: function (projectId) {
+      if (!configured()) return demo([]);
+      return db().from("project_requests")
+        .select("*,profiles(handle,display_name,discipline)")
+        .eq("project_id", projectId).eq("state", "pending")
+        .order("created_at", { ascending: true })
+        .then(function (r) { return r.error ? fail(r.error) : { ok: true, data: r.data || [] }; });
+    },
+
+    acceptJoinRequest: function (requestId) {
+      if (!configured()) return demo();
+      return db().rpc("accept_join_request", { p_request: requestId }).then(function (r) {
+        if (r.error) return fail(r.error);
+        if (r.data === "ok") {
+          // best-effort, like the director's email: the membership is already saved
+          db().functions.invoke("notify-join-request", { body: { request_id: requestId, event: "accepted" } })
+            .catch(function (e) { console.warn("[ReadyUp] applicant notify failed", e); });
+          return { ok: true };
+        }
+        return { ok: false, error: r.data === "not_owner" ? "Only the director can accept requests." : "That request is no longer open." };
+      });
+    },
+
+    declineJoinRequest: function (requestId) {
+      if (!configured()) return demo();
+      return db().from("project_requests").update({ state: "declined", decided_at: new Date().toISOString() }).eq("id", requestId)
         .then(function (r) { return r.error ? fail(r.error) : { ok: true }; });
     },
 
