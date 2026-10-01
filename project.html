@@ -115,7 +115,7 @@ body{background:#080b12}
         <p style="font-size:17px;line-height:28px;color:color-mix(in srgb,var(--color-text) 82%,transparent);margin:20px 0 0;max-width:60ch">{{ pitch }}</p>
       </sc-if>
       <sc-if value="{{ showLooking }}" hint-placeholder-val="{{ false }}">
-        <p style="display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 66%,transparent);margin:16px 0 0">Looking for
+        <p style="display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 66%,transparent);margin:16px 0 0"><strong style="font-weight:600;letter-spacing:0.04em;color:var(--color-accent-200)">{{ lfgTag }}</strong>
           <sc-for list="{{ lookingTags }}" as="lt" hint-placeholder-count="0"><span class="tag tag-accent">{{ lt.label }}</span></sc-for>
         </p>
       </sc-if>
@@ -124,6 +124,13 @@ body{background:#080b12}
         <button class="btn btn-secondary" type="button" onClick="{{ copyLink }}" style="font-size:13.5px;padding:8px 14px">{{ copyLabel }}</button>
       </div>
     </header>
+
+    <sc-if value="{{ hasMedia }}" hint-placeholder-val="{{ false }}">
+      <section style="padding:0 0 clamp(24px,3vw,36px)">
+        <h2 style="font-family:var(--font-heading);font-weight:500;font-size:13px;line-height:14px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:0 0 14px">Progress</h2>
+        {{ galleryEl }}
+      </section>
+    </sc-if>
 
     <sc-if value="{{ isInvited }}" hint-placeholder-val="{{ false }}">
       <section class="elev-md" style="background:var(--color-section);border-radius:var(--radius-lg);padding:clamp(20px,3vw,28px);margin:0 0 24px;max-width:80ch">
@@ -250,14 +257,14 @@ body{background:#080b12}
               <input class="input" type="text" placeholder="Project name" value="{{ editName }}" onChange="{{ setEditName }}">
               <textarea class="input" rows="2" placeholder="One or two lines on what it is" value="{{ editPitch }}" onChange="{{ setEditPitch }}" style="resize:vertical;font-family:inherit"></textarea>
               <select class="input" value="{{ editStatus }}" onChange="{{ setEditStatus }}" style="appearance:none;background-image:none">
-                <option value="forming">Forming — looking for people</option>
+                <option value="forming">Forming — looking for group (LFG)</option>
                 <option value="active">Active</option>
                 <option value="paused">Paused</option>
                 <option value="shipped">Shipped</option>
                 <option value="archived">Archived</option>
               </select>
               <div>
-                <p style="font-size:13.5px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:4px 0 8px">Looking for <span style="color:color-mix(in srgb,var(--color-text) 50%,transparent)">— shown on the board while the project is forming</span></p>
+                <p style="font-size:13.5px;line-height:22px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:4px 0 8px">Looking for (LFG) <span style="color:color-mix(in srgb,var(--color-text) 50%,transparent)">— shown on the board while the project is forming</span></p>
                 <sc-if value="{{ hasLookingPicker }}" hint-placeholder-val="{{ false }}">
                   <div style="display:flex;flex-wrap:wrap;gap:6px">
                     <sc-for list="{{ lookingPicker }}" as="lp" hint-placeholder-count="0">
@@ -290,6 +297,18 @@ body{background:#080b12}
             </div>
           </div>
           </sc-if>
+
+          <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
+            <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0 0 6px">Progress media</h3>
+            <p style="font-size:13.5px;line-height:22px;color:color-mix(in srgb,var(--color-text) 66%,transparent);margin:0 0 14px">Screenshots, concept art, WIP shots. Public, shown on this page and under Details on the projects board. Up to 8, 5MB each.</p>
+            {{ mediaManagerEl }}
+            <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:12px 0 0">
+              <button class="btn btn-secondary" type="button" onClick="{{ addMedia }}" style="font-size:14px;padding:9px 15px">{{ addMediaLabel }}</button>
+              <sc-if value="{{ hasMediaMsg }}" hint-placeholder-val="{{ false }}">
+                <span role="status" style="font-size:13px;color:var(--color-accent-2-200)">{{ mediaMsg }}</span>
+              </sc-if>
+            </div>
+          </div>
 
           <div class="elev-sm" style="background:var(--color-surface);border-radius:var(--radius-md);padding:18px">
             <h3 style="font-family:var(--font-heading);font-weight:500;font-size:16.5px;line-height:1.2;margin:0 0 6px">Invite someone</h3>
@@ -400,7 +419,8 @@ class Component extends DCLogic {
         editName: r.data.name || "",
         editPitch: r.data.pitch || "",
         editStatus: r.data.status || "forming",
-        editLooking: r.data.looking_for || []
+        editLooking: r.data.looking_for || [],
+        media: r.data.media || []
       });
       if (this.mine(r.data) === "active") {
         api.listResources(r.data.id).then((rr) => {
@@ -414,6 +434,68 @@ class Component extends DCLogic {
         api.myJoinRequest(r.data.id).then((q) => { if (q.ok) this.setState({ myRequest: q.data }); });
       }
     });
+  }
+
+  mediaVals(row, isOwner) {
+    const api = this.api();
+    const media = this.state.media || [];
+    const url = (p) => (api && api.avatarUrl ? api.avatarUrl(p) : "");
+    const img = (p, i) => React.createElement("img", {
+      key: p + i, src: url(p), alt: "", loading: "lazy",
+      onError: (e) => { e.target.style.display = "none"; },
+      style: { display: "block", width: "100%", aspectRatio: "16/9", objectFit: "cover",
+               borderRadius: "8px", background: "var(--color-surface)" }
+    });
+    const gallery = media.length ? React.createElement("div", {
+      style: { display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(220px,1fr))", gap: "10px" }
+    }, media.map((p, i) => React.createElement("a", { key: i, href: url(p), target: "_blank", rel: "noopener" }, img(p, i)))) : null;
+
+    const save = (next, msg) => {
+      this.setState({ media: next, mediaMsg: msg || "" });
+      return api.updateProject(row.id, { media: next }).then((r) => {
+        if (!r.ok) this.setState({ mediaMsg: r.error });
+      });
+    };
+    const manager = media.length ? React.createElement("div", {
+      style: { display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(120px,1fr))", gap: "8px" }
+    }, media.map((p, i) => React.createElement("div", { key: p + i, style: { position: "relative" } },
+      img(p, i),
+      React.createElement("button", {
+        type: "button", "aria-label": "Remove image",
+        onClick: () => save(media.filter((_, j) => j !== i)),
+        style: { position: "absolute", top: "6px", right: "6px", border: 0, cursor: "pointer",
+                 borderRadius: "999px", padding: "3px 9px", fontSize: "12px", fontFamily: "inherit",
+                 background: "color-mix(in srgb,#05070c 72%,transparent)", color: "var(--color-danger)" }
+      }, "Remove")
+    ))) : null;
+
+    return {
+      hasMedia: media.length > 0,
+      galleryEl: gallery,
+      mediaManagerEl: isOwner ? manager : null,
+      addMediaLabel: this.state.mediaBusy ? "Uploading…" : (media.length >= 8 ? "8 of 8 added" : "Add an image"),
+      mediaMsg: this.state.mediaMsg || "",
+      hasMediaMsg: !!this.state.mediaMsg,
+      addMedia: () => {
+        if (this.state.mediaBusy) return;
+        if (media.length >= 8) return this.setState({ mediaMsg: "That's the limit of 8. Remove one to add another." });
+        const input = document.createElement("input");
+        input.type = "file"; input.accept = "image/*";
+        input.onchange = () => {
+          const file = input.files && input.files[0];
+          if (!file) return;
+          if (file.size > 5 * 1024 * 1024) return this.setState({ mediaMsg: "That image is over 5MB. Try a smaller one." });
+          this.setState({ mediaBusy: true, mediaMsg: "" });
+          api.uploadFile("media", file, { scope: "project", id: row.id }).then((r) => {
+            this.setState({ mediaBusy: false });
+            if (!r.ok) return this.setState({ mediaMsg: r.error });
+            // saved straight away, so leaving the page can't lose it
+            save([...(this.state.media || []), r.data.path], "");
+          });
+        };
+        input.click();
+      }
+    };
   }
 
   members(row) { return (row && row.project_members) || []; }
@@ -502,6 +584,8 @@ class Component extends DCLogic {
 
       name: row.name || "",
       pitch: row.pitch || "", hasPitch: !!(row.pitch || "").trim(),
+      ...this.mediaVals(row, isOwner),
+      lfgTag: active.length > 1 ? "LFM" : "LFG",
       showLooking: row.status === "forming" && (row.looking_for || []).length > 0,
       lookingTags: (row.looking_for || []).map((label) => ({ label })),
       hasLookingPicker: true,

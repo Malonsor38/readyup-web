@@ -457,12 +457,24 @@ window.READYUP_CONFIG = {
     // back publicly, which is how the team size is counted.
     listProjectsBoard: function (limit) {
       if (!configured()) return demo([]);
-      var q = db().from("projects")
-        .select("id,slug,name,pitch,status,looking_for,last_activity_at,created_at,project_members(state),creator:profiles!created_by(handle,display_name)")
-        .neq("status", "archived")
-        .order("last_activity_at", { ascending: false });
-      if (limit) q = q.limit(limit);
-      return q.then(function (r) {
+      // media and looking_for are newer columns. If the SQL that adds them
+      // hasn't been run, retry without them rather than showing an empty board.
+      var full = "id,slug,name,pitch,status,looking_for,media,last_activity_at,created_at,project_members(state),creator:profiles!created_by(handle,display_name)";
+      var lean = full.replace(",media", "").replace(",looking_for", "");
+      var run = function (sel) {
+        var q = db().from("projects").select(sel)
+          .neq("status", "archived")
+          .order("last_activity_at", { ascending: false });
+        if (limit) q = q.limit(limit);
+        return q;
+      };
+      return run(full).then(function (r) {
+        if (r.error && /column .* does not exist/i.test(r.error.message || "")) {
+          console.warn("[ReadyUp] board: newer columns missing, run DIRECTORY-SQL.md step 5 and 7", r.error.message);
+          return run(lean);
+        }
+        return r;
+      }).then(function (r) {
         if (r.error) return fail(r.error);
         // the demo account's projects are examples, not real teams
         var rows = (r.data || []).filter(function (p) {

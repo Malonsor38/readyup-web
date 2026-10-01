@@ -9,12 +9,12 @@
 <x-dc>
 <helmet>
 <meta charset="utf-8">
-<meta name="description" content="Projects being built on Ready Up: which are forming and looking for people, which are underway, which are resting.">
+<meta name="description" content="Projects being built on Ready Up: which are LFG, which are underway, which are resting.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Ready Up">
 <meta property="og:url" content="https://readyup.quest/projects">
 <meta property="og:title" content="Ready Up — projects">
-<meta property="og:description" content="Projects being built on Ready Up: which are forming and looking for people, which are underway, which are resting.">
+<meta property="og:description" content="Projects being built on Ready Up: which are LFG, which are underway, which are resting.">
 <meta property="og:image" content="https://readyup.quest/uploads/share-card.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -78,7 +78,7 @@ a:hover{color:var(--color-accent-300)}
         <p style="font-size:16.5px;line-height:28px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:18px 0 0">Every project being built on Ready Up. Sign up to ask to join one, or to start your own.</p>
       </sc-if>
       <sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
-        <p style="font-size:16.5px;line-height:28px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:18px 0 0">Forming projects are looking for people. Open one to see the team, and ask to join if it's your kind of thing.</p>
+        <p style="font-size:16.5px;line-height:28px;color:color-mix(in srgb,var(--color-text) 76%,transparent);margin:18px 0 0">Forming projects are LFG. Open one to see the team, and ask to join if it's your kind of thing.</p>
       </sc-if>
     </div>
     <sc-if value="{{ signedOut }}" hint-placeholder-val="{{ true }}">
@@ -90,13 +90,18 @@ a:hover{color:var(--color-accent-300)}
   </header>
 
   <div role="tablist" aria-label="Project status" style="display:flex;flex-wrap:wrap;gap:6px;padding:0 0 clamp(18px,3vw,26px)">
-    <button role="tab" aria-selected="{{ tabFormingOn }}" class="btn {{ tabFormingCls }}" type="button" onClick="{{ tabForming }}" style="font-size:14px;padding:8px 15px;opacity:{{ tabFormingOpacity }}">Forming</button>
-    <button role="tab" aria-selected="{{ tabActiveOn }}" class="btn {{ tabActiveCls }}" type="button" onClick="{{ tabActive }}" style="font-size:14px;padding:8px 15px;opacity:{{ tabActiveOpacity }}">Active</button>
-    <button role="tab" aria-selected="{{ tabInactiveOn }}" class="btn {{ tabInactiveCls }}" type="button" onClick="{{ tabInactive }}" style="font-size:14px;padding:8px 15px;opacity:{{ tabInactiveOpacity }}">Inactive</button>
+    <button role="tab" aria-selected="{{ tabFormingOn }}" class="btn {{ tabFormingCls }}" type="button" onClick="{{ tabForming }}" style="font-size:14px;padding:8px 15px;white-space:nowrap;opacity:{{ tabFormingOpacity }}">Forming</button>
+    <button role="tab" aria-selected="{{ tabActiveOn }}" class="btn {{ tabActiveCls }}" type="button" onClick="{{ tabActive }}" style="font-size:14px;padding:8px 15px;white-space:nowrap;opacity:{{ tabActiveOpacity }}">Active</button>
+    <button role="tab" aria-selected="{{ tabInactiveOn }}" class="btn {{ tabInactiveCls }}" type="button" onClick="{{ tabInactive }}" style="font-size:14px;padding:8px 15px;white-space:nowrap;opacity:{{ tabInactiveOpacity }}">Inactive</button>
   </div>
+  <p style="font-size:12.5px;line-height:20px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:-8px 0 clamp(16px,2.6vw,22px)"><strong style="font-weight:600;color:color-mix(in srgb,var(--color-text) 70%,transparent)">LFG</strong> looking for group, a team still forming · <strong style="font-weight:600;color:color-mix(in srgb,var(--color-text) 70%,transparent)">LFM</strong> looking for more, a team that's started but has open roles</p>
 
   <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ true }}">
     <p style="font-size:15px;line-height:24px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:0;padding:24px 0 48px">Loading projects…</p>
+  </sc-if>
+
+  <sc-if value="{{ isError }}" hint-placeholder-val="{{ false }}">
+    <p role="alert" style="font-size:15px;line-height:24px;color:var(--color-accent-2-200);margin:0;padding:20px 0 56px;max-width:56ch">Projects couldn't be loaded just now. Try again in a moment.</p>
   </sc-if>
 
   <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
@@ -106,23 +111,31 @@ a:hover{color:var(--color-accent-300)}
   </sc-if>
 
   <sc-if value="{{ hasCards }}" hint-placeholder-val="{{ false }}">
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;padding:0 0 clamp(36px,5vw,64px)">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;align-items:start;padding:0 0 clamp(36px,5vw,64px)">
       <sc-for list="{{ cards }}" as="c" hint-placeholder-count="0">
-        <a href="{{ c.href }}" class="elev-sm" style="display:flex;flex-direction:column;background:var(--color-surface);border-radius:var(--radius-md);padding:18px 18px 16px;text-decoration:none;color:var(--color-text)" style-hover="box-shadow:var(--shadow-md)">
+        <div class="elev-sm" style="display:flex;flex-direction:column;background:var(--color-surface);border-radius:var(--radius-md);padding:15px 18px 14px">
           <span style="display:flex;align-items:center;gap:8px;font-size:12.5px;line-height:1;color:{{ c.fg }}"><span aria-hidden="true" style="width:7px;height:7px;border-radius:50%;background:{{ c.dot }}"></span>{{ c.statusLabel }}</span>
-          <span style="display:block;font-family:var(--font-heading);font-weight:500;font-size:19px;line-height:1.2;letter-spacing:-0.012em;margin:12px 0 0">{{ c.name }}</span>
+          <a href="{{ c.href }}" style="display:block;font-family:var(--font-heading);font-weight:500;font-size:18px;line-height:1.2;letter-spacing:-0.012em;margin:10px 0 0;text-decoration:none;color:var(--color-text)" style-hover="color:var(--color-accent-300)">{{ c.name }}</a>
           <sc-if value="{{ c.hasDirector }}" hint-placeholder-val="{{ false }}">
-            <span style="display:block;font-size:12.5px;line-height:19px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:4px 0 0">Started by {{ c.director }}</span>
+            <span style="display:block;font-size:12.5px;line-height:19px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:3px 0 0">Started by {{ c.director }}</span>
           </sc-if>
-          <span style="display:block;flex:1;font-size:14.5px;line-height:23px;color:color-mix(in srgb,var(--color-text) 72%,transparent);margin:8px 0 0">{{ c.pitch }}</span>
           <sc-if value="{{ c.hasLooking }}" hint-placeholder-val="{{ false }}">
-            <span style="display:block;font-size:13px;line-height:20px;color:var(--color-accent-200);margin:12px 0 0">Looking for: {{ c.looking }}</span>
+            <span style="display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;font-size:13px;line-height:20px;color:var(--color-accent-200);margin:10px 0 0"><span style="font-weight:600;letter-spacing:0.04em">{{ c.lfgTag }}</span>{{ c.looking }}</span>
           </sc-if>
-          <span style="display:flex;justify-content:space-between;gap:10px;font-size:12.5px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:16px 0 0">
-            <span>{{ c.teamLine }}</span>
-            <span style="color:var(--color-accent-300)">Open →</span>
+          <sc-if value="{{ c.open }}" hint-placeholder-val="{{ false }}">
+            <div style="margin:12px 0 0;padding:12px 0 0;background:linear-gradient(to right,transparent,var(--color-divider) 16px calc(100% - 16px),transparent) no-repeat top / 100% 1px">
+              <p style="font-size:14px;line-height:22px;color:color-mix(in srgb,var(--color-text) 74%,transparent);margin:0">{{ c.pitch }}</p>
+              {{ c.mediaEl }}
+            </div>
+          </sc-if>
+          <span style="display:flex;align-items:center;gap:12px;font-size:12.5px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:12px 0 0">
+            <span style="margin-right:auto">{{ c.teamLine }}</span>
+            <sc-if value="{{ c.hasDetails }}" hint-placeholder-val="{{ false }}">
+              <button type="button" aria-expanded="{{ c.expanded }}" onClick="{{ c.toggle }}" style="background:none;border:0;padding:0;cursor:pointer;font-family:inherit;font-size:12.5px;color:color-mix(in srgb,var(--color-text) 72%,transparent)" style-hover="color:var(--color-accent)">{{ c.detailsLabel }}</button>
+            </sc-if>
+            <a href="{{ c.href }}" style="color:var(--color-accent-300);text-decoration:none">Open →</a>
           </span>
-        </a>
+        </div>
       </sc-for>
     </div>
   </sc-if>
@@ -137,13 +150,13 @@ a:hover{color:var(--color-accent-300)}
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { status: "loading", rows: [], tab: null, signedIn: false };
+  state = { status: "loading", rows: [], tab: null, signedIn: false, open: {} };
 
   componentDidMount() {
     const api = window.ReadyUpAPI;
     if (!api) return this.setState({ status: "ready" });
     api.getSession().then((r) => this.setState({ signedIn: !!(r && r.data) }));
-    api.listProjectsBoard().then((d) => this.setState({ status: "ready", rows: (d.ok && d.data) || [] }));
+    api.listProjectsBoard().then((d) => this.setState(d.ok ? { status: "ready", rows: d.data || [] } : { status: "error", rows: [] }));
   }
 
   // "Active" softens to Quiet after 60 days without team or link changes
@@ -153,6 +166,34 @@ class Component extends DCLogic {
       (Date.now() - new Date(p.last_activity_at).getTime()) > 60 * 864e5;
     if (p.status === "active" && !quiet) return "active";
     return "inactive";
+  }
+
+  // a team of one is looking for a group; anyone further along is looking for more
+  lfg(p) {
+    const n = (p.project_members || []).filter((m) => m.state === "active").length;
+    return n > 1 ? "LFM" : "LFG";
+  }
+
+  // progress media in Details: up to four thumbnails, built here so no
+  // template hole can reach an <img src>
+  mediaEl(p) {
+    const api = window.ReadyUpAPI;
+    const paths = (p.media || []).filter(Boolean);
+    if (!paths.length || !api || !api.avatarUrl) return null;
+    const shown = paths.slice(0, 4);
+    const kids = shown.map((path, i) => React.createElement("img", {
+      key: i, src: api.avatarUrl(path), alt: "", loading: "lazy",
+      onError: (e) => { e.target.style.display = "none"; },
+      style: { display: "block", width: "100%", aspectRatio: "16/9", objectFit: "cover",
+               borderRadius: "6px", background: "var(--color-bg)" }
+    }));
+    const grid = React.createElement("div", {
+      style: { display: "grid", gridTemplateColumns: shown.length === 1 ? "1fr" : "1fr 1fr", gap: "6px", marginTop: "12px" }
+    }, kids);
+    if (paths.length <= 4) return grid;
+    return React.createElement(React.Fragment, null, grid,
+      React.createElement("p", { style: { fontSize: "12px", lineHeight: "18px", margin: "8px 0 0",
+        color: "color-mix(in srgb,var(--color-text) 55%,transparent)" } }, "+" + (paths.length - 4) + " more on the project page"));
   }
 
   renderVals() {
@@ -165,7 +206,7 @@ class Component extends DCLogic {
 
     const look = (p) => {
       const b = this.bucketOf(p);
-      if (b === "forming") return ["Forming · looking for people", "var(--color-accent-400)", "var(--color-accent-200)"];
+      if (b === "forming") return ["Forming · " + this.lfg(p), "var(--color-accent-400)", "var(--color-accent-200)"];
       if (b === "active") return ["Active", "var(--color-ok)", "var(--color-ok)"];
       if (p.status === "shipped") return ["Shipped", "var(--color-accent-2-400)", "var(--color-accent-2-200)"];
       if (p.status === "paused") return ["Paused", "color-mix(in srgb,var(--color-text) 40%,transparent)", "color-mix(in srgb,var(--color-text) 65%,transparent)"];
@@ -178,18 +219,25 @@ class Component extends DCLogic {
       return {
         href: "/p/" + p.slug,
         name: p.name,
-        pitch: p.pitch || "No description yet.",
+        pitch: (p.pitch || "").trim() || "No description yet.",
         statusLabel: l[0], dot: l[1], fg: l[2],
         teamLine: n === 1 ? "1 person on the team" : n + " people on the team",
         director: (p.creator && (p.creator.display_name || p.creator.handle)) || "",
         hasDirector: !!(p.creator && (p.creator.display_name || p.creator.handle)),
         looking: (p.looking_for || []).join(" · "),
-        hasLooking: this.bucketOf(p) === "forming" && (p.looking_for || []).length > 0
+        lfgTag: this.lfg(p),
+        hasLooking: this.bucketOf(p) === "forming" && (p.looking_for || []).length > 0,
+        hasDetails: !!(p.pitch || "").trim() || !!(p.media || []).length,
+        open: !!s.open[p.id],
+        expanded: s.open[p.id] ? "true" : "false",
+        detailsLabel: s.open[p.id] ? "Hide details" : "Details",
+        toggle: () => this.setState({ open: { ...this.state.open, [p.id]: !this.state.open[p.id] } }),
+        mediaEl: s.open[p.id] ? this.mediaEl(p) : null
       };
     });
 
     const empty = {
-      forming: "Nothing is forming right now. Got an idea? Start a project and see who joins you.",
+      forming: "No one is LFG right now. Got an idea? Start a project and see who joins you.",
       active: "No projects are underway at the moment.",
       inactive: "Nothing resting or shipped yet."
     }[tab];
@@ -219,6 +267,7 @@ class Component extends DCLogic {
       isLoading: s.status === "loading",
       hasCards: s.status === "ready" && cards.length > 0,
       isEmpty: s.status === "ready" && cards.length === 0,
+      isError: s.status === "error",
       cards,
       emptyLine: empty
     };
